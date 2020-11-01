@@ -1,19 +1,30 @@
+import Input from 'antd/lib/input/Input'
 import React from 'react'
 import { render } from 'react-dom'
-import { GlobalStyle } from './styles/GlobalStyle'
+import { createUseStyles } from 'react-jss'
 
-import Greetings from './components/Greetings'
 
 const mainElement = document.createElement('div')
 mainElement.setAttribute('id', 'root')
 document.body.appendChild(mainElement)
 
-const App = () => {
+const useStyles = createUseStyles((theme) => ({
+  root: {
+    height: 400, display: 'flex', justifyContent: 'center', alignItems: 'center'
+  }
+}));
+
+interface AppProps {
+}
+
+const App: React.FC<AppProps> = () => {
+  const classes = useStyles();
   return (
-    <>
-      <GlobalStyle />
-      <Greetings />
-    </>
+    <div className={classes.root}>
+      <Input placeholder="Chaakar Searchs" style={{
+        margin: 'auto'
+      }}/>
+    </div>
   )
 }
 

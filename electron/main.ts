@@ -7,13 +7,13 @@ let mainWindow: Electron.BrowserWindow | null
 
 function createWindow () {
   mainWindow = new BrowserWindow({
-    width: 1100,
-    height: 700,
+    width:  400,
+    height: 400,
     backgroundColor: '#191622',
     webPreferences: {
       nodeIntegration: true
     },
-    frame: false
+    // frame: false
   })
 
   if (process.env.NODE_ENV === 'development') {

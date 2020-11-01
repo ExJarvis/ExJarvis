@@ -15,7 +15,8 @@
     "build:react": "webpack --config webpack/react.webpack.js",
     "package": "npm-run-all build package:dist",
     "package:dist": "electron-builder --dir",
-    "test": "jest"
+    "test": "jest",
+    "start": "webpack-dev-server  --env web --config webpack/react-independent.webpack.js --mode development --inline --hot --open"
   },
   "keywords": [],
   "author": "Diego Fernandes <diego.schell.f@gmail.com>",
@@ -68,8 +69,10 @@
     "webpack-dev-server": "^3.10.3"
   },
   "dependencies": {
+    "antd": "^4.7.3",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-jss": "^10.4.0",
     "styled-components": "^5.1.1"
   },
   "build": {
@@ -91,9 +94,7 @@
     }
   },
   "husky": {
-    "hooks": {
-      
-    }
+    "hooks": {}
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
