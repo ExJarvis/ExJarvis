@@ -21,7 +21,11 @@ module.exports = env => ({
         use: {
           loader: 'babel-loader'
         }
-      }
+      },
+      {
+        test: /\.css$/i,
+        use: ['style-loader', 'css-loader'],
+      },
     ]
   },
   devServer: {
@@ -38,6 +42,6 @@ module.exports = env => ({
     publicPath: './'
   },
   plugins: [
-    new HtmlWebpackPlugin()
+    new HtmlWebpackPlugin(),
   ]
 });
