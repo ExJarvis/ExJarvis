@@ -3,7 +3,8 @@ import React from 'react';
 import { render } from 'react-dom';
 import { createUseStyles } from 'react-jss';
 import 'antd/dist/antd.css';
-import SearchInput from './components/SearchInput';
+import Clipboard from './pages/Clipboard';
+import { registerIpc } from './ipc';
 
 const mainElement = document.createElement('div');
 mainElement.setAttribute('id', 'root');
@@ -23,8 +24,12 @@ interface AppProps {}
 const App: React.FC<AppProps> = () => {
   const classes = useStyles();
 
+  React.useEffect(() => {
+    registerIpc();
+  }, []);
+
   return <div className={classes.root}>
-    <SearchInput />
+    <Clipboard />
   </div>;
 };
 

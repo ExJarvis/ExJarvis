@@ -1,4 +1,4 @@
-import { app, BrowserWindow, globalShortcut } from 'electron';
+import { app, BrowserWindow, globalShortcut, ipcMain } from 'electron';
 import * as path from 'path';
 import * as url from 'url';
 import installExtension, {
@@ -8,7 +8,30 @@ import installExtension, {
 
 let mainWindow: Electron.BrowserWindow | null;
 
+app
+  .on('ready', createWindow)
+  .whenReady()
+  .then(() => {
+    if (process.env.NODE_ENV === 'development') {
+      installExtension(REACT_DEVELOPER_TOOLS)
+        .then((name) => console.log(`Added Extension:  ${name}`))
+        .catch((err) => console.log('An error occurred: ', err));
+      installExtension(REDUX_DEVTOOLS)
+        .then((name) => console.log(`Added Extension:  ${name}`))
+        .catch((err) => console.log('An error occurred: ', err));
+    }
+  });
+app.allowRendererProcessReuse = true;
+
 function createWindow() {
+  initWindow();
+  loadUrl();
+  mainWindow.setAlwaysOnTop(true, 'screen');
+  bindKeyboardShortcuts();
+  registerIpc();
+}
+
+const initWindow = () => {
   mainWindow = new BrowserWindow({
     width: 600,
     height: 400,
@@ -18,8 +41,10 @@ function createWindow() {
     },
     frame: false,
   });
+};
 
-    if (process.env.NODE_ENV === 'development') {
+const loadUrl = () => {
+  if (process.env.NODE_ENV === 'development') {
     mainWindow.loadURL('http://localhost:4000');
   } else {
     mainWindow.loadURL(
@@ -30,8 +55,9 @@ function createWindow() {
       })
     );
   }
+};
 
-  mainWindow.setAlwaysOnTop(true, 'screen');
+const bindKeyboardShortcuts = () => {
   globalShortcut.register('Ctrl+Shift+Space', () => {
     mainWindow?.show();
     return false;
@@ -50,19 +76,17 @@ function createWindow() {
     mainWindow?.hide();
     globalShortcut.unregister('Esc');
   });
-}
+};
 
-app
-  .on('ready', createWindow)
-  .whenReady()
-  .then(() => {
-    if (process.env.NODE_ENV === 'development') {
-      installExtension(REACT_DEVELOPER_TOOLS)
-        .then((name) => console.log(`Added Extension:  ${name}`))
-        .catch((err) => console.log('An error occurred: ', err));
-      installExtension(REDUX_DEVTOOLS)
-        .then((name) => console.log(`Added Extension:  ${name}`))
-        .catch((err) => console.log('An error occurred: ', err));
-    }
-  });
-app.allowRendererProcessReuse = true;
+const registerIpc = () => {
+  ipcMain.on('asynchronous-message', (event, arg) => {
+    console.log(arg) // prints "ping"
+    event.reply('asynchronous-reply', 'pong')
+  })
+
+  ipcMain.on('synchronous-message', (event, arg) => {
+    console.log(arg) // prints "ping"
+    event.returnValue = 'pong'
+  })
+};
+
