@@ -14,7 +14,7 @@ const useStyles = createUseStyles((theme) => ({
     height: 400,
     display: 'flex',
     justifyContent: 'center',
-    alignItems: 'center',
+    // alignItems: 'censter',
   },
 }));
 

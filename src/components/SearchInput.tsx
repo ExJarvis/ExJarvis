@@ -9,7 +9,7 @@ import { LoadingOutlined } from '@ant-design/icons';
 
 const useStyles = createUseStyles((theme) => ({
   searchBox: {
-    width: 200,
+    width: 600,
     borderRadius: 10,
   },
 }));
@@ -19,16 +19,40 @@ interface SearchInputProps {}
 const SearchInput: React.FC<SearchInputProps> = () => {
   const initialState = {
     isSearching: false,
-    options: [{
-      key: 'this is key',
-      label: 'this is label'
-    }] as KeyLabel[],
+    options: [
+      {
+        key: 'this is key',
+        label: 'this is label',
+      },
+    ] as KeyLabel[],
   };
 
   const [state, setState] = useGenState<typeof initialState>(initialState);
   const classes = useStyles();
+  const ref = React.useRef();
 
   const { isSearching, options } = state;
+
+  React.useEffect(() => {
+    requestFocus();
+    addWindowEvents();
+  }, []);
+
+  const addWindowEvents = () => {
+    window.addEventListener(
+      'focus',
+      function (event) {
+        requestFocus();
+      },
+      false
+    );
+  };
+
+  const requestFocus = () => {
+    if (ref?.current) {
+      (ref?.current as any)?.focus();
+    }
+  };
 
   const handleSearch = (query: string) => {
     // TODO
@@ -49,9 +73,13 @@ const SearchInput: React.FC<SearchInputProps> = () => {
   };
 
   const renderOptions = () => {
-    return isSearching ? null : options.map(elem =>
-      <Select.Option {...elem} key={elem.key} value={elem.key}>{elem.label}</Select.Option>,
-    );
+    return isSearching
+      ? null
+      : options.map((elem) => (
+          <Select.Option {...elem} key={elem.key} value={elem.key}>
+            {elem.label}
+          </Select.Option>
+        ));
   };
 
   const handleFilterOption = (query: string, option: any) => {
@@ -66,8 +94,9 @@ const SearchInput: React.FC<SearchInputProps> = () => {
 
   return (
     <Select
+      ref={ref}
       className={classes.searchBox}
-      placeholder="Chaakra"
+      placeholder="Start typing..."
       showSearch
       labelInValue
       allowClear={true}

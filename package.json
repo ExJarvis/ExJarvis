@@ -15,8 +15,7 @@
     "build:react": "webpack --config webpack/react.webpack.js",
     "package": "npm-run-all build package:dist",
     "package:dist": "electron-builder --dir",
-    "test": "jest",
-    "start": "webpack-dev-server  --env web --config webpack/react-independent.webpack.js --mode development --inline --hot --open"
+    "test": "jest"
   },
   "keywords": [],
   "author": "Diego Fernandes <diego.schell.f@gmail.com>",

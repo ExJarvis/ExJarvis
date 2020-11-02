@@ -3,13 +3,15 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 const rootPath = path.resolve(__dirname, '..')
 
-module.exports = {
+console.log(process.env.web);
+
+module.exports = env => ({
   resolve: {
     extensions: ['.tsx', '.ts', '.js'],
     mainFields: ['main', 'module', 'browser']
   },
   entry: path.resolve(rootPath, 'src', 'App.tsx'),
-  target: 'electron-renderer',
+  target: 'web', //'electron-renderer',
   devtool: 'source-map',
   module: {
     rules: [
@@ -19,7 +21,11 @@ module.exports = {
         use: {
           loader: 'babel-loader'
         }
-      }
+      },
+      {
+        test: /\.css$/i,
+        use: ['style-loader', 'css-loader'],
+      },
     ]
   },
   devServer: {
@@ -36,6 +42,6 @@ module.exports = {
     publicPath: './'
   },
   plugins: [
-    new HtmlWebpackPlugin()
+    new HtmlWebpackPlugin(),
   ]
-}
+});
