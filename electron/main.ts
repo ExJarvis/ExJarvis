@@ -7,6 +7,7 @@ import installExtension, {
 } from 'electron-devtools-installer';
 
 let mainWindow: Electron.BrowserWindow | null;
+const DEBUG = true;
 
 app
   .on('ready', createWindow)
@@ -24,7 +25,7 @@ app
 app.allowRendererProcessReuse = true;
 
 function createWindow() {
-  initWindow();
+  DEBUG ? initWindowDev() : initWindow();
   loadUrl();
   mainWindow.setAlwaysOnTop(true, 'screen');
   bindKeyboardShortcuts();
@@ -40,6 +41,18 @@ const initWindow = () => {
       nodeIntegration: true,
     },
     frame: false,
+  });
+};
+
+const initWindowDev = () => {
+  mainWindow = new BrowserWindow({
+    width: 1200,
+    height: 800,
+    backgroundColor: '#191622',
+    webPreferences: {
+      nodeIntegration: true,
+    },
+    frame: true,
   });
 };
 
@@ -89,4 +102,3 @@ const registerIpc = () => {
     event.returnValue = 'pong'
   })
 };
-
