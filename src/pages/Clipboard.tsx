@@ -71,7 +71,7 @@ const Clipboard: React.FC<ClipboardProps> = () => {
       });
     }
     if(isEnterPressed) {
-      write(current);
+      write(history[highlightedIdx]);
     }
   }, [isDownPressed, isUpPressed, isEnterPressed]);
 
