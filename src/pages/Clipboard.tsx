@@ -5,6 +5,7 @@ import Select from 'antd/lib/select';
 import { useGenState } from '../hooks/useGenState';
 import { createUseStyles } from 'react-jss';
 import SearchInput from '../components/SearchInput';
+import useClipboard from '../hooks/useClipboard';
 
 const useStyles = createUseStyles((theme) => ({
   outerBox: {
@@ -40,37 +41,11 @@ interface ClipboardProps {}
 
 const Clipboard: React.FC<ClipboardProps> = () => {
   const initialState = {
-    history: [
-      'https://www.google.com/search?q=mac+alfred+clipboard&newwindow=1&rlz=1C1CHBF_enIN808IN808&sxsrf=ALeKk016vogGr73jFPptjiUjW1XaGN9gnw:1604302359692&source=lnms&tbm=isch&sa=X&ved=2ahUKEwjT1IuCrOPsAhWryTgGHXs-DiMQ_AUoAnoECAUQBA&biw=1210&bih=574#imgrc=maqPlJUQB6iFhM',
-      'https://www.electronjs.org/docs/api/global-shortcut#globalshortcutregisteraccelerator-callback',
-      'http://localhost:4000/',
-      'http://localhost:4000/',
-      'http://localhost:4000/',
-      'http://localhost:4000/',
-      'http://localhost:4000/',
-      'http://localhost:4000/',
-      'http://localhost:4000/',
-      'http://localhost:4000/',
-      'http://localhost:4000/',
-      'http://localhost:4000/',
-      'http://localhost:4000/',
-      'http://localhost:4000/',
-      'http://localhost:4000/',
-      'http://localhost:4000/',
-      'http://localhost:4000/',
-      'http://localhost:4000/',
-      'http://localhost:4000/',
-      'http://localhost:4000/',
-      'http://localhost:4000/',
-      'http://localhost:4000/',
-      'http://localhost:4000/',
-    ],
   };
 
   const [state, setState] = useGenState<typeof initialState>(initialState);
   const classes = useStyles();
-
-  const { history } = state;
+  const { history, current, write } = useClipboard();
 
   const renderHistory = () => {
     return (

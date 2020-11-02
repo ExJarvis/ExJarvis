@@ -5,6 +5,7 @@ import installExtension, {
   REACT_DEVELOPER_TOOLS,
   REDUX_DEVTOOLS,
 } from 'electron-devtools-installer';
+import { registerClipboardIpc } from './clipboard';
 
 let mainWindow: Electron.BrowserWindow | null;
 const DEBUG = true;
@@ -29,7 +30,8 @@ function createWindow() {
   loadUrl();
   mainWindow.setAlwaysOnTop(true, 'screen');
   bindKeyboardShortcuts();
-  registerIpc();
+  // registerIpc();
+  registerClipboardIpc();
 }
 
 const initWindow = () => {
@@ -86,19 +88,19 @@ const bindKeyboardShortcuts = () => {
   });
   mainWindow.on('blur', () => {
     // mainWindow?.close();
-    mainWindow?.hide();
+    !DEBUG && mainWindow?.hide();
     globalShortcut.unregister('Esc');
   });
 };
 
-const registerIpc = () => {
-  ipcMain.on('asynchronous-message', (event, arg) => {
-    console.log(arg) // prints "ping"
-    event.reply('asynchronous-reply', 'pong')
-  })
+// const registerIpc = () => {
+//   ipcMain.on('asynchronous-message', (event, arg) => {
+//     console.log(arg) // prints "ping"
+//     event.reply('asynchronous-reply', 'pong')
+//   })
 
-  ipcMain.on('synchronous-message', (event, arg) => {
-    console.log(arg) // prints "ping"
-    event.returnValue = 'pong'
-  })
-};
+//   ipcMain.on('synchronous-message', (event, arg) => {
+//     console.log(arg) // prints "ping"
+//     event.returnValue = 'pong'
+//   })
+// };
