@@ -80,7 +80,7 @@ const Clipboard: React.FC<ClipboardProps> = () => {
 
   React.useEffect(() => {
     setState({
-      filteredHistory: history.filter(el => el.includes(query)),
+      filteredHistory: history.filter(el => el?.toLowerCase()?.includes(query?.toLowerCase())).reverse(),
       highlightedIdx: 0,
     });
   }, [query, history.length]);
@@ -111,7 +111,7 @@ const Clipboard: React.FC<ClipboardProps> = () => {
   };
 
   const renderDetails = () => {
-    return <div className={classes.details}>{history[highlightedIdx]}</div>;
+    return <div className={classes.details}>{filteredHistory[highlightedIdx]}</div>;
   };
 
   return (
