@@ -6,17 +6,23 @@ import { useGenState } from '../hooks/useGenState';
 import { createUseStyles } from 'react-jss';
 import Spin from 'antd/lib/spin';
 import { LoadingOutlined } from '@ant-design/icons';
+import { Input } from 'antd';
 
 const useStyles = createUseStyles((theme) => ({
   searchBox: {
     width: 600,
     borderRadius: 10,
+    height: 25,
   },
 }));
 
-interface SearchInputProps {}
+interface SearchInputProps {
+  onChange: (query: string) => void;
+}
 
-const SearchInput: React.FC<SearchInputProps> = () => {
+const SearchInput: React.FC<SearchInputProps> = ({
+  onChange,
+}) => {
   const initialState = {
     isSearching: false,
     options: [
@@ -54,60 +60,77 @@ const SearchInput: React.FC<SearchInputProps> = () => {
     }
   };
 
-  const handleSearch = (query: string) => {
-    // TODO
+  // const handleSearch = (query: string) => {
+  //   // TODO
+  // };
+  const handleChange = (e: any) => {
+    onChange && onChange(e?.target?.value);
   };
 
   const handleFocus = () => {
-    handleSearch('');
+    // handleSearch('');
+    handleChange('');
   };
 
-  const renderNotFound = () => {
-    return isSearching || (options && options.length) ? (
-      <div style={{ padding: '25px' }}>
-        <Spin indicator={<LoadingOutlined style={{ fontSize: 40 }} spin />} />
-      </div>
-    ) : (
-      'Not Found'
-    );
-  };
+  // const renderNotFound = () => {
+  //   return isSearching || (options && options.length) ? (
+  //     <div style={{ padding: '25px' }}>
+  //       <Spin indicator={<LoadingOutlined style={{ fontSize: 40 }} spin />} />
+  //     </div>
+  //   ) : (
+  //     'Not Found'
+  //   );
+  // };
 
-  const renderOptions = () => {
-    return isSearching
-      ? null
-      : options.map((elem) => (
-          <Select.Option {...elem} key={elem.key} value={elem.key}>
-            {elem.label}
-          </Select.Option>
-        ));
-  };
+  // const renderOptions = () => {
+  //   return isSearching
+  //     ? null
+  //     : options.map((elem) => (
+  //         <Select.Option {...elem} key={elem.key} value={elem.key}>
+  //           {elem.label}
+  //         </Select.Option>
+  //       ));
+  // };
 
-  const handleFilterOption = (query: string, option: any) => {
-    if (!query) {
-      return true;
-    }
-    const optionval = option.props.children
-      ? option.props.children.trim().toLowerCase()
-      : '';
-    return optionval.includes(query.trim().toLowerCase());
-  };
+  // const handleFilterOption = (query: string, option: any) => {
+  //   if (!query) {
+  //     return true;
+  //   }
+  //   const optionval = option.props.children
+  //     ? option.props.children.trim().toLowerCase()
+  //     : '';
+  //   return optionval.includes(query.trim().toLowerCase());
+  // };
 
+  // return (
+  //   <Select
+  //     ref={ref}
+  //     className={classes.searchBox}
+  //     placeholder="Start typing..."
+  //     showSearch
+  //     labelInValue
+  //     allowClear={true}
+  //     getPopupContainer={(trigger: any) => trigger.parentNode}
+  //     onFocus={handleFocus}
+  //     onSearch={handleSearch}
+  //     notFoundContent={renderNotFound()}
+  //     filterOption={handleFilterOption}
+  //   >
+  //     {renderOptions()}
+  //   </Select>
+  // );
   return (
-    <Select
+    <Input
       ref={ref}
       className={classes.searchBox}
       placeholder="Start typing..."
       showSearch
       labelInValue
       allowClear={true}
-      getPopupContainer={(trigger: any) => trigger.parentNode}
       onFocus={handleFocus}
-      onSearch={handleSearch}
-      notFoundContent={renderNotFound()}
-      filterOption={handleFilterOption}
+      onChange={handleChange}
     >
-      {renderOptions()}
-    </Select>
+    </Input>
   );
 };
 

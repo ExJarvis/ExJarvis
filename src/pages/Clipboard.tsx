@@ -13,6 +13,7 @@ const useStyles = createUseStyles((theme) => ({
   outerBox: {
     height: '100%',
     display: 'grid',
+    gridTemplateRows: '25px 1fr',
   },
   container: {
     display: 'grid',
@@ -48,6 +49,8 @@ interface ClipboardProps {}
 const Clipboard: React.FC<ClipboardProps> = () => {
   const initialState = {
     highlightedIdx: 0,
+    filteredHistory: [] as string[],
+    query: '',
   };
 
   const [state, setState] = useGenState<typeof initialState>(initialState);
@@ -57,7 +60,7 @@ const Clipboard: React.FC<ClipboardProps> = () => {
   const isUpPressed = useKeypress([Key.UpArrow]);
   const isEnterPressed = useKeypress([Key.Enter]);
 
-  const { highlightedIdx } = state;
+  const { highlightedIdx, query, filteredHistory } = state;
 
   React.useEffect(() => {
     if(isUpPressed && highlightedIdx) {
@@ -65,15 +68,28 @@ const Clipboard: React.FC<ClipboardProps> = () => {
         highlightedIdx: highlightedIdx - 1,
       });
     }
-    if(isDownPressed && highlightedIdx < history.length - 1) {
+    if(isDownPressed && highlightedIdx < filteredHistory.length - 1) {
       setState({
         highlightedIdx: highlightedIdx + 1,
       });
     }
     if(isEnterPressed) {
-      write(history[highlightedIdx]);
+      write(filteredHistory[highlightedIdx]);
     }
   }, [isDownPressed, isUpPressed, isEnterPressed]);
+
+  React.useEffect(() => {
+    setState({
+      filteredHistory: history.filter(el => el.includes(query)),
+      highlightedIdx: 0,
+    });
+  }, [query, history.length]);
+
+  const handleSearch = (query: string) => {
+      setState({
+        query: query || '',
+      });
+  };
 
   const handleSelect = (highlightedIdx: number) => {
     setState({ highlightedIdx });
@@ -82,7 +98,7 @@ const Clipboard: React.FC<ClipboardProps> = () => {
   const renderHistory = () => {
     return (
       <div className={classes.history}>
-        {history?.map((el, idx) => (
+        {filteredHistory?.map((el, idx) => (
           <span
             onClick={() => handleSelect(idx)}
             className={`${classes.ellipsis} ${highlightedIdx === idx ? classes.highlighted : ''}`}
@@ -100,7 +116,7 @@ const Clipboard: React.FC<ClipboardProps> = () => {
 
   return (
     <div className={classes.outerBox}>
-      <SearchInput />
+      <SearchInput onChange={handleSearch}/>
       <div className={classes.container}>
         {renderHistory()}
         {renderDetails()}
