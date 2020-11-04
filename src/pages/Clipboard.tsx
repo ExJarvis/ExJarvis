@@ -9,6 +9,9 @@ import useClipboard from '../hooks/useClipboard';
 import useKeypress from '../hooks/useKeypress';
 import { Key } from 'ts-keycode-enum';
 import * as lodash from 'lodash';
+import { FileTextOutlined } from '@ant-design/icons';
+import useRefs from '../hooks/useRefs';
+import { isElementInView } from '../utils';
 
 const useStyles = createUseStyles((theme) => ({
   outerBox: {
@@ -45,6 +48,10 @@ const useStyles = createUseStyles((theme) => ({
     background: '#00000014',
     borderRadius: 4,
   },
+  listPrefix: {
+    marginRight: 5,
+    color: '#0000ff78',
+  }
 }));
 
 interface ClipboardProps {}
@@ -62,6 +69,7 @@ const Clipboard: React.FC<ClipboardProps> = () => {
   const isDownPressed = useKeypress([Key.DownArrow]);
   const isUpPressed = useKeypress([Key.UpArrow]);
   const isEnterPressed = useKeypress([Key.Enter]);
+  const { refs } = useRefs<any>(state.highlightedIdx);
 
   const { highlightedIdx, query, filteredHistory } = state;
 
@@ -80,6 +88,17 @@ const Clipboard: React.FC<ClipboardProps> = () => {
       write(filteredHistory[highlightedIdx]);
     }
   }, [isDownPressed, isUpPressed, isEnterPressed]);
+
+  React.useEffect(() => {
+    const el = refs[highlightedIdx]?.current;
+    if(el) {
+      if(!isElementInView(el)) {
+        refs[highlightedIdx]?.current?.scrollIntoView({
+          behavior: "smooth",
+        });
+      }
+    }
+  }, [highlightedIdx]);
 
   React.useEffect(() => {
     setState({
@@ -110,11 +129,13 @@ const Clipboard: React.FC<ClipboardProps> = () => {
       <div className={classes.history}>
         {filteredHistory?.map((el, idx) => (
           <span
+            ref={refs[idx]}
             onClick={() => handleSelect(idx)}
             className={`${classes.historyItem} ${
               highlightedIdx === idx ? classes.highlighted : ''
             }`}
           >
+            <FileTextOutlined className={classes.listPrefix} />
             {el}
           </span>
         ))}
