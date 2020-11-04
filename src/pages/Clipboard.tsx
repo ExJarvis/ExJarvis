@@ -12,12 +12,14 @@ import * as lodash from 'lodash';
 import { FileTextOutlined } from '@ant-design/icons';
 import useRefs from '../hooks/useRefs';
 import { isElementInView } from '../utils';
+import useGlobalStyles from './styles';
 
 const useStyles = createUseStyles((theme) => ({
   outerBox: {
     height: '100%',
     display: 'grid',
     gridTemplateRows: '25px 1fr',
+    boxShadow: '2px 2px 19px 2px #0707071a',
   },
   container: {
     display: 'grid',
@@ -25,11 +27,12 @@ const useStyles = createUseStyles((theme) => ({
     width: 600,
     // marginTop: 10,
     padding: 10,
+    height: 375,
   },
   history: {
     display: 'flex',
     flexDirection: 'column',
-    overflow: 'hidden',
+    overflowY: 'auto',
     wordBreak: 'break-all',
   },
   historyItem: {
@@ -39,10 +42,14 @@ const useStyles = createUseStyles((theme) => ({
     maxWidth: '35ch',
     cursor: 'pointer',
     padding: '1px 10px',
+    minHeight: 22,
   },
   details: {
     overflow: 'hidden',
     wordBreak: 'break-all',
+    overflow: 'auto',
+    // height: 400,
+    padding: 10,
   },
   highlighted: {
     background: '#00000014',
@@ -65,6 +72,7 @@ const Clipboard: React.FC<ClipboardProps> = () => {
 
   const [state, setState] = useGenState<typeof initialState>(initialState);
   const classes = useStyles();
+  const styles = useGlobalStyles();
   const { history, current, write } = useClipboard();
   const isDownPressed = useKeypress([Key.DownArrow]);
   const isUpPressed = useKeypress([Key.UpArrow]);
@@ -126,9 +134,9 @@ const Clipboard: React.FC<ClipboardProps> = () => {
 
   const renderHistory = () => {
     return (
-      <div className={classes.history}>
+      <div className={`${classes.history} ${styles.scrollbar}`}>
         {filteredHistory?.map((el, idx) => (
-          <span
+          <div
             ref={refs[idx]}
             onClick={() => handleSelect(idx)}
             className={`${classes.historyItem} ${
@@ -137,14 +145,16 @@ const Clipboard: React.FC<ClipboardProps> = () => {
           >
             <FileTextOutlined className={classes.listPrefix} />
             {el}
-          </span>
+          </div>
         ))}
       </div>
     );
   };
 
   const renderDetails = () => {
-    return <div className={classes.details}>{filteredHistory[highlightedIdx]}</div>;
+    return <pre className={`${classes.details} ${styles.scrollbar}`}>
+      {filteredHistory[highlightedIdx]}
+    </pre>;
   };
 
   return (

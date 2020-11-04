@@ -23,7 +23,7 @@ const useClipboard = () => {
     if (ipcState.current !== current) {
       handleClipboardChange(ipcState);
     }
-    setTimeout(monitorClipboard, 100);
+    setTimeout(monitorClipboard, 300);
   };
 
   const handleClipboardChange = (ipcState: {

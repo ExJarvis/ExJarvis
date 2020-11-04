@@ -8,8 +8,7 @@ import installExtension, {
 import { registerClipboardIpc } from './clipboard';
 
 let mainWindow: Electron.BrowserWindow | null;
-// const DEBUG = true;
-const DEBUG = false;
+const DEBUG = true;
 
 app
   .on('ready', createWindow)
