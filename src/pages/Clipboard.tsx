@@ -149,7 +149,7 @@ const Clipboard: React.FC<ClipboardProps> = () => {
 
   return (
     <div className={classes.outerBox}>
-      <SearchInput onChange={handleSearch} />
+      <SearchInput onChange={handleSearch} value={query}/>
       <div className={classes.container}>
         {renderHistory()}
         {renderDetails()}
