@@ -31,7 +31,6 @@ const useStyles = createUseStyles((theme) => ({
     minHeight: 22,
   },
   details: {
-    overflow: 'hidden',
     wordBreak: 'break-all',
     overflow: 'auto',
     // height: 400,

@@ -7,7 +7,7 @@ import useClipboard from '../../hooks/useClipboard';
 import { useGenState } from '../../hooks/useGenState';
 import useKeypress from '../../hooks/useKeypress';
 import useRefs from '../../hooks/useRefs';
-import { isElementInView } from '../../utils';
+import { isElementInView } from '../../misc/utils';
 
 const useLauncher = () => {
   const initialState = {

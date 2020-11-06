@@ -2,8 +2,8 @@
 /* eslint-disable comma-dangle */
 import { FileTextOutlined } from '@ant-design/icons';
 import * as React from 'react';
-import SearchInput from '../../components/SearchInput';
-import useGlobalStyles from '../styles';
+import SearchInput from '../../common/SearchInput';
+import useGlobalStyles from './styles';
 import useLauncher from './model';
 import useStyles from './styles';
 
@@ -23,7 +23,7 @@ const Launcher: React.FC<LauncherProps> = () => {
 
   const renderHistory = () => {
     return (
-      <div className={`${classes.history} ${styles.scrollbar}`}>
+      <div className={`${classes.history}`}>
         {filteredHistory?.map((el, idx) => (
           <div
             ref={historyRefs[idx]}
@@ -42,7 +42,7 @@ const Launcher: React.FC<LauncherProps> = () => {
 
   const renderDetails = () => {
     return (
-      <pre className={`${classes.details} ${styles.scrollbar}`}>
+      <pre className={`${classes.details}`}>
         {filteredHistory[highlightedIdx]}
       </pre>
     );

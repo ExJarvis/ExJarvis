@@ -17,7 +17,7 @@ export const registerIpc = () => {
 };
 
 let oldClip = "";
-const clipHistory = [];
+const clipHistory: string[] = [];
 const monitorClipboard = () => {
   const newClip = ipcRenderer.sendSync('readText', '');
   if (newClip !== oldClip) {
