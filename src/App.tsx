@@ -3,7 +3,7 @@ import React from 'react';
 import { render } from 'react-dom';
 import { createUseStyles } from 'react-jss';
 import 'antd/dist/antd.css';
-import Launcher from './pages/Luncher/view';
+import Launcher from './pages/Launcher/view';
 
 const mainElement = document.createElement('div');
 mainElement.setAttribute('id', 'root');
