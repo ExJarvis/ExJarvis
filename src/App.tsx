@@ -3,7 +3,7 @@ import React from 'react';
 import { render } from 'react-dom';
 import { createUseStyles } from 'react-jss';
 import 'antd/dist/antd.css';
-import Clipboard from './pages/Clipboard';
+import Launcher from './pages/Luncher/view';
 
 const mainElement = document.createElement('div');
 mainElement.setAttribute('id', 'root');
@@ -24,7 +24,7 @@ const App: React.FC<AppProps> = () => {
   const classes = useStyles();
 
   return <div className={classes.root}>
-    <Clipboard />
+    <Launcher />
   </div>;
 };
 

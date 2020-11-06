@@ -2,6 +2,6 @@
 
 ![Icon](./Chaakar%20Icon.svg)
 
-Augments developer.
+Augments developer
 
-[Bootstrapped from](https://github.com/diego3g/electron-typescript-react)
+Bootstrapped from [electron-typescript-react](https://github.com/diego3g/electron-typescript-react)
