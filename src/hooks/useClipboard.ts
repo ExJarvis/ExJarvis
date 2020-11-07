@@ -1,5 +1,6 @@
 import { useGenState } from './useGenState';
 import { ipcRenderer } from 'electron';
+import * as lodash from 'lodash';
 import * as React from 'react';
 
 const useClipboard = () => {
@@ -37,10 +38,20 @@ const useClipboard = () => {
     ipcRenderer.sendSync('writeText', val);
   };
 
+  const filter = (query: string) => {
+    const ret = history
+      .filter((el) => {
+        return el?.toLowerCase()?.includes(query?.toLowerCase());
+      })
+      .reverse();
+    return lodash.uniq(ret);
+  };
+
   return {
     current,
     history,
     write,
+    filter,
   };
 };
 

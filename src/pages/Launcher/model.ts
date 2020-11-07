@@ -1,6 +1,5 @@
 /* eslint-disable semi */
 /* eslint-disable comma-dangle */
-import * as lodash from 'lodash';
 import * as React from 'react';
 import { Key } from 'ts-keycode-enum';
 import useClipboard from '../../hooks/useClipboard';
@@ -18,7 +17,7 @@ const useLauncher = (props: LauncherProps) => {
   };
 
   const [state, setState] = useGenState(initialState);
-  const { history, current, write } = useClipboard();
+  const { history, filter, write } = useClipboard();
   const isDownPressed = useKeypress([Key.DownArrow]);
   const isUpPressed = useKeypress([Key.UpArrow]);
   const isEnterPressed = useKeypress([Key.Enter]);
@@ -55,19 +54,10 @@ const useLauncher = (props: LauncherProps) => {
 
   React.useEffect(() => {
     setState({
-      filteredHistory: getFilteredHistory(),
+      filteredHistory: filter(query),
       highlightedIdx: 0,
     });
   }, [query, history.length]);
-
-  const getFilteredHistory = () => {
-    const ret = history
-      .filter((el) => {
-        return el?.toLowerCase()?.includes(query?.toLowerCase());
-      })
-      .reverse();
-    return lodash.uniq(ret);
-  };
 
   const handleSearch = (query: string) => {
     setState({
