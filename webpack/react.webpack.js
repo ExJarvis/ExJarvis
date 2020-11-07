@@ -10,7 +10,7 @@ module.exports = env => ({
     extensions: ['.tsx', '.ts', '.js'],
     mainFields: ['main', 'module', 'browser']
   },
-  entry: path.resolve(rootPath, 'src', 'App.tsx'),
+  entry: path.resolve(rootPath, 'src', 'Index.tsx'),
   // target: 'web',
   target: 'electron-renderer',
   devtool: 'source-map',

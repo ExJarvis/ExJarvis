@@ -3,13 +3,11 @@
 import { FileTextOutlined } from '@ant-design/icons';
 import * as React from 'react';
 import SearchInput from '../../common/SearchInput';
-import useGlobalStyles from './styles';
 import useLauncher from './model';
-import useStyles from './styles';
+import { default as useGlobalStyles, default as useStyles } from './styles';
+import { LauncherProps } from './types';
 
-interface LauncherProps {}
-
-const Launcher: React.FC<LauncherProps> = () => {
+const Launcher: React.FC<LauncherProps> = (props) => {
   const classes = useStyles();
   const styles = useGlobalStyles();
   const {
@@ -19,7 +17,7 @@ const Launcher: React.FC<LauncherProps> = () => {
     query,
     handleSelect,
     handleSearch,
-  } = useLauncher();
+  } = useLauncher(props);
 
   const renderHistory = () => {
     return (

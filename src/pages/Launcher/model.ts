@@ -8,15 +8,16 @@ import { useGenState } from '../../hooks/useGenState';
 import useKeypress from '../../hooks/useKeypress';
 import useRefs from '../../hooks/useRefs';
 import { isElementInView } from '../../misc/utils';
+import { LauncherProps } from './types';
 
-const useLauncher = () => {
+const useLauncher = (props: LauncherProps) => {
   const initialState = {
     highlightedIdx: 0,
     filteredHistory: [] as string[],
     query: '',
   };
 
-  const [state, setState] = useGenState<typeof initialState>(initialState);
+  const [state, setState] = useGenState(initialState);
   const { history, current, write } = useClipboard();
   const isDownPressed = useKeypress([Key.DownArrow]);
   const isUpPressed = useKeypress([Key.UpArrow]);
