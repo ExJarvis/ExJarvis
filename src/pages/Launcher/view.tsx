@@ -6,6 +6,7 @@ import SearchInput from '../../common/SearchInput';
 import useLauncher from './model';
 import { default as useGlobalStyles, default as useStyles } from './styles';
 import { LauncherProps } from './types';
+import { animated } from 'react-spring';
 
 const Launcher: React.FC<LauncherProps> = (props) => {
   const classes = useStyles();
@@ -17,6 +18,7 @@ const Launcher: React.FC<LauncherProps> = (props) => {
     query,
     handleSelect,
     handleSearch,
+    spring,
   } = useLauncher(props);
 
   const renderHistory = () => {

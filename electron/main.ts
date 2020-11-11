@@ -44,6 +44,7 @@ const initWindow = () => {
       nodeIntegration: true,
     },
     frame: false,
+    transparent: true,
   });
 };
 
