@@ -3,7 +3,7 @@ import configureExtensions from './extensions';
 import { DEBUG } from './constants';
 import { getDevWindow, getWindow } from './window';
 import keyBindings from './keyBindings';
-import { registerClipboardIpc } from './clipboard';
+import { registerClipboardIpc } from './ipc/clipboard';
 import renderer from './renderer';
 
 export const initWindow = () => {
