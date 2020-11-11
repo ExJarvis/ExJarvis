@@ -4,13 +4,12 @@ import { FileTextOutlined } from '@ant-design/icons';
 import * as React from 'react';
 import SearchInput from '../../common/SearchInput';
 import useLauncher from './model';
-import { default as useGlobalStyles, default as useStyles } from './styles';
+import useStyles from './styles';
 import { LauncherProps } from './types';
-import { animated } from 'react-spring';
+// import { animated } from 'react-spring';
 
 const Launcher: React.FC<LauncherProps> = (props) => {
   const classes = useStyles();
-  const styles = useGlobalStyles();
   const {
     filteredHistory,
     historyRefs,
@@ -18,7 +17,7 @@ const Launcher: React.FC<LauncherProps> = (props) => {
     query,
     handleSelect,
     handleSearch,
-    spring,
+    // spring,
   } = useLauncher(props);
 
   const renderHistory = () => {

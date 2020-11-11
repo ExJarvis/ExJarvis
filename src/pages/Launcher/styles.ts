@@ -1,6 +1,7 @@
 import { createUseStyles } from 'react-jss';
+import { createStyles } from '../../hooks/useStyles';
 
-const useStyles = createUseStyles((theme) => ({
+const styles = createStyles((theme) => ({
   outerBox: {
     height: '100%',
     display: 'grid',
@@ -46,4 +47,4 @@ const useStyles = createUseStyles((theme) => ({
   }
 }));
 
-export default useStyles;
+export default createUseStyles(styles);
