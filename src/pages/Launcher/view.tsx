@@ -49,7 +49,7 @@ const Launcher: React.FC<LauncherProps> = (props) => {
 
   return (
     <div className={classes.outerBox}>
-      <SearchInput onChange={handleSearch} value={query} />
+      <SearchInput onChange={handleSearch} value={query}/>
       <div className={classes.container}>
         {renderHistory()}
         {renderDetails()}

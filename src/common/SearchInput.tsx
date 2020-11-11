@@ -19,11 +19,13 @@ const useStyles = createUseStyles((theme) => ({
 interface SearchInputProps {
   onChange: (query: string) => void;
   value: string;
+  [key: string]: any;
 }
 
 const SearchInput: React.FC<SearchInputProps> = ({
   onChange,
   value,
+  ...props
 }) => {
   const initialState = {
     isSearching: false,
@@ -123,15 +125,17 @@ const SearchInput: React.FC<SearchInputProps> = ({
   // );
   return (
     <Input
+      {...props}
       ref={ref}
       className={classes.searchBox}
-      placeholder="Start typing..."
-      showSearch
-      labelInValue
-      allowClear={true}
+      // placeholder="Start typing..."
+      // showSearch
+      // labelInValue
+      // allowClear
       onFocus={handleFocus}
       onChange={handleChange}
       value={value}
+      bordered={false}
     >
     </Input>
   );
