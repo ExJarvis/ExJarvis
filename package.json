@@ -1,7 +1,7 @@
 {
-  "name": "electron-react-typescript",
+  "name": "Jarvis",
   "version": "1.0.0",
-  "description": "An Electron boilerplate including TypeScript, React, Jest and ESLint.",
+  "description": "Jarvis is here to help.",
   "main": "./dist/main.js",
   "scripts": {
     "dev": "npm-run-all -p dev:react electron:serve",
@@ -83,7 +83,7 @@
     "ts-keycode-enum": "^1.0.6"
   },
   "build": {
-    "appId": "your.id",
+    "appId": "com.vilokanlabs.jarvis",
     "mac": {
       "category": "public.app-category.video"
     },
