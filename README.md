@@ -1,8 +1,18 @@
-## chaakar
+## Jarvis
 
 ![Icon](./Chaakar%20Icon.svg)
 
 Augments developer.
+
+## Getting started
+1. Install from the latest [release](https://github.com/duke79/Jarvis/releases).
+2. Launch.
+3. Keyboard shortcuts -
+   1. `Ctrl+Shift+Space` to show
+   2. `Esc` to hide.
+   3. `Enter` to pick a history item
+
+## Geek corner
 
 ### Run
 ```
