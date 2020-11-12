@@ -2,7 +2,7 @@ import "reflect-metadata";
 import "regenerator-runtime/runtime.js";
 import {Connection, ConnectionOptions, createConnection} from 'typeorm';
 import {Settings} from './repositories/settings';
-import {Item} from './entities/item.entity';
+import {Clipboard} from './entities/clipboard.entity';
 
 export class DatabaseService {
 
@@ -14,7 +14,7 @@ export class DatabaseService {
         this.options = {
             type: 'sqlite',
             database: Settings.dbPath,
-            entities: [Item],
+            entities: [Clipboard],
             synchronize: true,
             logging: 'all',
             // logger: 'simple-console',

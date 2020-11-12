@@ -4,7 +4,6 @@ import { getDevWindow, getWindow } from './window';
 import keyBindings from './keyBindings';
 import { registerClipboardIpc } from './ipc/clipboard.ipc';
 import renderer from './renderer';
-import { registerItemIpc } from './ipc/item.ipc';
 import { DEBUG } from './constants';
 
 export const initWindow = () => {
@@ -18,7 +17,6 @@ export const initWindow = () => {
 
   keyBindings(mainWindow, devWindow);
   registerClipboardIpc();
-  registerItemIpc();
 };
 
 const main = () => {

@@ -6,7 +6,14 @@ import * as React from 'react';
 const useClipboard = () => {
   const initialState = {
     current: '',
-    history: [] as string[],
+    history: [] as {
+      id: number;
+      data: {
+        createdAt: string;
+        updatedAt: string;
+        value: string;
+      }
+    }[],
   };
   const [state, setState] = useGenState(initialState);
   const {
@@ -28,8 +35,8 @@ const useClipboard = () => {
   };
 
   const handleClipboardChange = (ipcState: {
-    current: string;
-    history: string[];
+    current: typeof initialState.current;
+    history: typeof initialState.history;
   }) => {
     setState(ipcState);
   };
@@ -41,10 +48,10 @@ const useClipboard = () => {
   const filter = (query: string) => {
     const ret = history
       .filter((el) => {
-        return el?.toLowerCase()?.includes(query?.toLowerCase());
+        return el?.data?.value?.toLowerCase()?.includes(query?.toLowerCase());
       })
       .reverse();
-    return lodash.uniq(ret);
+    return lodash.uniq(ret).map(el => el?.data?.value);
   };
 
   return {
