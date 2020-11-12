@@ -4,14 +4,14 @@ import installExtension, {
 } from 'electron-devtools-installer';
 
 const configureExtensions = () => {
-  if (process.env.NODE_ENV === 'development') {
+  // if (process.env.NODE_ENV === 'development') { // TODO, temporarily enabled on prod
     installExtension(REACT_DEVELOPER_TOOLS)
       .then((name) => console.log(`Added Extension:  ${name}`))
       .catch((err) => console.log('An error occurred: ', err));
     installExtension(REDUX_DEVTOOLS)
       .then((name) => console.log(`Added Extension:  ${name}`))
       .catch((err) => console.log('An error occurred: ', err));
-  }
+  // }
 };
 
 export default configureExtensions;

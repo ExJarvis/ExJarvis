@@ -8,13 +8,13 @@
     "dev:electron": "cross-env NODE_ENV=development webpack --config webpack/electron.webpack.js --mode development && npm run start:electron",
     "dev:react": "cross-env NODE_ENV=development webpack-dev-server --config webpack/react.webpack.js --mode development",
     "electron:serve": "wait-on http-get://localhost:4000/ && npm run dev:electron",
-    "start:electron": "electron .",
+    "start:electron": "electron . > /tmp/jarvis.log",
     "build": "npm-run-all build:electron build:react",
     "build:run": "npm-run-all build start:electron",
     "build:electron": "webpack --config webpack/electron.webpack.js",
     "build:react": "webpack --config webpack/react.webpack.js",
     "package": "npm-run-all build package:dist",
-    "package:dist": "electron-builder --publish=always",
+    "package:dist": "NODE_ENV=production && electron-builder --publish=always",
     "test": "jest"
   },
   "publish": [
@@ -52,7 +52,6 @@
     "cz-conventional-changelog": "3.2.0",
     "electron": "^10.1.5",
     "electron-builder": "^22.7.0",
-    "electron-devtools-installer": "^3.1.0",
     "eslint": "^7.3.1",
     "eslint-config-prettier": "^6.11.0",
     "eslint-config-standard": "^14.1.1",
@@ -76,10 +75,10 @@
     "webpack": "^4.42.1",
     "webpack-cli": "^3.3.11",
     "webpack-dev-server": "^3.10.3",
-    "webpack-node-externals": "^2.5.2"
+    "webpack-node-externals": "^2.5.2",
+    "@types/lodash": "^4.14.165"
   },
   "dependencies": {
-    "@types/lodash": "^4.14.165",
     "antd": "^4.7.3",
     "css-loader": "^5.0.0",
     "lodash": "^4.17.20",
@@ -95,7 +94,8 @@
     "style-loader": "^2.0.0",
     "styled-components": "^5.1.1",
     "ts-keycode-enum": "^1.0.6",
-    "typeorm": "^0.2.29"
+    "typeorm": "^0.2.29",
+    "electron-devtools-installer": "^3.1.0"
   },
   "build": {
     "appId": "com.vilokanlabs.jarvis",

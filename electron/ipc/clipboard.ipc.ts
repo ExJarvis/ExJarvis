@@ -35,15 +35,11 @@ const onWriteText = () => {
 // };
 
 const onReadState = () => {
-  ipcMain.on('readState', async (event, arg) => {
-    try {
-      event.returnValue = {
-        current,
-        history,
-      };
-    } catch (err) {
-      throw err;
-    }
+  ipcMain.on('readState', (event, arg) => {
+    event.returnValue = {
+      current,
+      history,
+    };
   });
 };
 

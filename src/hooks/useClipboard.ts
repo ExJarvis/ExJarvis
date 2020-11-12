@@ -28,6 +28,7 @@ const useClipboard = () => {
   const monitorClipboard = () => {
     // const next = ipcRenderer.sendSync('readText', '');
     const ipcState = ipcRenderer.sendSync('readState', '');
+    console.log({ ipcState });
     if (ipcState.current !== current) {
       handleClipboardChange(ipcState);
     }

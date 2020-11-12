@@ -9,7 +9,7 @@ const useTimeout = () => {
     repeated: boolean;
   }>();
   const clear = useCallback(() => {
-    const timeoutId = timeoutIdRef.current;
+    const timeoutId = timeoutIdRef?.current;
     if (timeoutId) {
       timeoutIdRef.current = undefined;
       timeoutId.repeated ? clearInterval(timeoutId.value) : clearTimeout(timeoutId.value);
