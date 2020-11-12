@@ -1,6 +1,7 @@
 import { ipcMain } from 'electron';
 import { DatabaseService } from '../db/database.service';
 import { Item } from '../db/entities/item.entity';
+import moment from 'moment';
 
 export const registerItemIpc = async () => {
   let itemRepo: any;
@@ -17,8 +18,10 @@ export const registerItemIpc = async () => {
 
   try {
     const item = await itemRepo.create({
-      id: 4,
-      name: 'my name 4'
+      data: {
+        createdAt: moment().format('LLLL'),
+        updatedAt: moment().valueOf(),
+      },
     });
     await itemRepo.save(item);
     console.log({

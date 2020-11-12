@@ -1,14 +1,10 @@
-import { Entity, PrimaryColumn, Column } from 'typeorm';
+import { Entity, PrimaryColumn, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Item {
-  @PrimaryColumn('bigint')
-  // @Column('binary')
-  id: number | undefined;
+  @PrimaryGeneratedColumn()
+	id?: string;
 
-  @Column('text', { nullable: true })
-  name: string | undefined;
-
-  @Column('text', { nullable: true })
-  fame: string | undefined;
+  @Column({ type: 'simple-json', nullable: true })
+  data: string | undefined;
 }
