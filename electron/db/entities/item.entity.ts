@@ -5,8 +5,8 @@ export class Item
 {
   @PrimaryColumn('bigint')
   // @Column('binary')
-	id: number;
+	id: number | undefined;
 
 	@Column('text')
-	name: string;
+	name: string | undefined;
 }

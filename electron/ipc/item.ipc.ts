@@ -3,13 +3,12 @@ import { DatabaseService } from '../db/database.service';
 import { Item } from '../db/entities/item.entity';
 
 export const registerItemIpc = async () => {
-  console.log('here');
   let itemRepo: any;
   try {
     const connection = await new DatabaseService().connection;
-    console.log({ connection });
+    // console.log({ connection });
     itemRepo = connection.getRepository(Item);
-    console.log({ itemRepo });
+    // console.log({ itemRepo });
   } catch (e) {
     console.log({
       e,
@@ -18,8 +17,8 @@ export const registerItemIpc = async () => {
 
   try {
     const item = await itemRepo.create({
-      id: 2,
-      name: 'my name'
+      id: 3,
+      name: 'my name 3'
     });
     await itemRepo.save(item);
     console.log({

@@ -29,5 +29,5 @@ const monitorClipboard = () => {
 
 const handleClipboardChange = (val: string) => {
   clipHistory.push(val);
-  console.log({ clipHistory })
+  // console.log({ clipHistory });
 };
