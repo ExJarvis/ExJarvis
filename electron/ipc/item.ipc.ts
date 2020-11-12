@@ -17,8 +17,8 @@ export const registerItemIpc = async () => {
 
   try {
     const item = await itemRepo.create({
-      id: 3,
-      name: 'my name 3'
+      id: 4,
+      name: 'my name 4'
     });
     await itemRepo.save(item);
     console.log({
