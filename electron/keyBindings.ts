@@ -1,5 +1,4 @@
 import { globalShortcut } from 'electron';
-import { DEBUG } from './constants';
 
 const keyBindings = (mainWindow: Electron.BrowserWindow | null, devWindow?: Electron.BrowserWindow | null) => {
   globalShortcut.register('Ctrl+Shift+Space', () => {

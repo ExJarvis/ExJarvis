@@ -1,6 +1,7 @@
-const path = require('path')
+const path = require('path');
+const nodeExternals = require('webpack-node-externals');
 
-const rootPath = path.resolve(__dirname, '..')
+const rootPath = path.resolve(__dirname, '..');
 
 module.exports = {
   resolve: {
@@ -26,5 +27,6 @@ module.exports = {
   output: {
     path: path.resolve(rootPath, 'dist'),
     filename: '[name].js'
-  }
+  },
+  externals: [nodeExternals()], // in order to ignore all modules in node_modules folder
 }

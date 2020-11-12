@@ -1,10 +1,11 @@
 import { app } from 'electron';
 import configureExtensions from './extensions';
-import { DEBUG } from './constants';
 import { getDevWindow, getWindow } from './window';
 import keyBindings from './keyBindings';
-import { registerClipboardIpc } from './ipc/clipboard';
+import { registerClipboardIpc } from './ipc/clipboard.ipc';
 import renderer from './renderer';
+import { registerItemIpc } from './ipc/item.ipc';
+import { DEBUG } from './constants';
 
 export const initWindow = () => {
   const mainWindow = getWindow();
@@ -17,6 +18,7 @@ export const initWindow = () => {
 
   keyBindings(mainWindow, devWindow);
   registerClipboardIpc();
+  registerItemIpc();
 };
 
 const main = () => {
