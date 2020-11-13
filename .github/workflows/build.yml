@@ -43,7 +43,7 @@ jobs:
       # https://github.com/samuelmeuli/action-electron-builder/issues/14
       - name: Move Files
         shell: bash
-        run: ./move_dist.sh
+        run: ./scripts/move_dist.sh
 
       - name: Upload Linux Artifacts
         uses: actions/upload-artifact@v2
