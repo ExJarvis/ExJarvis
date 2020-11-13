@@ -1,0 +1,23 @@
+on:
+  push:
+    branches:
+    - master
+  workflow_dispatch:
+    # Inputs the workflow accepts.
+   
+jobs:
+  electron-app-build-release:
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [macos-latest, ubuntu-latest, windows-latest]
+
+    steps:
+      - name: Electron Builder Action
+        # You may pin to the exact commit or the version.
+        # uses: samuelmeuli/action-electron-builder@92327c67bc45ff7c38bf55d8aa8c4d75b7ea38e7
+        uses: samuelmeuli/action-electron-builder@v1.6.0
+        with:
+          # GitHub authentication token
+          github_token: ${{ secrets.GITHUB_TOKEN }}
