@@ -41,8 +41,24 @@ jobs:
           release: ${{ startsWith(github.ref, 'refs/tags/v') }}
 
       # https://github.com/samuelmeuli/action-electron-builder/issues/14
-      - name: Upload Artifacts
+      - name: Move Files
+        shell: bash
+        run: ./move_dist.sh
+
+      - name: Upload Linux Artifacts
         uses: actions/upload-artifact@v2
         with:
-          name: Jarvis
-          path: dist
+          name: jarvis-linux
+          path: dist-linux
+
+      - name: Upload Mac Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: jarvis-mac
+          path: dist-mac
+
+      - name: Upload Win Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: jarvis-win
+          path: dist-win
