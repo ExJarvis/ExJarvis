@@ -1,6 +1,6 @@
 {
   "name": "Jarvis",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Jarvis is here to help.",
   "main": "./dist/main.js",
   "scripts": {
@@ -8,13 +8,13 @@
     "dev:electron": "cross-env NODE_ENV=development webpack --config webpack/electron.webpack.js --mode development && npm run start:electron",
     "dev:react": "cross-env NODE_ENV=development webpack-dev-server --config webpack/react.webpack.js --mode development",
     "electron:serve": "wait-on http-get://localhost:4000/ && npm run dev:electron",
-    "start:electron": "electron . > /tmp/jarvis.log",
+    "start:electron": "electron .",
     "build": "npm-run-all build:electron build:react",
     "build:run": "npm-run-all build start:electron",
     "build:electron": "webpack --config webpack/electron.webpack.js",
     "build:react": "webpack --config webpack/react.webpack.js",
-    "package": "npm-run-all build package:dist",
-    "package:dist": "NODE_ENV=production && electron-builder --publish=always",
+    "package": "cross-env NODE_ENV=production && npm-run-all build package:dist",
+    "package:dist": "electron-builder --publish=always",
     "test": "jest"
   },
   "publish": [
