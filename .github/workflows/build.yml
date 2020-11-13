@@ -38,7 +38,8 @@ jobs:
 
           # If the commit is tagged with a version (e.g. "v1.0.0"),
           # release the app after building
-          release: ${{ startsWith(github.ref, 'refs/tags/v') }}
+          # release: ${{ startsWith(github.ref, 'refs/tags/v') }}
+          release: true
 
       ## https://github.com/samuelmeuli/action-electron-builder/issues/14
       # - name: Move Files
@@ -67,4 +68,4 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: Jarvis
-          path: packages/Jarvis-*
+          path: packages/Jarvis*
