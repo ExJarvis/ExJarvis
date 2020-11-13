@@ -1,3 +1,6 @@
+## inspiration worthy -
+##   https://github.com/KYDronePilot/SpaceEye/blob/df7ea24c8948f4197fb5ac3dbce9d2c796c8ac45/.github/workflows/ci.yaml
+
 on:
   push:
     branches:
@@ -36,3 +39,10 @@ jobs:
           # # If the commit is tagged with a version (e.g. "v1.0.0"),
           # # release the app after building
           # release: ${{ startsWith(github.ref, 'refs/tags/v') }}
+
+      # https://github.com/samuelmeuli/action-electron-builder/issues/14
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v1
+        with:
+          name: Jarvis
+          path: dist
