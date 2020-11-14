@@ -1,6 +1,6 @@
 {
   "name": "Jarvis",
-  "version": "1.1.9",
+  "version": "1.1.10",
   "description": "Jarvis is here to help.",
   "main": "./dist/main.js",
   "scripts": {
