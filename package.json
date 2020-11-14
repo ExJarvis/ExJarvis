@@ -17,7 +17,7 @@
     "package": "cross-env NODE_ENV=production && npm-run-all build package:dist",
     "package:dist": "electron-builder --publish=always",
     "test": "jest",
-    "deploy": "gh-pages -d build:react"
+    "ghpages": "gh-pages -d dist/renderer"
   },
   "publish": [
     {
