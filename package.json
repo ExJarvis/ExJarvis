@@ -3,6 +3,7 @@
   "version": "1.1.10",
   "description": "Jarvis is here to help.",
   "main": "./dist/main.js",
+  "homepage": "http://duke79.github.io/Jarvis",
   "scripts": {
     "dev": "npm-run-all -p dev:react electron:serve",
     "dev:electron": "cross-env NODE_ENV=development webpack --config webpack/electron.webpack.js --mode development && npm run start:electron",
@@ -15,7 +16,8 @@
     "build:react": "webpack --config webpack/react.webpack.js",
     "package": "cross-env NODE_ENV=production && npm-run-all build package:dist",
     "package:dist": "electron-builder --publish=always",
-    "test": "jest"
+    "test": "jest",
+    "deploy": "gh-pages -d build:react"
   },
   "publish": [
     {
@@ -40,6 +42,7 @@
     "@testing-library/react": "^10.4.3",
     "@types/electron-devtools-installer": "^2.2.0",
     "@types/jest": "^26.0.3",
+    "@types/lodash": "^4.14.165",
     "@types/node": "^14.14.7",
     "@types/react": "^16.9.34",
     "@types/react-dom": "^16.9.6",
@@ -62,6 +65,7 @@
     "eslint-plugin-promise": "^4.2.1",
     "eslint-plugin-react": "^7.20.1",
     "eslint-plugin-standard": "^4.0.1",
+    "gh-pages": "^3.1.0",
     "html-webpack-plugin": "^4.2.0",
     "husky": "^4.2.5",
     "jest": "^26.6.3",
@@ -75,8 +79,7 @@
     "webpack": "^4.42.1",
     "webpack-cli": "^3.3.11",
     "webpack-dev-server": "^3.10.3",
-    "webpack-node-externals": "^2.5.2",
-    "@types/lodash": "^4.14.165"
+    "webpack-node-externals": "^2.5.2"
   },
   "dependencies": {
     "antd": "^4.7.3",
