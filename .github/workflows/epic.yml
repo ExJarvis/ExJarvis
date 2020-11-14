@@ -1,7 +1,7 @@
 name: Epics workflow
 on:
-  schedule:
-    - cron:  '* * * * *'
+#   schedule:
+#     - cron:  '* * * * *'
   workflow_dispatch:
     # Inputs the workflow accepts.
 jobs:
