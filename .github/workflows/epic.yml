@@ -2,6 +2,8 @@ name: Epics workflow
 on:
   schedule:
     - cron:  '* * * * *'
+  workflow_dispatch:
+    # Inputs the workflow accepts.
 jobs:
   build:
     runs-on: ubuntu-latest
