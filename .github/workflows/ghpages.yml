@@ -33,6 +33,9 @@ jobs:
         # uses: crazy-max/ghaction-github-pages@1510b11c0c2f843eafb8ff41b3da8c467c8d4a9f
         uses: crazy-max/ghaction-github-pages@v2.2.0
         with:
+          # GitHub token, automatically provided to the action
+          # (No need to define this secret in the repo settings)
+          github_token: ${{ secrets.github_token }}
           ## GitHub repository where assets will be deployed (default current)
           #repo: # optional
           ## Git branch where assets will be deployed
