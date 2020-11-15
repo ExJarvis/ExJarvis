@@ -25,6 +25,7 @@ jobs:
     
       - name: Gen dummy page
         run: |
+          npm i
           npm run build:react
 
       - name: GitHub Pages
