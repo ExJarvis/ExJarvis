@@ -27,7 +27,6 @@ jobs:
         run: |
           npm i
           npm run build:react
-          export GITHUB_TOKEN=${{ secrets.github_token }}
 
       - name: GitHub Pages
         # You may pin to the exact commit or the version.
@@ -54,3 +53,5 @@ jobs:
           #fqdn: # optional
           ## Allow Jekyll to build your site
           #jekyll: # optional, default is true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
