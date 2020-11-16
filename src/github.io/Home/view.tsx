@@ -7,7 +7,7 @@ import Page2 from './Page2';
 import Page3 from './Page3';
 import Footer from './Footer';
 import { IntlProvider } from 'react-intl';
-// import './static/style';
+import './styles.less';
 
 import useHome from './model';
 import useStyles from './styles';
