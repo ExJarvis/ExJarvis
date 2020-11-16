@@ -1,14 +1,15 @@
 const appLocaleData = require('react-intl/locale-data/zh');
 
-
 export default {
   locale: 'zh-CN',
   data: appLocaleData,
   messages: {
-    'app.home.introduce': '一个服务于企业级产品的设计体系。基于『确定』和『自然』的设计价值观，通过模块化的解决方案，让设计者专注于 “更好的用户体验“。',
+    'app.home.introduce':
+      '一个服务于企业级产品的设计体系。基于『确定』和『自然』的设计价值观，通过模块化的解决方案，让设计者专注于 “更好的用户体验“。',
     'app.home.design-language': '设计语言',
     'app.home.solution': '解决方案',
-    'app.home.components-explain': '基于 Ant Design 设计语言，我们提供了一套开箱即用的高质量 React 组件，用于开发和服务于企业级中后台产品，除官方的 React 实现，还有 Angular、Vue 的实现',
+    'app.home.components-explain':
+      '基于 Ant Design 设计语言，我们提供了一套开箱即用的高质量 React 组件，用于开发和服务于企业级中后台产品，除官方的 React 实现，还有 Angular、Vue 的实现',
     'app.home.product-pro-slogan': '开箱即用的中台前端/设计解决方案',
     'app.home.product-mobile-slogan': 'antd-mobile 是 Ant Design 的移动规范的 React 实现',
     'app.home.product-antv-slogan': '简单、专业、拥有无限可能的数据可视化解决方案',

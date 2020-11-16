@@ -1,5 +1,5 @@
 import React from 'react';
-import { AppProps } from "./types";
+import { AppProps } from './types';
 import cnLocale from '../zh-CN';
 import { addLocaleData, IntlProvider } from 'react-intl';
 import { enquireScreen } from 'enquire-js';
@@ -17,10 +17,7 @@ const useApp = (props: AppProps) => {
   };
   const [state, setState] = useGenState(initialState);
 
-  const {
-    appLocale,
-    isMobile,
-  } = state;
+  const { appLocale, isMobile } = state;
 
   React.useEffect(() => {
     // handleLocale();
@@ -50,7 +47,7 @@ const useApp = (props: AppProps) => {
   return {
     appLocale,
     isMobile,
-  }
+  };
 };
 
 export default useApp;

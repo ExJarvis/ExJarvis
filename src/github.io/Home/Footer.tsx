@@ -40,31 +40,49 @@ function Footer() {
           </Col>
           <Col md={6} sm={24} xs={24}>
             <div className="footer-center">
-              <h2><FormattedMessage id="app.footer.resources" /></h2>
+              <h2>
+                <FormattedMessage id="app.footer.resources" />
+              </h2>
               <div>
                 <a href="http://scaffold.ant.design">Scaffolds</a>
                 <span> - </span>
                 <FormattedMessage id="app.footer.scaffolds" />
               </div>
               <div>
-                <a target="_blank" rel="noopener noreferrer" href="https://github.com/dvajs/dva">dva</a> - <FormattedMessage id="app.footer.dva" />
+                <a target="_blank" rel="noopener noreferrer" href="https://github.com/dvajs/dva">
+                  dva
+                </a>{' '}
+                - <FormattedMessage id="app.footer.dva" />
               </div>
               <div>
-                <a target="_blank" rel="noopener noreferrer" href="https://github.com/dvajs/dva-cli">dva-cli</a> -
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="https://github.com/dvajs/dva-cli"
+                >
+                  dva-cli
+                </a>{' '}
+                -
                 <FormattedMessage id="app.footer.dev-tools" />
               </div>
               <div>
-                <a target="_blank" rel="noopener noreferrer" href="http://motion.ant.design">Ant Motion</a>
+                <a target="_blank" rel="noopener noreferrer" href="http://motion.ant.design">
+                  Ant Motion
+                </a>
                 <span> - </span>
                 <FormattedMessage id="app.footer.motion" />
               </div>
               <div>
-                <a target="_blank" rel="noopener noreferrer" href="http://library.ant.design/">AntD Library</a>
+                <a target="_blank" rel="noopener noreferrer" href="http://library.ant.design/">
+                  AntD Library
+                </a>
                 <span> - </span>
                 <FormattedMessage id="app.footer.antd-library" />
               </div>
               <div>
-                <a target="_blank" rel="noopener noreferrer" href="http://ux.ant.design">Ant UX</a>
+                <a target="_blank" rel="noopener noreferrer" href="http://ux.ant.design">
+                  Ant UX
+                </a>
                 <span> - </span>
                 <FormattedMessage id="app.footer.antux" />
               </div>
@@ -72,24 +90,38 @@ function Footer() {
           </Col>
           <Col md={6} sm={24} xs={24}>
             <div className="footer-center">
-              <h2><FormattedMessage id="app.footer.community" /></h2>
+              <h2>
+                <FormattedMessage id="app.footer.community" />
+              </h2>
               <div>
                 <a href="/changelog">
                   <FormattedMessage id="app.footer.change-log" />
                 </a>
               </div>
               <div>
-                <a target="_blank" rel="noopener noreferrer" href="https://github.com/ant-design/ant-design/wiki/FAQ">
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="https://github.com/ant-design/ant-design/wiki/FAQ"
+                >
                   <FormattedMessage id="app.footer.faq" />
                 </a>
               </div>
               <div>
-                <a target="_blank" rel="noopener noreferrer" href="https://gitter.im/ant-design/ant-design">
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="https://gitter.im/ant-design/ant-design"
+                >
                   <FormattedMessage id="app.footer.discuss-cn" />
                 </a>
               </div>
               <div>
-                <a target="_blank" rel="noopener noreferrer" href="https://gitter.im/ant-design/ant-design-english">
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="https://gitter.im/ant-design/ant-design-english"
+                >
                   <FormattedMessage id="app.footer.discuss-en" />
                 </a>
               </div>
@@ -99,12 +131,20 @@ function Footer() {
                 </a>
               </div>
               <div>
-                <a target="_blank" rel="noopener noreferrer" href="https://github.com/ant-design/ant-design/issues">
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="https://github.com/ant-design/ant-design/issues"
+                >
                   <FormattedMessage id="app.footer.issues" />
                 </a>
               </div>
               <div>
-                <a target="_blank" rel="noopener noreferrer" href="http://stackoverflow.com/questions/tagged/antd">
+                <a
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href="http://stackoverflow.com/questions/tagged/antd"
+                >
                   <FormattedMessage id="app.footer.stackoverflow" />
                 </a>
               </div>
@@ -118,16 +158,24 @@ function Footer() {
           <Col md={6} sm={24} xs={24}>
             <div className="footer-center">
               <h2>
-                <img className="title-icon" src="https://gw.alipayobjects.com/zos/rmsportal/nBVXkrFdWHxbZlmMbsaH.svg" alt="" />
+                <img
+                  className="title-icon"
+                  src="https://gw.alipayobjects.com/zos/rmsportal/nBVXkrFdWHxbZlmMbsaH.svg"
+                  alt=""
+                />
                 <FormattedMessage id="app.footer.more-product" />
               </h2>
               <div>
-                <a target="_blank" rel="noopener noreferrer" href="https://antv.alipay.com/">AntV</a>
+                <a target="_blank" rel="noopener noreferrer" href="https://antv.alipay.com/">
+                  AntV
+                </a>
                 <span> - </span>
                 <FormattedMessage id="app.footer.data-vis" />
               </div>
               <div>
-                <a target="_blank" rel="noopener noreferrer" href="https://eggjs.org/">Egg</a>
+                <a target="_blank" rel="noopener noreferrer" href="https://eggjs.org/">
+                  Egg
+                </a>
                 <span> - </span>
                 <FormattedMessage id="app.footer.eggjs" />
               </div>
@@ -140,7 +188,10 @@ function Footer() {
         <Col md={20} sm={24}>
           <span
             style={{
-              lineHeight: '16px', paddingRight: 12, marginRight: 11, borderRight: '1px solid rgba(255, 255, 255, 0.55)',
+              lineHeight: '16px',
+              paddingRight: 12,
+              marginRight: 11,
+              borderRight: '1px solid rgba(255, 255, 255, 0.55)',
             }}
           >
             <a
@@ -161,7 +212,9 @@ function Footer() {
             </a>
           </span>
           <span style={{ marginRight: 12 }}>ICP 证浙 B2-2-100257</span>
-          <span style={{ marginRight: 12 }}>Copyright © <FormattedMessage id="app.footer.company" /></span>
+          <span style={{ marginRight: 12 }}>
+            Copyright © <FormattedMessage id="app.footer.company" />
+          </span>
         </Col>
       </Row>
     </footer>
