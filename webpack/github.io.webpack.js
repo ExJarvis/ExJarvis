@@ -25,25 +25,19 @@ module.exports = env => ({
       },
       {
         test: /\.(?:le|c)ss$/,
-        // exclude: /node_modules/,
-        // include: [
-        //   path.resolve(__dirname, "not_exist_path")
-        // ],
-        use: ['style-loader', 'css-loader', 'less-loader'],
+        use: [{
+          loader: "style-loader"
+      }, {
+          loader: "css-loader"
+      }, {
+          loader: "less-loader",
+          options: {
+            lessOptions: {
+               javascriptEnabled: true
+            }
+          }
+      }],
       },
-      // {
-      //   test: /\.less$/,
-      //   use: ['style-loader', 'less-loader', 'css-loader'],
-      // },
-      // {
-      //   test: /\.css$/i,
-      //   use: ['style-loader', 'css-loader'],
-      // },
-      // {
-      //   test: /\.less$/,
-      //   exclude: /node_modules/,
-      //   loader: 'style!css!less'
-      // },
     ]
   },
   devServer: {
