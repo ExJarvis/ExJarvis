@@ -1,8 +1,7 @@
 import React from 'react';
 import { AppProps } from './types';
 // import localeObj from '../../locale/zh-CN';
-import localeObj from '../../locale/en-US';
-import { addLocaleData, IntlProvider } from 'react-intl';
+// import { IntlProvider } from 'react-intl';
 import { enquireScreen } from 'enquire-js';
 import { useGenState } from '../../../hooks/useGenState';
 
@@ -10,25 +9,25 @@ import { useGenState } from '../../../hooks/useGenState';
 // const enquireScreen = ((b: any) => {
 //   isMobileGlobal = b;
 // });
-addLocaleData(localeObj.data);
+// addLocaleData(localeObj.data);
 
 const useApp = (props: AppProps) => {
   const initialState = {
-    appLocale: localeObj,
+    // appLocale: localeObj,
     isMobile: false, // isMobileGlobal,
   };
   const [state, setState] = useGenState(initialState);
 
-  const { appLocale, isMobile } = state;
+  const { isMobile } = state;
 
   React.useEffect(() => {
     // handleLocale();
     handleScreen();
   }, []);
 
-  React.useEffect(() => {
-    handleLocale();
-  }, [appLocale]);
+  // React.useEffect(() => {
+  //   handleLocale();
+  // }, [appLocale]);
 
   const handleLocale = () => {
     // addLocaleData(appLocale.data);
@@ -47,7 +46,7 @@ const useApp = (props: AppProps) => {
   };
 
   return {
-    appLocale,
+    // appLocale,
     isMobile,
   };
 };

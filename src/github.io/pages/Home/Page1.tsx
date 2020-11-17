@@ -6,11 +6,16 @@ import ScrollOverPack from 'rc-scroll-anim/lib/ScrollOverPack';
 import { Link } from 'bisheng/router';
 import { FormattedMessage } from 'react-intl';
 
+const OSWindowsIcon = require('../../../assets/images/OSWindows.svg');
+const OSMacIcon = require('../../../assets/images/OSMac.svg');
+const OSUbuntuIcon = require('../../../assets/images/OSUbuntu.svg');
+
 const page1Data = [
   {
-    img: 'https://gw.alipayobjects.com/zos/rmsportal/URIeCOKLMAbRXaeXoNqN.svg',
-    name: '设计价值观',
-    nameEn: 'Design Values',
+    img: OSWindowsIcon,
+    // name: 'Windows',
+    nameEn: 'Windows',
+    link: 'https://github.com/duke79/Jarvis/releases/download/v1.1.0/Jarvis-Setup-1.1.0.exe',
     svgBg: (
       <svg
         width="213px"
@@ -65,9 +70,10 @@ const page1Data = [
     ),
   },
   {
-    img: 'https://gw.alipayobjects.com/zos/rmsportal/qXncdwwUTTgUFnsbCNCE.svg',
-    name: '视觉',
-    nameEn: 'Visual',
+    img: OSMacIcon,
+    // name: 'Mac',
+    nameEn: 'Mac',
+    link: 'https://github.com/duke79/Jarvis/releases/download/v1.0.0/Jarvis-1.0.0.dmg',
     svgBg: (
       <svg
         width="207px"
@@ -122,9 +128,10 @@ const page1Data = [
     ),
   },
   {
-    img: 'https://gw.alipayobjects.com/zos/rmsportal/YFXXZocxAgjReehpPNbX.svg',
-    name: '可视化',
-    nameEn: 'Visualisation',
+    img: OSUbuntuIcon,
+    // name: 'Linux',
+    nameEn: 'Linux',
+    link: '#',
     svgBg: (
       <svg
         width="215px"
@@ -164,54 +171,54 @@ const page1Data = [
       </svg>
     ),
   },
-  {
-    img: 'https://gw.alipayobjects.com/zos/rmsportal/VPuetGsvJuYBwoDkZWFW.svg',
-    name: '动效',
-    nameEn: 'Animation',
-    svgBg: (
-      <svg
-        width="193px"
-        height="286px"
-        viewBox="0 0 193 286"
-        stroke="none"
-        strokeWidth="1"
-        fill="none"
-        fillRule="evenodd"
-        style={{ transform: 'translateY(-20px)' }}
-      >
-        <circle id="Oval-12-Copy-4" fill="#1D39C4" opacity="0.35" cx="71" cy="65" r="10" />
-        <circle id="Oval-12-Copy-5" fill="#1D39C4" opacity="0.45" cx="172.5" cy="154.5" r="20.5" />
-        <rect
-          id="Rectangle-14"
-          stroke="#1D39C4"
-          opacity="0.7"
-          x="0.5"
-          y="99.5"
-          width="13"
-          height="13"
-          rx="1"
-        />
-        <circle id="Path" fill="#1D39C4" opacity="0.5" cx="44.5" cy="117.5" r="3.5" />
-        <circle id="Path" fill="#1D39C4" opacity="0.5" cx="132" cy="2" r="2" />
-        <circle id="Path" fill="#1D39C4" opacity="0.6" cx="39" cy="34" r="2" />
-        <circle id="Path" fill="#1D39C4" opacity="0.6" cx="147.5" cy="182.5" r="1.5" />
-        <circle id="Oval-8" stroke="#1D39C4" opacity="0.65" cx="55" cy="177" r="7" />
-        <circle id="Oval-8" stroke="#1D39C4" opacity="0.65" cx="110" cy="280" r="5" />
-        <g
-          id="Group-21"
-          transform="translate(171.000000, 25.000000)"
-          opacity="0.7"
-          stroke="#1D39C4"
-        >
-          <path
-            d="M12.833668,6.38747836 L16.7089463,13.0996573 C17.2612311,14.0562426 16.9334808,15.2794234 15.9768955,15.8317081 C15.6728571,16.0072448 15.3279688,16.0996573 14.9768955,16.0996573 L7.22633886,16.0996573 C6.12176936,16.0996573 5.22633886,15.2042268 5.22633886,14.0996573 C5.22633886,13.748584 5.31875139,13.4036957 5.49428806,13.0996573 L9.36956638,6.38747836 C9.92185113,5.43089311 11.1450319,5.1031428 12.1016172,5.65542755 C12.4056556,5.83096421 12.6581313,6.08343994 12.833668,6.38747836 Z"
-            id="Polygon-2"
-            transform="translate(11.101617, 11.052994) rotate(40.000000) translate(-11.101617, -11.052994) "
-          />
-        </g>
-      </svg>
-    ),
-  },
+  // {
+  //   img: 'https://gw.alipayobjects.com/zos/rmsportal/VPuetGsvJuYBwoDkZWFW.svg',
+  //   // name: 'Elsewhere',
+  //   nameEn: 'Elsewhere',
+  //   svgBg: (
+  //     <svg
+  //       width="193px"
+  //       height="286px"
+  //       viewBox="0 0 193 286"
+  //       stroke="none"
+  //       strokeWidth="1"
+  //       fill="none"
+  //       fillRule="evenodd"
+  //       style={{ transform: 'translateY(-20px)' }}
+  //     >
+  //       <circle id="Oval-12-Copy-4" fill="#1D39C4" opacity="0.35" cx="71" cy="65" r="10" />
+  //       <circle id="Oval-12-Copy-5" fill="#1D39C4" opacity="0.45" cx="172.5" cy="154.5" r="20.5" />
+  //       <rect
+  //         id="Rectangle-14"
+  //         stroke="#1D39C4"
+  //         opacity="0.7"
+  //         x="0.5"
+  //         y="99.5"
+  //         width="13"
+  //         height="13"
+  //         rx="1"
+  //       />
+  //       <circle id="Path" fill="#1D39C4" opacity="0.5" cx="44.5" cy="117.5" r="3.5" />
+  //       <circle id="Path" fill="#1D39C4" opacity="0.5" cx="132" cy="2" r="2" />
+  //       <circle id="Path" fill="#1D39C4" opacity="0.6" cx="39" cy="34" r="2" />
+  //       <circle id="Path" fill="#1D39C4" opacity="0.6" cx="147.5" cy="182.5" r="1.5" />
+  //       <circle id="Oval-8" stroke="#1D39C4" opacity="0.65" cx="55" cy="177" r="7" />
+  //       <circle id="Oval-8" stroke="#1D39C4" opacity="0.65" cx="110" cy="280" r="5" />
+  //       <g
+  //         id="Group-21"
+  //         transform="translate(171.000000, 25.000000)"
+  //         opacity="0.7"
+  //         stroke="#1D39C4"
+  //       >
+  //         <path
+  //           d="M12.833668,6.38747836 L16.7089463,13.0996573 C17.2612311,14.0562426 16.9334808,15.2794234 15.9768955,15.8317081 C15.6728571,16.0072448 15.3279688,16.0996573 14.9768955,16.0996573 L7.22633886,16.0996573 C6.12176936,16.0996573 5.22633886,15.2042268 5.22633886,14.0996573 C5.22633886,13.748584 5.31875139,13.4036957 5.49428806,13.0996573 L9.36956638,6.38747836 C9.92185113,5.43089311 11.1450319,5.1031428 12.1016172,5.65542755 C12.4056556,5.83096421 12.6581313,6.08343994 12.833668,6.38747836 Z"
+  //           id="Polygon-2"
+  //           transform="translate(11.101617, 11.052994) rotate(40.000000) translate(-11.101617, -11.052994) "
+  //         />
+  //       </g>
+  //     </svg>
+  //   ),
+  // },
 ];
 
 const getTransformXY = (t) => {
@@ -297,7 +304,7 @@ export default class Page1 extends React.PureComponent {
     const children = page1Data.map((item, i) => {
       const isHover = item.nameEn === this.state.hoverKey;
       return (
-        <Col key={item.nameEn} md={6} xs={24}>
+        <Col key={item.nameEn} md={8} xs={24}>
           <TweenOneGroup
             className="page1-point-wrapper"
             enter={(e) => this.getEnter(i, e)}
@@ -318,9 +325,11 @@ export default class Page1 extends React.PureComponent {
             }}
             onMouseLeave={this.onMouseOut}
           >
-            <div className="page1-image">
-              <img src={item.img} />
-            </div>
+            <a href={item.link}>
+              <div className="page1-image">
+                <img src={item.img} />
+              </div>
+            </a>
             <h3>{item.name}</h3>
             <p>{item.nameEn}</p>
           </QueueAnim>

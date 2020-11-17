@@ -1,12 +1,12 @@
-const appLocaleData = require('react-intl/locale-data/zh');
+// const appLocaleData = require('react-intl/locale-data/en');
 
 export default {
   locale: 'en-US',
-  data: appLocaleData,
+  // data: appLocaleData,
   messages: {
     'app.name': 'Jarvis',
-    'app.home.introduce': 'Cross-Platform Clipboard Manager',
-    'app.home.design-language': '设计语言',
+    'app.home.introduce': 'Clipboard Manager',
+    'app.home.design-language': 'Download',
     'app.home.solution': '解决方案',
     'app.home.components-explain':
       '基于 Ant Design 设计语言，我们提供了一套开箱即用的高质量 React 组件，用于开发和服务于企业级中后台产品，除官方的 React 实现，还有 Angular、Vue 的实现',
@@ -48,9 +48,9 @@ export default {
     'app.footer.author': '蚂蚁金服体验技术部出品 @ AFX',
     'app.footer.work_with_us': '加入我们',
     'app.footer.more-product': '更多产品',
-    'app.footer.privacy': '隐私权政策',
-    'app.footer.commitment': '权益保障承诺书',
-    'app.footer.company': '蚂蚁金融服务集团',
-    'app.footer.ant-design': '蚂蚁 UI 体系',
+    'app.footer.privacy': ' ',
+    'app.footer.commitment': ' ',
+    'app.footer.company': 'Pulkit Singh',
+    'app.footer.ant-design': ' ',
   },
 };

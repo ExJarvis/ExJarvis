@@ -7,7 +7,7 @@ Augments developer.
 ![](./.data/img/2020-11-11-22-57-15.png)
 
 ## Getting started
-1. Install from the latest [release](https://github.com/duke79/Jarvis/releases).
+1. Install from the latest [release](https://duke79.github.io/Jarvis/).
 2. Launch.
 3. Keyboard shortcuts -
    1. `Ctrl+Shift+Space` to show

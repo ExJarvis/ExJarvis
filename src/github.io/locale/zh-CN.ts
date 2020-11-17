@@ -1,8 +1,9 @@
-const appLocaleData = require('react-intl/locale-data/zh');
+// const appLocaleData = require('react-intl/locale-data/zh');
+import localeObjUs from './en-US';
 
 export default {
   locale: 'zh-CN',
-  data: appLocaleData,
+  // data: appLocaleData,
   messages: {
     'app.name': 'Jarvis',
     'app.home.introduce':
@@ -54,4 +55,4 @@ export default {
     'app.footer.company': '蚂蚁金融服务集团',
     'app.footer.ant-design': '蚂蚁 UI 体系',
   },
-};
+} as typeof localeObjUs;
