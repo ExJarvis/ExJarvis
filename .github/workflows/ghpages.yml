@@ -42,7 +42,7 @@ jobs:
           # Allow an empty commit to be created
           #allow_empty_commit: # optional, default is true
           # Build directory to deploy
-          build_dir: dist/renderer
+          build_dir: dist/github.io
           # The committer name and email address
           committer: Pulkit Singh <pulkitsingh01@gmail.com>
           # The author name and email address
