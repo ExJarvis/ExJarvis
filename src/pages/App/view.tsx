@@ -1,4 +1,3 @@
-import 'antd/dist/antd.css';
 import React from 'react';
 import Launcher from '../Launcher/view';
 import useApp from './model';
