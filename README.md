@@ -1,6 +1,6 @@
 ## Jarvis
 
-![Icon](./Chaakar%20Icon.svg)
+![Icon](./src/assets/images/Chaakar%20Icon.svg)
 
 Augments developer.
 

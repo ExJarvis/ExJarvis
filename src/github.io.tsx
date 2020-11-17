@@ -2,7 +2,7 @@
 
 import { render } from 'react-dom';
 import React from 'react';
-import Home from './github.io/Home/view';
+import Home from './github.io/pages/Home/view';
 import 'antd/dist/antd.css';
 
 const main = () => {

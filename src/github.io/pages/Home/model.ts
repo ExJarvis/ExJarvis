@@ -1,19 +1,20 @@
 import React from 'react';
 import { AppProps } from './types';
-import cnLocale from '../zh-CN';
+// import localeObj from '../../locale/zh-CN';
+import localeObj from '../../locale/en-US';
 import { addLocaleData, IntlProvider } from 'react-intl';
 import { enquireScreen } from 'enquire-js';
-import { useGenState } from '../../hooks/useGenState';
+import { useGenState } from '../../../hooks/useGenState';
 
 // let isMobileGlobal = false;
 // const enquireScreen = ((b: any) => {
 //   isMobileGlobal = b;
 // });
-addLocaleData(cnLocale.data);
+addLocaleData(localeObj.data);
 
 const useApp = (props: AppProps) => {
   const initialState = {
-    appLocale: cnLocale,
+    appLocale: localeObj,
     isMobile: false, // isMobileGlobal,
   };
   const [state, setState] = useGenState(initialState);

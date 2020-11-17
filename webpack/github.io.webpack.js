@@ -38,6 +38,32 @@ module.exports = env => ({
           }
       }],
       },
+      // {
+      //   exclude: [/\.(js|jsx|mjs|ejs)$/, /\.html$/, /\.json$/],
+      //   loader: require.resolve('file-loader'),
+      //   options: {
+      //     name: 'images/[name].[hash:8].[ext]',
+      //   },
+      // },
+      // {
+      //   test: [/\.bmp$/, /\.gif$/, /\.jpe?g$/, /\.svg$/, /\.png$/],
+      //   loader: require.resolve('url-loader'),
+      //   options: {
+      //     limit: 10000,
+      //     name: 'images/[name].[hash:8].[ext]',
+      //   },
+      // },
+      {
+        test: /\.svg$/,
+        use: [
+          {
+            loader: 'svg-url-loader',
+            options: {
+              limit: 10000,
+            },
+          },
+        ],
+      },
     ]
   },
   devServer: {
