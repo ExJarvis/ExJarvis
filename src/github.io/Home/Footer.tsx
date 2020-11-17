@@ -9,7 +9,9 @@ function Footer() {
         <Row>
           <Col md={6} sm={24} xs={24}>
             <div className="footer-center">
-              <h2>Ant Design</h2>
+              <h2>
+                <FormattedMessage id="app.name" />
+              </h2>
               <div>
                 <a target="_blank " href="https://github.com/ant-design/ant-design">
                   GitHub

@@ -63,7 +63,9 @@ const Banner: React.FC<{
           </div>
         )}
         <QueueAnim className="text-wrapper" key="text" type="bottom">
-          <h1 key="h1">Ant Design</h1>
+          <h1 key="h1">
+            <FormattedMessage id="app.name" />
+          </h1>
           <p key="p">
             <FormattedMessage id="app.home.introduce" />
           </p>

@@ -4,6 +4,7 @@ export default {
   locale: 'zh-CN',
   data: appLocaleData,
   messages: {
+    'app.name': 'Jarvis',
     'app.home.introduce':
       '一个服务于企业级产品的设计体系。基于『确定』和『自然』的设计价值观，通过模块化的解决方案，让设计者专注于 “更好的用户体验“。',
     'app.home.design-language': '设计语言',

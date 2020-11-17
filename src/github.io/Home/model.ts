@@ -9,6 +9,7 @@ import { useGenState } from '../../hooks/useGenState';
 // const enquireScreen = ((b: any) => {
 //   isMobileGlobal = b;
 // });
+addLocaleData(cnLocale.data);
 
 const useApp = (props: AppProps) => {
   const initialState = {
@@ -29,7 +30,7 @@ const useApp = (props: AppProps) => {
   }, [appLocale]);
 
   const handleLocale = () => {
-    addLocaleData(appLocale.data);
+    // addLocaleData(appLocale.data);
     // setState({
     //   appLocale,
     //   isMobile,
