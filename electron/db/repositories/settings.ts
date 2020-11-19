@@ -1,6 +1,7 @@
 import * as path from 'path';
 import { remote } from 'electron';
 import { environment } from '../../environments/environment';
+import { getAppDataPath } from '../../utils';
 
 export class Settings {
 
@@ -8,7 +9,7 @@ export class Settings {
     public static dbPath: string;
     public static appPath: string;
     private static dataSubFolder: string;
-    private static dbName = 'database.db';
+    private static dbName = 'jarvis.sqlite';
 
     public static initialize(): void {
         Settings.getPaths();
@@ -25,7 +26,7 @@ export class Settings {
             // Settings.appPath = remote.app.getAppPath();
         }
 
-        Settings.appPath = './';
+        Settings.appPath = getAppDataPath();
         Settings.dbFolder = path.join(Settings.appPath, Settings.dataSubFolder);
         Settings.dbPath = path.join(Settings.dbFolder, this.dbName)
     }
