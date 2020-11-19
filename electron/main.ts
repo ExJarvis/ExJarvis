@@ -6,6 +6,7 @@ import { registerClipboardIpc } from './ipc/clipboard.ipc';
 import renderer from './renderer';
 import { DEBUG, env } from './constants';
 import initGlobals from './globals';
+import * as Sentry from "@sentry/electron";
 
 export const initWindow = () => {
   const mainWindow = getWindow();
@@ -32,11 +33,23 @@ const initHotRelaod = () => {
   }
 };
 
+const logErrors = () => {
+  process.on('uncaughtException', function (err) {
+    console.error(err);
+  })
+};
+
+const initSentry = () => {
+  Sentry.init({ dsn: "https://c8f88d7866e442d3927ccd924b7b9ecf@o306873.ingest.sentry.io/1766096" });
+};
+
 const main = () => {
   initGlobals();
   app.on('ready', initWindow).whenReady().then(configureExtensions);
   app.allowRendererProcessReuse = true;
   initHotRelaod();
+  logErrors();
+  initSentry();
 };
 
 main();

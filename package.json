@@ -87,6 +87,7 @@
     "webpack-node-externals": "2.5.2"
   },
   "dependencies": {
+    "@sentry/electron": "^2.0.3",
     "antd": "4.7.3",
     "bisheng": "0.28.2",
     "css-loader": "5.0.0",

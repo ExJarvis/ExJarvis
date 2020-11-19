@@ -10,7 +10,7 @@ const useTimeout = () => {
   }>();
   const clear = useCallback(() => {
     const timeoutId = timeoutIdRef?.current;
-    if (timeoutId) {
+    if (timeoutId && timeoutIdRef) {
       timeoutIdRef.current = undefined;
       timeoutId.repeated ? clearInterval(timeoutId.value) : clearTimeout(timeoutId.value);
     }
@@ -25,10 +25,12 @@ const useTimeout = () => {
     timeout?: number;
     repeated?: boolean;
   }) => {
-    timeoutIdRef.current = {
-      value: repeated ? setInterval(callback, timeout) : setTimeout(callback, timeout) as any,
-      repeated,
-    };
+    if(timeoutIdRef) {
+      timeoutIdRef.current = {
+        value: repeated ? setInterval(callback, timeout) : setTimeout(callback, timeout) as any,
+        repeated,
+      };
+    }
   };
 
   return {
