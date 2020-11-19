@@ -28,10 +28,7 @@ const useClipboard = () => {
   const monitorClipboard = () => {
     // const next = ipcRenderer.sendSync('readText', '');
     const ipcState = ipcRenderer.sendSync('readState', '');
-    console.log({ ipcState });
-    console.log('Retrieved state');
     if (ipcState?.current && ipcState?.current !== current) {
-      console.log('Setting state');
       handleClipboardChange(ipcState);
     }
     setTimeout(monitorClipboard, 300);
