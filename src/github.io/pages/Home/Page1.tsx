@@ -5,17 +5,19 @@ import { Row, Col } from 'antd';
 import ScrollOverPack from 'rc-scroll-anim/lib/ScrollOverPack';
 import { Link } from 'bisheng/router';
 import { FormattedMessage } from 'react-intl';
+import * as packageJson from '../../../../package.json';
 
 const OSWindowsIcon = require('../../../assets/images/OSWindows.svg');
 const OSMacIcon = require('../../../assets/images/OSMac.svg');
 const OSUbuntuIcon = require('../../../assets/images/OSUbuntu.svg');
+const version = packageJson.version;
 
 const page1Data = [
   {
     img: OSWindowsIcon,
     // name: 'Windows',
     nameEn: 'Windows',
-    link: 'https://github.com/duke79/Jarvis/releases/download/v1.1.0/Jarvis-Setup-1.1.0.exe',
+    link: `https://github.com/duke79/Jarvis/releases/download/v${version}/Jarvis-Setup-${version}.exe`,
     svgBg: (
       <svg
         width="213px"
@@ -73,7 +75,7 @@ const page1Data = [
     img: OSMacIcon,
     // name: 'Mac',
     nameEn: 'Mac',
-    link: 'https://github.com/duke79/Jarvis/releases/download/v1.0.0/Jarvis-1.0.0.dmg',
+    link: `https://github.com/duke79/Jarvis/releases/download/v${version}/Jarvis-${version}.dmg`,
     svgBg: (
       <svg
         width="207px"

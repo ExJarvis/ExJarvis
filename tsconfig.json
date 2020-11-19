@@ -13,6 +13,7 @@
     "sourceMap": true,
     "outDir": "./dist",
     "strict": true ,
+    "resolveJsonModule": true,
     "esModuleInterop": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
