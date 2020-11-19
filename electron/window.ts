@@ -1,4 +1,5 @@
-import { BrowserWindow } from 'electron';
+import { BrowserWindow, Menu } from 'electron';
+import { getOsType } from './utils';
 
 export const getWindow = () => {
   const window = new BrowserWindow({
@@ -27,4 +28,18 @@ export const getDevWindow = () => {
   });
 
   return window;
+};
+
+export const hideWindow = (wnd?: Electron.BrowserWindow | null) => {
+  if(getOsType() === 'mac') {
+    Menu.sendActionToFirstResponder('hide:');
+  } else {
+    wnd?.hide();
+    wnd?.minimize();
+  }
+};
+
+export const showWindow = (wnd?: Electron.BrowserWindow | null) => {
+  wnd?.show();
+  wnd?.restore();
 };

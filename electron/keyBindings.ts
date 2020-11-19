@@ -1,12 +1,14 @@
-import { globalShortcut } from 'electron';
+import { globalShortcut, Menu } from 'electron';
+import { app } from 'electron';
+import { hideWindow, showWindow } from './window';
 
 const keyBindings = (mainWindow: Electron.BrowserWindow | null, devWindow?: Electron.BrowserWindow | null) => {
   globalShortcut.register('Ctrl+Shift+Space', () => {
-    mainWindow?.show();
+    showWindow(mainWindow);
     return false;
   });
   devWindow && globalShortcut.register('Ctrl+Alt+Space', () => {
-    devWindow?.show();
+    showWindow(devWindow);
     return false;
   });
 
@@ -15,13 +17,12 @@ const keyBindings = (mainWindow: Electron.BrowserWindow | null, devWindow?: Elec
   });
   mainWindow?.on('focus', () => {
     globalShortcut.register('Esc', () => {
-      mainWindow?.hide();
+      hideWindow(mainWindow);
       return false;
     });
   });
   mainWindow?.on('blur', () => {
-    // mainWindow?.close();
-    mainWindow?.hide();
+    hideWindow(mainWindow);
     globalShortcut.unregister('Esc');
   });
 
@@ -30,12 +31,12 @@ const keyBindings = (mainWindow: Electron.BrowserWindow | null, devWindow?: Elec
   });
   devWindow?.on('focus', () => {
     globalShortcut.register('Esc', () => {
-      devWindow?.hide();
+      hideWindow(devWindow);
       return false;
     });
   });
   devWindow?.on('blur', () => {
-    // devWindow?.hide();
+    // hideWindow(devWindow);
     globalShortcut.unregister('Esc');
   });
 };
