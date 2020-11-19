@@ -33,6 +33,7 @@ export const getDevWindow = () => {
 export const hideWindow = (wnd?: Electron.BrowserWindow | null) => {
   if(getOsType() === 'mac') {
     Menu.sendActionToFirstResponder('hide:');
+    wnd?.hide();
   } else {
     wnd?.hide();
     wnd?.minimize();
