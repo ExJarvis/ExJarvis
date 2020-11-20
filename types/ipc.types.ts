@@ -12,11 +12,11 @@ export type ClipState = {
   history: ClipHistory[];
 };
 
-export type RendererToMainEvents = {
+export type ToMainEvents = {
   writeText: (text: string) => void;
   readState: () => ClipState;
 };
 
-export type MainToRendererEvents = {
+export type ToRendererEvents = {
   updatedState: (state: ClipState) => void;
 };
