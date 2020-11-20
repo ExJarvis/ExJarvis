@@ -2,7 +2,7 @@ import { useGenState } from './useGenState';
 import { ipcRenderer } from 'electron';
 import * as lodash from 'lodash';
 import * as React from 'react';
-import { sendSync } from '../misc/utils';
+import { sendSync, onWebSend } from '../misc/utils';
 import { ClipHistory } from '../../types/ipc.types';
 
 const useClipboard = () => {
@@ -19,7 +19,7 @@ const useClipboard = () => {
   }, []);
 
   const handleClipboardEvent = () => {
-    ipcRenderer.on('updatedState', (event, ipcState) => {
+    onWebSend('updatedState', (event, ipcState) => {
       console.log(event, ipcState);
       handleClipboardChange(ipcState);
     });

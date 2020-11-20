@@ -7,10 +7,16 @@ export type ClipHistory = {
   };
 };
 
-export type IpcEvents = {
+export type ClipState = {
+  current: string;
+  history: ClipHistory[];
+};
+
+export type RendererToMainEvents = {
   writeText: (text: string) => void;
-  readState: () => {
-    current: string;
-    history: ClipHistory[];
-  };
+  readState: () => ClipState;
+};
+
+export type MainToRendererEvents = {
+  updatedState: (state: ClipState) => void;
 };

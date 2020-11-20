@@ -4,7 +4,7 @@ import { DatabaseService } from '../db/database.service';
 import { Repository } from 'typeorm';
 import moment from 'moment';
 import { windows } from '../globals';
-import { onSendSync } from './utils';
+import { onSendSync, webSend } from './utils';
 import { ClipHistory } from '../../types/ipc.types';
 
 let current: string = '';
@@ -81,12 +81,10 @@ const handleClipboardChange = async (value: string) => {
       await clipRepo?.save(item);
       history = (await clipRepo?.find()) || [];
     }
-    windows?.forEach((win) =>
-      win?.webContents.send('updatedState', {
+    webSend('updatedState', {
         current,
         history,
       })
-    );
   } catch (err) {
     throw err;
   }
