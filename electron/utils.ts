@@ -38,3 +38,8 @@ export function getAppDataPath() {
 
   return appDataPath;
 };
+
+export const getChromePath = () => {
+  const location = require('chrome-location');
+  return location;
+};

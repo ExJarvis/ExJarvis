@@ -12,18 +12,23 @@ const useClipboard = () => {
         createdAt: string;
         updatedAt: string;
         value: string;
-      }
+      };
     }[],
   };
   const [state, setState] = useGenState(initialState);
-  const {
-    current,
-    history,
-  } = state;
+  const { current, history } = state;
 
   React.useEffect(() => {
-    monitorClipboard();
+    // monitorClipboard();
+    handleClipboardEvent();
   }, []);
+
+  const handleClipboardEvent = () => {
+    ipcRenderer.on('updatedState', (event, ipcState) => {
+      console.log(event, ipcState);
+      handleClipboardChange(ipcState);
+    });
+  };
 
   const monitorClipboard = () => {
     // const next = ipcRenderer.sendSync('readText', '');
@@ -51,7 +56,7 @@ const useClipboard = () => {
         return el?.data?.value?.toLowerCase()?.includes(query?.toLowerCase());
       })
       .reverse();
-    return lodash.uniq(ret).map(el => el?.data?.value);
+    return lodash.uniq(ret).map((el) => el?.data?.value);
   };
 
   return {

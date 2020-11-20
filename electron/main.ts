@@ -5,12 +5,16 @@ import keyBindings from './keyBindings';
 import { registerClipboardIpc } from './ipc/clipboard.ipc';
 import renderer from './renderer';
 import { DEBUG, env } from './constants';
-import initGlobals from './globals';
+import initGlobals, { windows } from './globals';
 import * as Sentry from "@sentry/electron";
 
 export const initWindow = () => {
   const mainWindow = getWindow();
+  windows.push(mainWindow);
+
   const devWindow = DEBUG ? getDevWindow() : null;
+  devWindow && windows.push(devWindow);
+
   mainWindow?.setAlwaysOnTop(true, 'screen-saver');
   devWindow?.setAlwaysOnTop(true, 'screen-saver');
 

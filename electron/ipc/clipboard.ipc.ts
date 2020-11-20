@@ -3,8 +3,9 @@ import { clipboard, ipcMain } from 'electron';
 import { DatabaseService } from '../db/database.service';
 import { Repository } from 'typeorm';
 import moment from 'moment';
+import { windows } from '../globals';
 
-let current: string = "";
+let current: string = '';
 let history: Clipboard[] = [];
 let clipRepo: Repository<Clipboard> | null = null;
 
@@ -61,10 +62,10 @@ const monitorClipboard = () => {
     current = newClip;
     handleClipboardChange(newClip);
   }
-  setTimeout(monitorClipboard, 100)
+  setTimeout(monitorClipboard, 100);
 };
 
-const handleClipboardChange = async (value: string, ) => {
+const handleClipboardChange = async (value: string) => {
   current = value;
   try {
     const item = await clipRepo?.create({
@@ -72,12 +73,16 @@ const handleClipboardChange = async (value: string, ) => {
         createdAt: moment().format('LLLL'),
         updatedAt: moment().format('LLLL'),
         value,
-      }
+      },
     });
-    if(item) {
+    if (item) {
       await clipRepo?.save(item);
-      history = await clipRepo?.find() || [];
+      history = (await clipRepo?.find()) || [];
     }
+    windows?.forEach(win => win?.webContents.send('updatedState', {
+      current,
+      history,
+    }))
   } catch (err) {
     throw err;
   }
