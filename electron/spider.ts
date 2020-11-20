@@ -34,7 +34,16 @@ export const search = async () => {
   const searchValue = await page.$x(selector);
   await page.screenshot({ path: '/Users/pulkitsingh/dev/chaakar/dist/example.png' });
   searchValue.map(async (element) => {
-    console.log(await page.evaluate((el) => el.textContent, element));
+    console.log(
+      await page.evaluate((el) => {
+        const title = el.textContent;
+        const link = el.querySelector('a')?.getAttribute('href');
+        return {
+          title,
+          link,
+        };
+      }, element)
+    );
   });
   log(page);
   // await browser.close();
