@@ -4,10 +4,12 @@ import { DatabaseService } from '../db/database.service';
 import { Repository } from 'typeorm';
 import moment from 'moment';
 import { windows } from '../globals';
+import { onSendSync } from './utils';
+import { ClipHistory } from '../../types/ipc.types';
 
 let current: string = '';
-let history: Clipboard[] = [];
-let clipRepo: Repository<Clipboard> | null = null;
+let history: ClipHistory[] = [];
+let clipRepo: Repository<ClipHistory> | null = null;
 
 export const registerClipboardIpc = async () => {
   const connection = await new DatabaseService().connection;
@@ -20,8 +22,8 @@ export const registerClipboardIpc = async () => {
 };
 
 const onWriteText = () => {
-  ipcMain.on('writeText', async (event, arg) => {
-    event.returnValue = clipboard.writeText(arg);
+  onSendSync('writeText', (event, arg) => {
+    clipboard.writeText(arg);
   });
 };
 
@@ -36,8 +38,8 @@ const onWriteText = () => {
 // };
 
 const onReadState = () => {
-  ipcMain.on('readState', (event, arg) => {
-    event.returnValue = {
+  onSendSync('readState', (event) => {
+    return {
       current,
       history,
     };
@@ -79,10 +81,12 @@ const handleClipboardChange = async (value: string) => {
       await clipRepo?.save(item);
       history = (await clipRepo?.find()) || [];
     }
-    windows?.forEach(win => win?.webContents.send('updatedState', {
-      current,
-      history,
-    }))
+    windows?.forEach((win) =>
+      win?.webContents.send('updatedState', {
+        current,
+        history,
+      })
+    );
   } catch (err) {
     throw err;
   }

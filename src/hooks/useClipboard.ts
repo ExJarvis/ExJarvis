@@ -2,18 +2,13 @@ import { useGenState } from './useGenState';
 import { ipcRenderer } from 'electron';
 import * as lodash from 'lodash';
 import * as React from 'react';
+import { sendSync } from '../misc/utils';
+import { ClipHistory } from '../../types/ipc.types';
 
 const useClipboard = () => {
   const initialState = {
     current: '',
-    history: [] as {
-      id: number;
-      data: {
-        createdAt: string;
-        updatedAt: string;
-        value: string;
-      };
-    }[],
+    history: [] as ClipHistory[],
   };
   const [state, setState] = useGenState(initialState);
   const { current, history } = state;
@@ -32,7 +27,7 @@ const useClipboard = () => {
 
   const monitorClipboard = () => {
     // const next = ipcRenderer.sendSync('readText', '');
-    const ipcState = ipcRenderer.sendSync('readState', '');
+    const ipcState = sendSync('readState');
     if (ipcState?.current && ipcState?.current !== current) {
       handleClipboardChange(ipcState);
     }
@@ -47,7 +42,7 @@ const useClipboard = () => {
   };
 
   const write = (val: string) => {
-    ipcRenderer.sendSync('writeText', val);
+    sendSync('writeText', val);
   };
 
   const filter = (query: string) => {
