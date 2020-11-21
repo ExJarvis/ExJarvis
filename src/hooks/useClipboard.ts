@@ -4,6 +4,8 @@ import * as lodash from 'lodash';
 import * as React from 'react';
 import { sendSync, onWebSend } from '../misc/utils';
 import { ClipHistory } from '../../types/ipc.types';
+import useUnit from './useUnit';
+import { myDict } from '../clientIpc/store';
 
 const useClipboard = () => {
   const initialState = {
@@ -12,6 +14,8 @@ const useClipboard = () => {
   };
   const [state, setState] = useGenState(initialState);
   const { current, history } = state;
+  const store = useUnit<ReturnType<typeof myDict.value>, typeof myDict>(myDict);
+  // console.log({ value: store.value });
 
   React.useEffect(() => {
     // monitorClipboard();
@@ -20,7 +24,7 @@ const useClipboard = () => {
 
   const handleClipboardEvent = () => {
     onWebSend('clip/history/PUSH', (event, ipcState) => {
-      console.log(event, ipcState);
+      // console.log(event, ipcState);
       handleClipboardChange(ipcState.state);
     });
   };
@@ -42,6 +46,7 @@ const useClipboard = () => {
   };
 
   const write = (val: string) => {
+    store.setValue({ a: val });
     sendSync('clip/current/POST', { text: val });
   };
 
