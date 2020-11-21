@@ -1,13 +1,13 @@
 import { ipcMain } from 'electron';
-import { ToMainEvents, ToRendererEvents } from '../../types/ipc.types';
+import { CRUDEvents, PushEvents } from '../../types/ipc.types';
 import { windows } from '../globals';
 
-export const onSendSync = <K extends keyof ToMainEvents>(
+export const onSendSync = <K extends keyof CRUDEvents>(
   channel: K,
   callback: (
     event: Electron.IpcMainEvent,
-    ...args: Parameters<ToMainEvents[K]>
-  ) => ReturnType<ToMainEvents[K]>
+    ...args: Parameters<CRUDEvents[K]>
+  ) => ReturnType<CRUDEvents[K]>
 ) => {
   ipcMain.on(channel, (event, ...args) => {
     const ret = callback(event, ...(args as any));
@@ -15,9 +15,9 @@ export const onSendSync = <K extends keyof ToMainEvents>(
   });
 };
 
-export const webSend = <K extends keyof ToRendererEvents>(
+export const webSend = <K extends keyof PushEvents>(
   channel: K,
-  ...args: Parameters<ToRendererEvents[K]>
+  ...args: Parameters<PushEvents[K]>
 ): void => {
   windows?.forEach((win) => {
       win?.webContents.send(channel, ...args)

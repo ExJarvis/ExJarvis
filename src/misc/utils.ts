@@ -1,5 +1,5 @@
 import { ipcRenderer } from 'electron';
-import { ToMainEvents, ToRendererEvents } from '../../types/ipc.types';
+import { CRUDEvents, PushEvents } from '../../types/ipc.types';
 
 export function isElementInView(el: any) {
   var top = el.offsetTop;
@@ -21,18 +21,18 @@ export function isElementInView(el: any) {
   );
 }
 
-export const sendSync = <K extends keyof ToMainEvents>(
+export const sendSync = <K extends keyof CRUDEvents>(
   channel: K,
-  ...args: Parameters<ToMainEvents[K]>
-): ReturnType<ToMainEvents[K]> => {
+  ...args: Parameters<CRUDEvents[K]>
+): ReturnType<CRUDEvents[K]> => {
   return ipcRenderer.sendSync(channel, ...args);
 };
 
-export const onWebSend = <K extends keyof ToRendererEvents>(
+export const onWebSend = <K extends keyof PushEvents>(
   channel: K,
   callback: (
     event: Electron.IpcRendererEvent,
-    ...args: Parameters<ToRendererEvents[K]>
+    ...args: Parameters<PushEvents[K]>
   ) => void,
 ) => {
   ipcRenderer.on(channel, (event, ...args) => {

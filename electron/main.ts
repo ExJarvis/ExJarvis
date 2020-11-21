@@ -2,11 +2,12 @@ import { app } from 'electron';
 import configureExtensions from './extensions';
 import { getDevWindow, getWindow } from './window';
 import keyBindings from './keyBindings';
-import { registerClipboardIpc } from './ipc/clipboard.ipc';
+import { registerControllers } from './ipc/controllers';
 import renderer from './renderer';
 import { DEBUG, env } from './constants';
 import initGlobals, { windows } from './globals';
-import * as Sentry from "@sentry/electron";
+import * as Sentry from '@sentry/electron';
+import { ClipboardServices } from './ipc/clipboard.services';
 
 export const initWindow = () => {
   const mainWindow = getWindow();
@@ -22,7 +23,8 @@ export const initWindow = () => {
   devWindow && renderer(devWindow);
 
   keyBindings(mainWindow, devWindow);
-  registerClipboardIpc();
+
+  registerControllers();
 };
 
 const initHotRelaod = () => {
@@ -40,11 +42,11 @@ const initHotRelaod = () => {
 const logErrors = () => {
   process.on('uncaughtException', function (err) {
     console.error(err);
-  })
+  });
 };
 
 const initSentry = () => {
-  Sentry.init({ dsn: "https://c8f88d7866e442d3927ccd924b7b9ecf@o306873.ingest.sentry.io/1766096" });
+  Sentry.init({ dsn: 'https://c8f88d7866e442d3927ccd924b7b9ecf@o306873.ingest.sentry.io/1766096' });
 };
 
 const main = () => {

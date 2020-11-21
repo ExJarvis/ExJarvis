@@ -19,15 +19,15 @@ const useClipboard = () => {
   }, []);
 
   const handleClipboardEvent = () => {
-    onWebSend('updatedState', (event, ipcState) => {
+    onWebSend('clip/history/PUSH', (event, ipcState) => {
       console.log(event, ipcState);
-      handleClipboardChange(ipcState);
+      handleClipboardChange(ipcState.state);
     });
   };
 
   const monitorClipboard = () => {
     // const next = ipcRenderer.sendSync('readText', '');
-    const ipcState = sendSync('readState');
+    const ipcState = sendSync('clip/history/GET');
     if (ipcState?.current && ipcState?.current !== current) {
       handleClipboardChange(ipcState);
     }
@@ -42,7 +42,7 @@ const useClipboard = () => {
   };
 
   const write = (val: string) => {
-    sendSync('writeText', val);
+    sendSync('clip/current/POST', { text: val });
   };
 
   const filter = (query: string) => {
