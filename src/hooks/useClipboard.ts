@@ -14,7 +14,8 @@ const useClipboard = () => {
   };
   const [state, setState] = useGenState(initialState);
   const { current, history } = state;
-  const store = useUnit<ReturnType<typeof myDict.value>, typeof myDict>(myDict);
+  // const store = useUnit<ReturnType<typeof myDict.value>, typeof myDict>(myDict);
+  const store = useUnit(myDict);
   // console.log({ value: store.value });
 
   React.useEffect(() => {
