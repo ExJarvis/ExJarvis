@@ -4,7 +4,7 @@ import { Repository } from 'typeorm';
 import { ClipHistory, CRUDEvents } from '../../types/ipc.types';
 import { DatabaseService } from '../db/database.service';
 import { Clipboard } from '../db/entities/clipboard.entity';
-import { webSend } from './utils';
+import { webSend } from './ipc.utils';
 
 export class ClipboardServices {
   private static instance: ClipboardServices;

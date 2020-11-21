@@ -1,5 +1,5 @@
 import { ClipboardServices } from './clipboard.services';
-import { onSendSync } from './utils';
+import { onSendSync } from './ipc.utils';
 
 export const registerControllers = async () => {
   const clipboardServices = ClipboardServices.getInstance();
