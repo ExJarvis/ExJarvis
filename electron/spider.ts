@@ -4,7 +4,7 @@ const getBrowser = async () => {
   const browser = await puppeteer.launch({
     executablePath: require('chrome-location'),
     // devtools: true,
-    // headless: false,
+    headless: false,
   });
   return browser;
 };
@@ -26,7 +26,7 @@ const log = async (page: Page) => {
 export const search = async () => {
   const browser = await getBrowser();
   const page = await browser.newPage();
-  await page.goto('https://duckduckgo.com/?q=sdf', { waitUntil: 'networkidle2' });
+  await page.goto('https://duckduckgo.com/?q=activejs', { waitUntil: 'networkidle2' });
   // await page.type('#search_form_input_homepage', 'Puppeteer');
   // await page.click('#search_button_homepage');
   const selector = '//*/div/h2';

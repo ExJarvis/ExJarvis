@@ -1,18 +1,27 @@
 import { ClipboardServices } from './clipboard.services';
 import { onSendSync } from './ipc.utils';
+import { DataServiceName, DataService } from '../../types/ipc.types';
+import { HostelServices } from './hostel.services';
 
 export const registerControllers = async () => {
-  const clipboardServices = ClipboardServices.getInstance();
+  const services = {
+    clipboard: ClipboardServices.getInstance(),
+    hostel: HostelServices.getInstance(),
+  } as { [K in DataServiceName]: any /*DataService*/ };
 
   onSendSync('clip/current/POST', (event, args) => {
-    return clipboardServices.postClipCurrent(args);
+    return services.clipboard.postClipCurrent(args);
   });
 
   onSendSync('clip/history/GET', (event) => {
-    return clipboardServices.getClipHistory();
+    return services.clipboard.getClipHistory();
   });
 
   onSendSync('clip/history/DELETE', (event) => {
     // return clipboardServices.DELETE({ id: 123 });
+  });
+
+  onSendSync('serviceCRUD', (event, service, data) => {
+    return services[service].serviceCRUD(service, data);
   });
 };

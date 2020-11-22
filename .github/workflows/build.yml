@@ -1,6 +1,8 @@
 ## inspiration worthy -
 ##   https://github.com/KYDronePilot/SpaceEye/blob/df7ea24c8948f4197fb5ac3dbce9d2c796c8ac45/.github/workflows/ci.yaml
 
+name: Build
+
 on:
   # push:
   #   branches:
