@@ -49,8 +49,8 @@ const useService = ({
       event: 'onQuery',
       args: { query },
     }, serviceName);
-    // console.log({ options });
-    onOptionsUpdated({ options });
+    // // console.log({ options });
+    // options && onOptionsUpdated({ options });
     // return options;
   };
 

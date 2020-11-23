@@ -10,7 +10,7 @@ export const registerControllers = async () => {
   } as { [K in DataServiceName]: DataService };
 
   onSendSync('serviceCRUD', (event, data, service) => {
-    console.log({ data });
+    // console.log({ data, service, s: services[service] });
     return services[service].onCallback(data, service);
   });
 };

@@ -13,7 +13,7 @@ const useDataService = () => {
 
   const registerListener = () => {
     onWebSend('servicePUSH', (event, data, service) => {
-      console.log({ service, data }, 'servicePUSH');
+      // console.log({ service, data }, 'servicePUSH');
     });
   };
 

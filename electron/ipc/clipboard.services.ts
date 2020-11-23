@@ -14,7 +14,7 @@ export class ClipboardServices implements DataService {
   private clipRepo: Repository<OptionsItem> | null = null;
 
   private constructor() {
-    this.init();
+    // this.init();
   }
 
   public static getInstance(): ClipboardServices {
@@ -42,13 +42,13 @@ export class ClipboardServices implements DataService {
   };
 
   private onSelection = (args : { text: string }) => {
-    console.log({ args });
+    // console.log({ args });
     const { text } = args;
     clipboard.writeText(text);
   };
 
   private onQuery = (args:  { query: string }) => {
-    console.log({ args });
+    // console.log({ args });
     const { query } = args;
     const rawOptions = this.history
       .filter((el) => {

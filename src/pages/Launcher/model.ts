@@ -25,7 +25,7 @@ const useLauncher = (props: LauncherProps) => {
 
   const [highlightedIdx, setHighlightedIdx] = React.useState(0);
   const [state, setState] = useGenState(initialState);
-  const service = useService({ serviceName: 'clipboard' });
+  const service = useService({ serviceName: 'hostel' });
   // const service = useDataService();
   const isDownPressed = useKeypress([Key.DownArrow]);
   const isUpPressed = useKeypress([Key.UpArrow]);
@@ -59,7 +59,7 @@ const useLauncher = (props: LauncherProps) => {
     if (isEnterPressed) {
       console.log(service.options[highlightedIdx]);
       const ret = service.onSelection(service.options[highlightedIdx]);
-      console.log({ ret });
+      // console.log({ ret });
     }
   }, [isEnterPressed]);
 
