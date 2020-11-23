@@ -11,7 +11,7 @@ import { LauncherProps } from './types';
 const Launcher: React.FC<LauncherProps> = (props) => {
   const classes = useStyles();
   const {
-    filteredHistory,
+    options,
     historyRefs,
     highlightedIdx,
     query,
@@ -23,7 +23,7 @@ const Launcher: React.FC<LauncherProps> = (props) => {
   const renderHistory = () => {
     return (
       <div className={`${classes.history}`}>
-        {filteredHistory?.map((el, idx) => (
+        {options?.map((el, idx) => (
           <div
             ref={historyRefs[idx]}
             onClick={() => handleSelect(idx)}
@@ -42,7 +42,7 @@ const Launcher: React.FC<LauncherProps> = (props) => {
   const renderDetails = () => {
     return (
       <pre className={`${classes.details}`}>
-        {filteredHistory[highlightedIdx]}
+        {options[highlightedIdx]}
       </pre>
     );
   };

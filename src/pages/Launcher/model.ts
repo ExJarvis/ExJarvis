@@ -20,8 +20,6 @@ const INTERVAL = 100;
 const THRESHOLD = 200;
 const useLauncher = (props: LauncherProps) => {
   const initialState = {
-    // highlightedIdx: 0,
-    filteredHistory: [] as string[],
     query: '',
   };
 
@@ -37,7 +35,7 @@ const useLauncher = (props: LauncherProps) => {
   const periodicNavigation = useTimeout();
   // const spring = useSpring(() => ({opacity: 1}));
 
-  const { query, filteredHistory } = state;
+  const { query } = state;
 
   React.useEffect(() => {
     if (isUpPressed) {
@@ -59,7 +57,8 @@ const useLauncher = (props: LauncherProps) => {
 
   React.useEffect(() => {
     if (isEnterPressed) {
-      const ret = service.onSelection(filteredHistory[highlightedIdx]);
+      console.log(service.options[highlightedIdx]);
+      const ret = service.onSelection(service.options[highlightedIdx]);
       console.log({ ret });
     }
   }, [isEnterPressed]);
@@ -108,9 +107,9 @@ const useLauncher = (props: LauncherProps) => {
   };
 
   const navigateDown = () => {
-    if(highlightedIdx < filteredHistory.length - 1) {
+    if(highlightedIdx < service.options.length - 1) {
       setHighlightedIdx(highlightedIdx => {
-        return highlightedIdx < filteredHistory.length - 1 ? highlightedIdx + 1 : highlightedIdx;
+        return highlightedIdx < service.options.length - 1 ? highlightedIdx + 1 : highlightedIdx;
       });
     }
   };
@@ -127,10 +126,8 @@ const useLauncher = (props: LauncherProps) => {
   };
 
   const refreshList = () => {
-    setState({
-      filteredHistory: service.onQuery(query),
-      // highlightedIdx: 0,
-    }, () => setHighlightedIdx(0));
+    service.onQuery(query);
+    setHighlightedIdx(0);
   };
 
   const handleSearch = (query: string) => {
@@ -144,7 +141,7 @@ const useLauncher = (props: LauncherProps) => {
   };
 
   return {
-    filteredHistory,
+    options: service.options,
     historyRefs,
     highlightedIdx,
     query,

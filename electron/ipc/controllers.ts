@@ -11,13 +11,6 @@ export const registerControllers = async () => {
 
   onSendSync('serviceCRUD', (event, data, service) => {
     console.log({ data });
-    switch(data.event) {
-      case 'onQuery':
-        return services[service].onQuery(data.args);
-      case 'onSelection':
-        return services[service].onSelection(data.args);
-      default:
-        return 'unknown event: ' + data.event;
-    }
+    return services[service].onCallback(data);
   });
 };

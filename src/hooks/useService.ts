@@ -13,7 +13,7 @@ const useService = ({
   serviceName: DataServiceName;
 }) => {
   const initialState = {
-    options: [] as OptionsItem[],
+    options: [] as string[],
   };
   const [state, setState] = useGenState(initialState);
   const { options } = state;
@@ -45,14 +45,16 @@ const useService = ({
   };
 
   const onQuery = (query: string) => {
-    const ret = options
-      .filter((el) => {
-        return el?.data?.value?.toLowerCase()?.includes(query?.toLowerCase());
-      })
-      .reverse();
-    return lodash.uniq(ret).map((el) => el?.data?.value);
+    const options = sendSync('serviceCRUD', {
+      event: 'onQuery',
+      args: { query },
+    }, serviceName);
+    // console.log({ options });
+    onOptionsUpdated({ options });
+    // return options;
   };
 
+  console.log({ options });
   return {
     options,
     onSelection,

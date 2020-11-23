@@ -5,6 +5,7 @@ import { OptionsItem, CRUDEvents } from '../../types/ipc.types';
 import { DatabaseService } from '../db/database.service';
 import { Clipboard } from '../db/entities/clipboard.entity';
 import { webSend } from './ipc.utils';
+import * as lodash from 'lodash';
 
 export class ClipboardServices {
   private static instance: ClipboardServices;
@@ -29,17 +30,36 @@ export class ClipboardServices {
     this.monitorClipboard();
   };
 
-  public onSelection: CRUDEvents['clip/current/POST'] = ({ text }) => {
+  public onCallback: CRUDEvents['serviceCRUD'] = (data) => {
+    switch(data.event) {
+      case 'onQuery':
+        return this.onQuery(data.args);
+      case 'onSelection':
+        return this.onSelection(data.args);
+      default:
+        return 'unknown event: ' + data.event;
+    }
+  };
+
+  private onSelection = (args : { text: string }) => {
+    console.log({ args });
+    const { text } = args;
     clipboard.writeText(text);
   };
 
-  public onQuery: CRUDEvents['clip/history/GET'] = () => {
-    return {
-      options: this.history,
-    };
+  private onQuery = (args:  { query: string }) => {
+    console.log({ args });
+    const { query } = args;
+    const rawOptions = this.history
+      .filter((el) => {
+        return el?.data?.value?.toLowerCase()?.includes(query?.toLowerCase());
+      })
+      .reverse();
+    const options = lodash.uniq(rawOptions).map((el) => el?.data?.value).slice(0, 10);
+    return options;
   };
 
-  public deleteClipHistory: CRUDEvents['clip/history/DELETE'] = ({ id }) => {
+  // public deleteClipHistory: CRUDEvents['clip/history/DELETE'] = ({ id }) => {
     // ipcMain.on('deleteState', async (event, _item: Clipboard) => {
     //   try {
     //     const item = await clipRepo.create(_item);
@@ -49,12 +69,12 @@ export class ClipboardServices {
     //     throw err;
     //   }
     // });
-  };
+  // };
 
   public pushClipHistory = () => {
     webSend('servicePUSH', {
       state: {
-        options: this.history,
+        options: this.onQuery({ query: '' }),
       },
     }, 'clipboard');
   };
