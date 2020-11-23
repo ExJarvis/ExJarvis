@@ -25,10 +25,10 @@ export type CRUDEvents = {
   'clip/current/DELETE': () => void;
   'clip/history/GET': () => ClipState;
   'clip/history/DELETE': (args: { id: number }) => void;
-  'serviceCRUD': (service: DataServiceName, data: any ) => void;
+  'serviceCRUD': ( data: any, service: DataServiceName ) => void;
 };
 
 export type PushEvents = {
   'clip/history/PUSH': (args: { state: ClipState }) => void;
-  'servicePUSH': (service: DataServiceName, data: any) => void;
+  'servicePUSH': (data: any, service: DataServiceName) => void;
 };

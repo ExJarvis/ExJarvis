@@ -60,7 +60,8 @@ const useLauncher = (props: LauncherProps) => {
   React.useEffect(() => {
     if (isEnterPressed) {
       writeSelectionToClipboard();
-      service.sendData('hihihaha');
+      const ret = service.sendData('hihihaha');
+      console.log({ ret });
     }
   }, [isEnterPressed]);
 

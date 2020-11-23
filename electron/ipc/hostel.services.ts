@@ -21,12 +21,12 @@ export class HostelServices {
   private init = async () => {
   };
 
-  public serviceCRUD: CRUDEvents['serviceCRUD'] = (service, data) => {
-    console.log({ service, data }, 'onServiceCRUD');
-    return {};
+  public serviceCRUD: CRUDEvents['serviceCRUD'] = (data) => {
+    console.log({ data }, 'onServiceCRUD');
+    return { data: 'some data' };
   };
 
   public servicePUSH = () => {
-    webSend('servicePUSH', 'hostel', {});
+    webSend('servicePUSH', {}, 'hostel');
   };
 }

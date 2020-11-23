@@ -21,7 +21,7 @@ export const registerControllers = async () => {
     // return clipboardServices.DELETE({ id: 123 });
   });
 
-  onSendSync('serviceCRUD', (event, service, data) => {
-    return services[service].serviceCRUD(service, data);
+  onSendSync('serviceCRUD', (event, data, service) => {
+    return services[service].serviceCRUD(data);
   });
 };

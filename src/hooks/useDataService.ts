@@ -12,13 +12,13 @@ const useDataService = () => {
   }, []);
 
   const registerListener = () => {
-    onWebSend('servicePUSH', (event, service, data) => {
+    onWebSend('servicePUSH', (event, data, service) => {
       console.log({ service, data }, 'onWebSend');
     });
   };
 
   const sendData = (data: any) => {
-    sendSync('serviceCRUD', 'hostel', data);
+    return sendSync('serviceCRUD', data, 'hostel');
   };
 
 
