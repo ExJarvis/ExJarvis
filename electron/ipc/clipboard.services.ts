@@ -1,13 +1,13 @@
 import { clipboard } from 'electron';
 import moment from 'moment';
 import { Repository } from 'typeorm';
-import { OptionsItem, CRUDEvents } from '../../types/ipc.types';
+import { OptionsItem, CRUDEvents, DataService } from '../../types/ipc.types';
 import { DatabaseService } from '../db/database.service';
 import { Clipboard } from '../db/entities/clipboard.entity';
 import { webSend } from './ipc.utils';
 import * as lodash from 'lodash';
 
-export class ClipboardServices {
+export class ClipboardServices implements DataService {
   private static instance: ClipboardServices;
   private current: string = '';
   private history: OptionsItem[] = [];

@@ -19,10 +19,9 @@ export type DataServiceName = 'clipboard' | 'hostel';
 //   event: K;
 //   args: Parameters<DataService[K]>
 // };
-// export interface DataService {
-//   onQuery: (args: { query: string }) => EntityType[];
-//   onSelect: (args: { item: EntityType }) => void;
-// }
+export interface DataService {
+  onCallback: CRUDEvents['serviceCRUD'];
+}
 
 // export type Datas = {
 //   event: 'onQuery',
