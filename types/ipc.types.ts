@@ -1,4 +1,4 @@
-export type ClipHistory = {
+export type OptionsItem = {
   id: number;
   data: {
     createdAt: string;
@@ -7,28 +7,47 @@ export type ClipHistory = {
   };
 };
 
-export type ClipState = {
-  current: string;
-  history: ClipHistory[];
+export type OptionsResponseDTO = {
+  options: OptionsItem[];
 };
 
 export type DataServiceName = 'clipboard' | 'hostel';
 
-export interface DataService {
+// export type EntityType = string; // TODO
 
-}
+// export interface DataType <K extends keyof DataService> {
+//   event: K;
+//   args: Parameters<DataService[K]>
+// };
+// export interface DataService {
+//   onQuery: (args: { query: string }) => EntityType[];
+//   onSelect: (args: { item: EntityType }) => void;
+// }
+
+// export type Datas = {
+//   event: 'onQuery',
+//   args: { query: string },
+//   returns: EntityType[],
+// } | {
+//   event: 'onSelect',
+//   args: { item: EntityType },
+//   returns: void,
+// };
 
 export type CRUDEvents = {
   'clip/current/POST': (args: { text: string }) => void;
   'clip/current/GET': () => string;
   'clip/current/PUT': (args: { text: string }) => void;
   'clip/current/DELETE': () => void;
-  'clip/history/GET': () => ClipState;
+  'clip/history/GET': () => OptionsResponseDTO;
   'clip/history/DELETE': (args: { id: number }) => void;
-  'serviceCRUD': ( data: any, service: DataServiceName ) => void;
+  'serviceCRUD': ( data: {
+    event: string;
+    args: any;
+  } /* DataType<K> */, service: DataServiceName ) => any;
 };
 
 export type PushEvents = {
-  'clip/history/PUSH': (args: { state: ClipState }) => void;
+  'clip/history/PUSH': (args: { state: OptionsResponseDTO }) => void;
   'servicePUSH': (data: any, service: DataServiceName) => void;
 };

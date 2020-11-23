@@ -2,7 +2,7 @@
 /* eslint-disable comma-dangle */
 import * as React from 'react';
 import { Key } from 'ts-keycode-enum';
-import useClipboard from '../../hooks/useClipboard';
+import useService from '../../hooks/useService';
 import { useGenState } from '../../hooks/useGenState';
 import useKeypress from '../../hooks/useKeypress';
 import useRefs from '../../hooks/useRefs';
@@ -27,8 +27,8 @@ const useLauncher = (props: LauncherProps) => {
 
   const [highlightedIdx, setHighlightedIdx] = React.useState(0);
   const [state, setState] = useGenState(initialState);
-  const { history, filter, write } = useClipboard();
-  const service = useDataService();
+  const service = useService({ serviceName: 'clipboard' });
+  // const service = useDataService();
   const isDownPressed = useKeypress([Key.DownArrow]);
   const isUpPressed = useKeypress([Key.UpArrow]);
   const isEnterPressed = useKeypress([Key.Enter]);
@@ -59,8 +59,7 @@ const useLauncher = (props: LauncherProps) => {
 
   React.useEffect(() => {
     if (isEnterPressed) {
-      writeSelectionToClipboard();
-      const ret = service.sendData('hihihaha');
+      const ret = service.onSelection(filteredHistory[highlightedIdx]);
       console.log({ ret });
     }
   }, [isEnterPressed]);
@@ -74,7 +73,7 @@ const useLauncher = (props: LauncherProps) => {
 
   React.useEffect(() => {
     refreshList();
-  }, [query, history.length]);
+  }, [query, service.options.length]);
 
   const scheduleNavigation = (direction: 'UP' | 'DOWN') => {
     delayedNavigation.set({
@@ -116,10 +115,6 @@ const useLauncher = (props: LauncherProps) => {
     }
   };
 
-  const writeSelectionToClipboard = () => {
-    write(filteredHistory[highlightedIdx]);
-  };
-
   const scrollInView = () => {
     const el = historyRefs[highlightedIdx]?.current;
     if (el) {
@@ -133,7 +128,7 @@ const useLauncher = (props: LauncherProps) => {
 
   const refreshList = () => {
     setState({
-      filteredHistory: filter(query),
+      filteredHistory: service.onQuery(query),
       // highlightedIdx: 0,
     }, () => setHighlightedIdx(0));
   };

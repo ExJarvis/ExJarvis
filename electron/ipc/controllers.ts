@@ -1,27 +1,23 @@
 import { ClipboardServices } from './clipboard.services';
 import { onSendSync } from './ipc.utils';
-import { DataServiceName, DataService } from '../../types/ipc.types';
+import { DataServiceName } from '../../types/ipc.types';
 import { HostelServices } from './hostel.services';
 
 export const registerControllers = async () => {
   const services = {
     clipboard: ClipboardServices.getInstance(),
     hostel: HostelServices.getInstance(),
-  } as { [K in DataServiceName]: any /*DataService*/ };
-
-  onSendSync('clip/current/POST', (event, args) => {
-    return services.clipboard.postClipCurrent(args);
-  });
-
-  onSendSync('clip/history/GET', (event) => {
-    return services.clipboard.getClipHistory();
-  });
-
-  onSendSync('clip/history/DELETE', (event) => {
-    // return clipboardServices.DELETE({ id: 123 });
-  });
+  } as { [K in DataServiceName]: any };
 
   onSendSync('serviceCRUD', (event, data, service) => {
-    return services[service].serviceCRUD(data);
+    console.log({ data });
+    switch(data.event) {
+      case 'onQuery':
+        return services[service].onQuery(data.args);
+      case 'onSelection':
+        return services[service].onSelection(data.args);
+      default:
+        return 'unknown event: ' + data.event;
+    }
   });
 };

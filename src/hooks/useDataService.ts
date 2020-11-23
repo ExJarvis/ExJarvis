@@ -2,7 +2,7 @@ import { useGenState } from './useGenState';
 import * as lodash from 'lodash';
 import * as React from 'react';
 import { sendSync, onWebSend } from '../misc/utils';
-import { ClipHistory } from '../../types/ipc.types';
+import { OptionsItem } from '../../types/ipc.types';
 import useUnit from './useUnit';
 import { myDict } from '../clientIpc/store';
 
@@ -13,18 +13,28 @@ const useDataService = () => {
 
   const registerListener = () => {
     onWebSend('servicePUSH', (event, data, service) => {
-      console.log({ service, data }, 'onWebSend');
+      console.log({ service, data }, 'servicePUSH');
     });
   };
 
-  const sendData = (data: any) => {
-    return sendSync('serviceCRUD', data, 'hostel');
+  const onQuery = (data: any): OptionsItem[] => {
+    return sendSync('serviceCRUD', {
+      event: 'onQuery',
+      args: {},
+    }, "hostel");
   };
 
+  const onSelection = (data: any): void => {
+    return sendSync('serviceCRUD', {
+      event: 'onSelect',
+      args: {},
+    }, "hostel");
+  };
 
   return {
-    sendData,
-  };
+    onQuery,
+    onSelection,
+  }
 };
 
 export default useDataService;

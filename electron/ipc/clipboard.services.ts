@@ -1,7 +1,7 @@
 import { clipboard } from 'electron';
 import moment from 'moment';
 import { Repository } from 'typeorm';
-import { ClipHistory, CRUDEvents } from '../../types/ipc.types';
+import { OptionsItem, CRUDEvents } from '../../types/ipc.types';
 import { DatabaseService } from '../db/database.service';
 import { Clipboard } from '../db/entities/clipboard.entity';
 import { webSend } from './ipc.utils';
@@ -9,8 +9,8 @@ import { webSend } from './ipc.utils';
 export class ClipboardServices {
   private static instance: ClipboardServices;
   private current: string = '';
-  private history: ClipHistory[] = [];
-  private clipRepo: Repository<ClipHistory> | null = null;
+  private history: OptionsItem[] = [];
+  private clipRepo: Repository<OptionsItem> | null = null;
 
   private constructor() {
     this.init();
@@ -29,14 +29,13 @@ export class ClipboardServices {
     this.monitorClipboard();
   };
 
-  public postClipCurrent: CRUDEvents['clip/current/POST'] = ({ text }) => {
+  public onSelection: CRUDEvents['clip/current/POST'] = ({ text }) => {
     clipboard.writeText(text);
   };
 
-  public getClipHistory: CRUDEvents['clip/history/GET'] = () => {
+  public onQuery: CRUDEvents['clip/history/GET'] = () => {
     return {
-      current: this.current,
-      history: this.history,
+      options: this.history,
     };
   };
 
@@ -53,12 +52,11 @@ export class ClipboardServices {
   };
 
   public pushClipHistory = () => {
-    webSend('clip/history/PUSH', {
+    webSend('servicePUSH', {
       state: {
-        current: this.current,
-        history: this.history,
+        options: this.history,
       },
-    });
+    }, 'clipboard');
   };
 
   private monitorClipboard = async () => {
