@@ -26,9 +26,12 @@ export class Spider {
     this.launchingBrowser = true;
     this.browser = await puppeteer.launch({
       executablePath: require('chrome-location'),
+      // timeout: -1,
+      // args: [], // Chromium flags
       // devtools: true,
-      // headless: false,
+      headless: false,
     });
+    this.browser.on('disconnected', this.launchBrowser);
     this.launchingBrowser = false;
     // console.log({ browser });
   };
@@ -63,6 +66,9 @@ export class Spider {
     const browser = await this.getBrowser();
     if(!browser) return;
 
+    if(!(await browser.pages()).length) {
+      await browser.newPage();
+    }
     // const page = await browser.newPage();
     const page = (await browser.pages())[0];
 
