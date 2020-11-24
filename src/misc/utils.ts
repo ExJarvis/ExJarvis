@@ -21,10 +21,10 @@ export function isElementInView(el: any) {
   );
 }
 
-export const sendSync = <K extends keyof RestEndpoints>(
+export const sendSync = async <K extends keyof RestEndpoints>(
   channel: K,
   ...args: Parameters<RestEndpoints[K]>
-): ReturnType<RestEndpoints[K]> => {
+): Promise<ReturnType<RestEndpoints[K]>> => {
   return ipcRenderer.sendSync(channel, ...args);
 };
 

@@ -2,6 +2,7 @@ import puppeteer, { Page } from 'puppeteer-core';
 import { waitForCondition } from './utils';
 import { Readability } from '@mozilla/readability';
 import { JSDOM } from 'jsdom';
+import DOMPurify from 'isomorphic-dompurify';
 
 export class Spider {
   private static instance: Spider;
@@ -31,7 +32,7 @@ export class Spider {
       // timeout: -1,
       // args: [], // Chromium flags
       // devtools: true,
-      headless: false,
+      // headless: false,
     });
     this.browser.on('disconnected', this.launchBrowser);
     this.launchingBrowser = false;
@@ -106,8 +107,9 @@ export class Spider {
     await page.goto(url, { waitUntil: 'networkidle2' });
     const bodyHTML = await page.evaluate(() => document.body.innerHTML);
     const dom = new JSDOM(bodyHTML);
-    const reader = new Readability(dom.window.document);
-    const result = reader?.parse();
+    const reader = new Readability(dom.window.document, );
+    const parsed = reader?.parse();
+    const result = DOMPurify.sanitize(parsed.content)
     return result;
   };
 }

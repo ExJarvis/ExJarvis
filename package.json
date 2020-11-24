@@ -99,6 +99,7 @@
     "electron-devtools-installer": "3.1.0",
     "enquire-js": "0.1.0",
     "file-loader": "6.2.0",
+    "isomorphic-dompurify": "^0.9.0",
     "jsdom": "^16.4.0",
     "less": "3.12.2",
     "less-loader": "7.1.0",

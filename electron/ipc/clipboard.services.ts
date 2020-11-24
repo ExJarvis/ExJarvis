@@ -1,11 +1,12 @@
 import { clipboard } from 'electron';
 import moment from 'moment';
 import { Repository } from 'typeorm';
-import { OptionsItem, RestEndpoints, DataService, PushEventMap } from '../../types/ipc.types';
+import { OptionsItem, RestEndpoints, DataService, PushEventMap, OptionItem } from '../../types/ipc.types';
 import { DatabaseService } from '../db/database.service';
 import { Clipboard } from '../db/entities/clipboard.entity';
 import { webSend } from './ipc.utils';
 import * as lodash from 'lodash';
+import { optionsData } from '../../src/clientIpc/store';
 
 export class ClipboardServices implements DataService {
   private static instance: ClipboardServices;
@@ -31,23 +32,24 @@ export class ClipboardServices implements DataService {
   };
 
   public onCallback: RestEndpoints['serviceCRUD'] = (data) => {
-    switch(data.event) {
-      case 'onQuery':
-        return this.onQuery(data.args);
-      case 'onSelection':
-        return this.onSelection(data.args);
-      default:
-        return 'unknown event: ' + data.event;
+    if(data.events.includes('onQuery')) {
+      return this.onQuery(data.map['onQuery']);
+    }
+    if(data.events.includes('onSelection')) {
+      return this.onSelection(data.map['onSelection']);
     }
   };
 
-  private onSelection = (args : { selectedOption: PushEventMap['optionsUpdated']['options'][0] }) => {
+  private onSelection = (args? : { selectedOption: OptionItem }) => {
+    if(!args) return;
     // console.log({ args });
     const { selectedOption } = args;
     clipboard.writeText(selectedOption.details);
   };
 
-  private onQuery = (args:  { query: string }): PushEventMap['optionsUpdated']['options'] => {
+  private onQuery = (args?:  { query: string }) => {
+    console.log({ args });
+    if(!args) return [];
     // console.log({ args });
     const { query } = args;
     const rawOptions = this.history
@@ -55,8 +57,9 @@ export class ClipboardServices implements DataService {
         return el?.data?.value?.toLowerCase()?.includes(query?.toLowerCase());
       })
       .reverse();
-    const options = lodash.uniq(rawOptions).map((el) => el?.data?.value).slice(0, 10);
-    return options.map( el => ({ summary: el, details: el }));
+    let options: any[] = lodash.uniq(rawOptions).map((el) => el?.data?.value).slice(0, 10);
+    options = options.map(el => ({ summary: el, details: el }));
+    optionsData.set('options', options);
   };
 
   // public deleteClipHistory: CRUDEvents['clip/history/DELETE'] = ({ id }) => {
@@ -70,17 +73,6 @@ export class ClipboardServices implements DataService {
     //   }
     // });
   // };
-
-  public pushClipHistory = () => {
-    webSend('servicePUSH', {
-      events: ['optionsUpdated'],
-      map: {
-        optionsUpdated: {
-          options: this.onQuery({ query: '' }),
-        },
-      }
-    }, 'clipboard');
-  };
 
   private monitorClipboard = async () => {
     const newClip = clipboard.readText();
@@ -105,7 +97,7 @@ export class ClipboardServices implements DataService {
         await this.clipRepo?.save(item);
         this.history = (await this.clipRepo?.find()) || [];
       }
-      this.pushClipHistory();
+      this.onQuery({ query: '' });
     } catch (err) {
       throw err;
     }

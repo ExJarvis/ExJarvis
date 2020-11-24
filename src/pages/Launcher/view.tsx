@@ -11,6 +11,7 @@ import { LauncherProps } from './types';
 const Launcher: React.FC<LauncherProps> = (props) => {
   const classes = useStyles();
   const {
+    placeholder,
     options,
     historyRefs,
     highlightedIdx,
@@ -49,7 +50,7 @@ const Launcher: React.FC<LauncherProps> = (props) => {
 
   return (
     <div className={classes.outerBox}>
-      <SearchInput onChange={handleSearch} value={query}/>
+      <SearchInput onChange={handleSearch} value={query} placeholder={placeholder}/>
       <div className={classes.container}>
         {renderHistory()}
         {renderDetails()}

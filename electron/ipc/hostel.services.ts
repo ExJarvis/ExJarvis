@@ -1,5 +1,5 @@
 import open from 'open';
-import { RestEndpoints } from '../../types/ipc.types';
+import { RestEndpoints, OptionItem } from '../../types/ipc.types';
 import { Spider } from '../spider';
 import { DataService, DataServiceDTO, PushEventMap } from './../../types/ipc.types';
 import { webSend } from './ipc.utils';
@@ -23,37 +23,19 @@ export class HostelServices implements DataService {
 
   private init = async () => {
     this.spider = Spider.getInstance() as any;
-
-    this.registerPush();
-  };
-
-  private registerPush = () => {
-    optionsData.subscribe(value => {
-      const { options } = value;
-      if(!options) return;
-      this.servicePUSH({
-        events: ['optionsUpdated'],
-        map: {
-          optionsUpdated: {
-            options,
-          }
-        },
-      });
-    });
   };
 
   public onCallback: RestEndpoints['serviceCRUD'] = (data) => {
-    switch(data.event) {
-      case 'onQuery':
-        return this.onQuery(data.args);
-      case 'onSelection':
-        return this.onSelection(data.args);
-      default:
-        return 'unknown event: ' + data.event;
+    if (data.events.includes('onQuery')) {
+      return this.onQuery(data.map['onQuery']);
+    }
+    if (data.events.includes('onSelection')) {
+      return this.onSelection(data.map['onSelection']);
     }
   };
 
-  private onSelection = async (args : { selectedOption: PushEventMap['optionsUpdated']['options'][0] }) => {
+  private onSelection = async (args?: { selectedOption: OptionItem }) => {
+    if (!args) return;
     // open(args.selectedOption.details);
     const { selectedOption } = args;
     // console.log({ selectedOption });
@@ -64,35 +46,38 @@ export class HostelServices implements DataService {
     //   summary: selectedOption.summary,
     //   details: page.content,
     // }]);
-    const newOptions = optionsData.get('options')?.map(el => {
-      // console.log(el.details === selectedOption.details);
-      return {
-        summary: el.summary,
-        details: el.details === selectedOption.details ? page?.content : el.details,
-      }
-    }) || [];
+    const newOptions =
+      optionsData?.get('options')?.map((el) => {
+        // console.log(el.details === selectedOption.details);
+        return {
+          summary: el.summary,
+          details: el.details === selectedOption.details && page ? page : el.details,
+        };
+      }) || [];
     // console.log({ newOptions });
     optionsData.set('options', newOptions);
     // console.log(page);
   };
 
-  private onQuery = (args:  { query: string }) => {
+  private onQuery = (args?: { query: string }) => {
+    if (!args) return;
     const { query } = args;
-    if(this.queryTimeout) {
+    if (this.queryTimeout) {
       clearTimeout(this.queryTimeout);
     }
     this.queryTimeout = setTimeout(() => {
-      if(query) {
+      if (query) {
         try {
           const results = this.spider?.search({ query });
-          results?.then(value => {
+          results?.then((value) => {
             optionsData.dispatch({
-              options: value?.map(el => ({
-                summary: el.title,
-                details: el.link,
-              })) || [],
+              options:
+                value?.map((el) => ({
+                  summary: el.title,
+                  details: el.link,
+                })) || [],
             });
-          })
+          });
         } catch (e) {
           // console.log({ e });
         }

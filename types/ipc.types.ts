@@ -33,24 +33,37 @@ export interface DataService {
 //   returns: void,
 // };
 
-export type RestEvents = 'onQuery' | 'onSelection';
+export type RestEventMap = {
+  onQuery: {
+    query: string;
+  };
+  onSelection: {
+    selectedOption: OptionItem,
+  };
+  onExpansion: {},
+};
+
+export type DataServiceQueries = {
+  events: [keyof RestEventMap];
+  map: Partial<RestEventMap>;
+};
+
 
 export type RestEndpoints = {
   serviceCRUD: (
-    data: {
-      event: RestEvents;
-      args: any;
-    } /* DataType<K> */,
+    data: DataServiceQueries,
     service: DataServiceName
   ) => any;
 };
 
+export type OptionItem = {
+  summary: string;
+  details: string;
+};
+
 export type PushEventMap = {
   optionsUpdated: {
-    options: {
-      summary: string;
-      details: string;
-    }[],
+    options: OptionItem[],
     extraData?: void;
   };
   somethingelse: {};

@@ -3,7 +3,7 @@ import { ipcRenderer } from 'electron';
 import * as lodash from 'lodash';
 import * as React from 'react';
 import { sendSync, onWebSend } from '../misc/utils';
-import { OptionsItem, DataServiceName, PushEventMap } from '../../types/ipc.types';
+import { OptionsItem, DataServiceName, PushEventMap, OptionItem } from '../../types/ipc.types';
 import useUnit from './useUnit';
 import { optionsData } from '../clientIpc/store';
 
@@ -43,19 +43,27 @@ const useService = ({
     });
   };
 
-  const onSelection = (selectedOption: PushEventMap['optionsUpdated']['options'][0]) => {
+  const onSelection = async (selectedOption: OptionItem) => {
     store.setValue({ options: [selectedOption] });
     sendSync('serviceCRUD', {
-      event: 'onSelection',
-      args: { selectedOption },
+      events: ['onSelection'],
+      map: {
+        onSelection: {
+          selectedOption,
+        }
+      }
     }, serviceName);
   };
 
   const onQuery = (query: string) => {
     // const options = sendSync('serviceCRUD', {
     sendSync('serviceCRUD', {
-      event: 'onQuery',
-      args: { query },
+      events: ['onQuery'],
+      map: {
+        onQuery: {
+          query,
+        }
+      }
     }, serviceName);
     // // console.log({ options });
     // options && onOptionsUpdated({ options });

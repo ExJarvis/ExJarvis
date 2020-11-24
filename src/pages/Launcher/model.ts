@@ -9,6 +9,8 @@ import useRefs from '../../hooks/useRefs';
 import { isElementInView } from '../../misc/utils';
 import { LauncherProps } from './types';
 import useTimeout from '../../hooks/useTimeout';
+import useUnit from '../../hooks/useUnit';
+import { registeredService } from '../../clientIpc/store';
 // import {useSpring, animated} from 'react-spring'
 
 /**
@@ -17,23 +19,32 @@ import useTimeout from '../../hooks/useTimeout';
  */
 const INTERVAL = 100;
 const THRESHOLD = 200;
-const useLauncher = (props: LauncherProps) => {
+const useLauncher = ({
+}: LauncherProps) => {
   const initialState = {
     query: '',
   };
 
   const [highlightedIdx, setHighlightedIdx] = React.useState(0);
   const [state, setState] = useGenState(initialState);
-  const service = useService({ serviceName: 'hostel' });
+  const serviceName = useUnit(registeredService);
+  const service = useService({ serviceName: serviceName.value as any });
   const isDownPressed = useKeypress([Key.DownArrow]);
   const isUpPressed = useKeypress([Key.UpArrow]);
   const isEnterPressed = useKeypress([Key.Enter]);
+  const isTabPressed = useKeypress([Key.Tab]);
   const { refs: historyRefs } = useRefs<any>(highlightedIdx);
   const delayedNavigation = useTimeout();
   const periodicNavigation = useTimeout();
   // const spring = useSpring(() => ({opacity: 1}));
 
   const { query } = state;
+
+  React.useEffect(() => {
+    if (isTabPressed) {
+      serviceName.setValue(serviceName.value === 'clipboard' ? 'hostel' : 'clipboard' );
+    }
+  }, [isTabPressed]);
 
   React.useEffect(() => {
     if (isUpPressed) {
@@ -70,7 +81,12 @@ const useLauncher = (props: LauncherProps) => {
 
   React.useEffect(() => {
     refreshList();
-  }, [query, service.options.length]);
+  }, [query, serviceName.value]);
+
+  React.useEffect(() => {
+    setHighlightedIdx(0);
+  }, [service.options.length]);
+
 
   const scheduleNavigation = (direction: 'UP' | 'DOWN') => {
     delayedNavigation.set({
@@ -139,6 +155,7 @@ const useLauncher = (props: LauncherProps) => {
   };
 
   return {
+    placeholder: serviceName.value,
     options: service.options,
     historyRefs,
     highlightedIdx,
