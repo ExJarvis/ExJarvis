@@ -42,7 +42,7 @@ const Launcher: React.FC<LauncherProps> = (props) => {
   const renderDetails = () => {
     return (
       <pre className={`${classes.details}`}>
-        {options[highlightedIdx]?.details}
+        <div dangerouslySetInnerHTML={{ __html: options[highlightedIdx]?.details }} />
       </pre>
     );
   };

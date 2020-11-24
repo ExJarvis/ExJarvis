@@ -3,6 +3,7 @@ import { RestEndpoints } from '../../types/ipc.types';
 import { Spider } from '../spider';
 import { DataService, DataServiceDTO, PushEventMap } from './../../types/ipc.types';
 import { webSend } from './ipc.utils';
+import { optionsData } from '../../src/clientIpc/store';
 
 export class HostelServices implements DataService {
   private static instance: HostelServices;
@@ -22,6 +23,23 @@ export class HostelServices implements DataService {
 
   private init = async () => {
     this.spider = Spider.getInstance() as any;
+
+    this.registerPush();
+  };
+
+  private registerPush = () => {
+    optionsData.subscribe(value => {
+      const { options } = value;
+      if(!options) return;
+      this.servicePUSH({
+        events: ['optionsUpdated'],
+        map: {
+          optionsUpdated: {
+            options,
+          }
+        },
+      });
+    });
   };
 
   public onCallback: RestEndpoints['serviceCRUD'] = (data) => {
@@ -35,8 +53,27 @@ export class HostelServices implements DataService {
     }
   };
 
-  private onSelection = (args : { selectedOption: PushEventMap['optionsUpdated']['options'][0] }) => {
-    open(args.selectedOption.details);
+  private onSelection = async (args : { selectedOption: PushEventMap['optionsUpdated']['options'][0] }) => {
+    // open(args.selectedOption.details);
+    const { selectedOption } = args;
+    // console.log({ selectedOption });
+    const page = await this.spider?.getReadablePage(selectedOption.details);
+    // console.log(page?.content);
+    // console.log(optionsData.get('options'));
+    // optionsData.set('options', [{
+    //   summary: selectedOption.summary,
+    //   details: page.content,
+    // }]);
+    const newOptions = optionsData.get('options')?.map(el => {
+      // console.log(el.details === selectedOption.details);
+      return {
+        summary: el.summary,
+        details: el.details === selectedOption.details ? page?.content : el.details,
+      }
+    }) || [];
+    // console.log({ newOptions });
+    optionsData.set('options', newOptions);
+    // console.log(page);
   };
 
   private onQuery = (args:  { query: string }) => {
@@ -49,16 +86,11 @@ export class HostelServices implements DataService {
         try {
           const results = this.spider?.search({ query });
           results?.then(value => {
-            this.servicePUSH({
-              events: ['optionsUpdated'],
-              map: {
-                optionsUpdated: {
-                  options: value?.map(el => ({
-                    summary: el.title,
-                    details: el.link,
-                  })) || [],
-                }
-              }
+            optionsData.dispatch({
+              options: value?.map(el => ({
+                summary: el.title,
+                details: el.link,
+              })) || [],
             });
           })
         } catch (e) {

@@ -44,7 +44,7 @@ const useService = ({
   };
 
   const onSelection = (selectedOption: PushEventMap['optionsUpdated']['options'][0]) => {
-    store.setValue({ selectedOption });
+    store.setValue({ options: [selectedOption] });
     sendSync('serviceCRUD', {
       event: 'onSelection',
       args: { selectedOption },

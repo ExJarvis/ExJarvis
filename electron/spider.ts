@@ -1,5 +1,7 @@
 import puppeteer, { Page } from 'puppeteer-core';
 import { waitForCondition } from './utils';
+import { Readability } from '@mozilla/readability';
+import { JSDOM } from 'jsdom';
 
 export class Spider {
   private static instance: Spider;
@@ -29,7 +31,7 @@ export class Spider {
       // timeout: -1,
       // args: [], // Chromium flags
       // devtools: true,
-      // headless: false,
+      headless: false,
     });
     this.browser.on('disconnected', this.launchBrowser);
     this.launchingBrowser = false;
@@ -47,6 +49,18 @@ export class Spider {
     return this.browser;
   };
 
+  private getPage = async () => {
+    const browser = await this.getBrowser();
+    if(!browser) return;
+
+    if(!(await browser.pages()).length) {
+      await browser.newPage();
+    }
+    // const page = await browser.newPage();
+    const page = (await browser.pages())[0];
+    return page;
+  };
+
   private log = async (page: Page) => {
     page.on('console', (msg) => console.log('PAGE LOG:', msg.text()));
     await page.evaluate(() => console.log(`url is ${location.href}`));
@@ -57,20 +71,8 @@ export class Spider {
   } : {
     query: string
   }) => {
-    // await this.ensureBrowser();
-    // if(!this.browser) return [];
-    // console.log({ browser: this.browser });
-
-    // const page = await this.browser.newPage();
-
-    const browser = await this.getBrowser();
-    if(!browser) return;
-
-    if(!(await browser.pages()).length) {
-      await browser.newPage();
-    }
-    // const page = await browser.newPage();
-    const page = (await browser.pages())[0];
+    const page = await this.getPage();
+    if(!page) return;
 
     // https://github.com/puppeteer/puppeteer/issues/1922#issuecomment-594607547
     await page.setUserAgent('Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36');
@@ -96,21 +98,24 @@ export class Spider {
     // await browser.close();
     return await Promise.all(results);
   };
+
+  public getReadablePage = async (url: string) => {
+    const page = await this.getPage();
+    if(!page) return;
+
+    await page.goto(url, { waitUntil: 'networkidle2' });
+    const bodyHTML = await page.evaluate(() => document.body.innerHTML);
+    const dom = new JSDOM(bodyHTML);
+    const reader = new Readability(dom.window.document);
+    const result = reader?.parse();
+    return result;
+  };
 }
-
-export const scrape = async () => {
-  const browser = Spider.getInstance().browser;
-  const page = await browser?.newPage();
-  await page?.goto('https://www.google.com');
-  await page?.screenshot({ path: '/Users/pulkitsingh/dev/chaakar/dist/example.png' });
-
-  await browser?.close();
-};
-
 
 const main = () => {
   try {
-    Spider.getInstance().search({ query: 'activeJS' });
+    // Spider.getInstance().search({ query: 'activeJS' });
+    Spider.getInstance().getReadablePage('https://github.com/mozilla/readability')
   } catch (e) {
     // console.log({ e });
   }
