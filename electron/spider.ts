@@ -61,6 +61,8 @@ export class Spider {
     // const page = await this.browser.newPage();
 
     const browser = await this.getBrowser();
+    if(!browser) return;
+
     // const page = await browser.newPage();
     const page = (await browser.pages())[0];
 

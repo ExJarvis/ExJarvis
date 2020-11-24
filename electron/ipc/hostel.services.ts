@@ -8,6 +8,7 @@ import { Spider } from '../spider';
 
 export class HostelServices implements DataService {
   private static instance: HostelServices;
+  private queryTimeout: any;
 
   private constructor() {
     this.init();
@@ -39,23 +40,30 @@ export class HostelServices implements DataService {
   };
 
   private onQuery = (args:  { query: string }) => {
+    const emptyResult = ['There are no results to show...'];
+
     const { query } = args;
-    if(query) {
-      try {
-        const results = Spider.getInstance().search({ query });
-        results.then(value => {
-          this.servicePUSH(
-            {
-              state: {
-                options: value.map(el => el.link),
-              }
-            });
-        })
-      } catch (e) {
-        console.log({ e });
-      }
+    if(this.queryTimeout) {
+      clearTimeout(this.queryTimeout);
     }
-    return ['There are no results to show...'];
+    this.queryTimeout = setTimeout(() => {
+      if(query) {
+        try {
+          const results = Spider.getInstance().search({ query });
+          results.then(value => {
+            this.servicePUSH(
+              {
+                state: {
+                  options: value?.map(el => el.link) || emptyResult,
+                }
+              });
+          })
+        } catch (e) {
+          console.log({ e });
+        }
+      }
+    }, 300);
+    return emptyResult;
   };
 
   public servicePUSH = (data: any) => {
