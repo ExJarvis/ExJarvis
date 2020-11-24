@@ -43,3 +43,24 @@ export const getChromePath = () => {
   const location = require('chrome-location');
   return location;
 };
+
+export const waitForCondition = (condition: () => boolean, resolve?: () => void) => {
+  if(condition()){
+    if(resolve) {
+      resolve();
+    } else {
+      new Promise(resolve => resolve());
+    }
+  } else {
+    console.debug("I'm just waiting here ...");
+    if(resolve) {
+      setTimeout(() => {
+        waitForCondition(condition, resolve);
+      }, 100);
+    } else {
+      return new Promise(resolve => setTimeout(() => {
+        waitForCondition(condition, resolve);
+      }, 100));
+    }
+  }
+};

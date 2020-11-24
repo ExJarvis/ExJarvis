@@ -1,8 +1,10 @@
 import puppeteer, { Page } from 'puppeteer-core';
+import { waitForCondition } from './utils';
 
 export class Spider {
   private static instance: Spider;
-  public browser?: puppeteer.Browser;
+  private browser?: puppeteer.Browser;
+  private launchingBrowser: boolean = false;
 
   private constructor() {
     this.init();
@@ -20,28 +22,31 @@ export class Spider {
     // this.log();
   };
 
-  private getBrowser = async () => {
-    // console.log('{ browser }');
-    const browser = await puppeteer.launch({
+  private launchBrowser = async () => {
+    this.launchingBrowser = true;
+    this.browser = await puppeteer.launch({
       executablePath: require('chrome-location'),
       // devtools: true,
       headless: false,
     });
-    // // console.log({ browser });
-    return browser;
+    this.launchingBrowser = false;
+    // console.log({ browser });
+  };
+
+  private getBrowser = async () => {
+    if(!this.browser) {
+      if(this.launchingBrowser) {
+        await waitForCondition(() => !this.launchingBrowser);
+      } else {
+        await this.launchBrowser();
+      }
+    }
+    return this.browser;
   };
 
   private log = async (page: Page) => {
     page.on('console', (msg) => console.log('PAGE LOG:', msg.text()));
     await page.evaluate(() => console.log(`url is ${location.href}`));
-  };
-
-  private ensureBrowser = async () => {
-    if(!this.browser) {
-      this.browser = await this.getBrowser();
-      return !!this.browser;
-    }
-    return true;
   };
 
   public search = async ({

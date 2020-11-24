@@ -14,7 +14,7 @@ export class ClipboardServices implements DataService {
   private clipRepo: Repository<OptionsItem> | null = null;
 
   private constructor() {
-    // this.init();
+    this.init();
   }
 
   public static getInstance(): ClipboardServices {

@@ -34,9 +34,19 @@ export const onWebSend = <K extends keyof PushEvents>(
     event: Electron.IpcRendererEvent,
     ...args: Parameters<PushEvents[K]>
   ) => void,
-) => {
-  ipcRenderer.on(channel, (event, ...args) => {
+): {
+  unsubscribe: () => void;
+} => {
+  const handler = (event: Electron.IpcRendererEvent, ...args: any[]) => {
     const ret = callback(event, ...(args as any));
     // event.returnValue = ret;
-  });
+  };
+
+  ipcRenderer.on(channel, handler);
+
+  return {
+    unsubscribe: () => {
+      ipcRenderer.removeListener(channel, handler);
+    },
+  };
 };

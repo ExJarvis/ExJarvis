@@ -20,14 +20,19 @@ const useService = ({
   const store = useUnit(myDict);
 
   React.useEffect(() => {
-    registerListener();
-  }, []);
+    const listener = registerListener();
+    return () => {
+      listener.unsubscribe();
+    };
+  }, [serviceName]);
 
   const registerListener = () => {
-    onWebSend('servicePUSH', (event, ipcState, service) => {
-      console.log(ipcState, service);
-      onOptionsUpdated(ipcState.state);
+    const listener = onWebSend('servicePUSH', (event, ipcState, service) => {
+      if(service === serviceName) {
+        onOptionsUpdated(ipcState.state);
+      }
     });
+    return listener;
   };
 
   const onOptionsUpdated = (ipcState: {
