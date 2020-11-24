@@ -1,10 +1,8 @@
-import { DataService } from './../../types/ipc.types';
-import moment from 'moment';
-import { CRUDEvents } from '../../types/ipc.types';
-import { DatabaseService } from '../db/database.service';
-import { Clipboard } from '../db/entities/clipboard.entity';
-import { webSend } from './ipc.utils';
+import open from 'open';
+import { RestEndpoints } from '../../types/ipc.types';
 import { Spider } from '../spider';
+import { DataService, DataServiceDTO, PushEventMap } from './../../types/ipc.types';
+import { webSend } from './ipc.utils';
 
 export class HostelServices implements DataService {
   private static instance: HostelServices;
@@ -26,7 +24,7 @@ export class HostelServices implements DataService {
     this.spider = Spider.getInstance() as any;
   };
 
-  public onCallback: CRUDEvents['serviceCRUD'] = (data) => {
+  public onCallback: RestEndpoints['serviceCRUD'] = (data) => {
     switch(data.event) {
       case 'onQuery':
         return this.onQuery(data.args);
@@ -37,8 +35,8 @@ export class HostelServices implements DataService {
     }
   };
 
-  private onSelection = (args : { text: string }) => {
-    
+  private onSelection = (args : { selectedOption: PushEventMap['optionsUpdated']['options'][0] }) => {
+    open(args.selectedOption.details);
   };
 
   private onQuery = (args:  { query: string }) => {
@@ -51,22 +49,27 @@ export class HostelServices implements DataService {
         try {
           const results = this.spider?.search({ query });
           results?.then(value => {
-            this.servicePUSH(
-              {
-                state: {
-                  options: value?.map(el => el.title) || [],
+            this.servicePUSH({
+              events: ['optionsUpdated'],
+              map: {
+                optionsUpdated: {
+                  options: value?.map(el => ({
+                    summary: el.title,
+                    details: el.link,
+                  })) || [],
                 }
-              });
+              }
+            });
           })
         } catch (e) {
-          console.log({ e });
+          // console.log({ e });
         }
       }
     }, 600);
   };
 
-  public servicePUSH = (data: any) => {
-    console.log({ data });
+  public servicePUSH = (data: DataServiceDTO) => {
+    // console.log({ data });
     webSend('servicePUSH', data, 'hostel');
   };
 }

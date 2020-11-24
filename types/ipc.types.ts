@@ -20,7 +20,7 @@ export type DataServiceName = 'clipboard' | 'hostel';
 //   args: Parameters<DataService[K]>
 // };
 export interface DataService {
-  onCallback: CRUDEvents['serviceCRUD'];
+  onCallback: RestEndpoints['serviceCRUD'];
 }
 
 // export type Datas = {
@@ -33,16 +33,38 @@ export interface DataService {
 //   returns: void,
 // };
 
-export type Event = 'onQuery' | 'onSelection';
+export type RestEvents = 'onQuery' | 'onSelection';
 
-export type CRUDEvents = {
-  'serviceCRUD': ( data: {
-    event: Event;
-    args: any;
-  } /* DataType<K> */, service: DataServiceName ) => any;
+export type RestEndpoints = {
+  serviceCRUD: (
+    data: {
+      event: RestEvents;
+      args: any;
+    } /* DataType<K> */,
+    service: DataServiceName
+  ) => any;
 };
 
-export type PushEvents = {
+export type PushEventMap = {
+  optionsUpdated: {
+    options: {
+      summary: string;
+      details: string;
+    }[],
+    extraData?: void;
+  };
+  somethingelse: {};
+};
+
+export type DataServiceDTO = {
+  events: [keyof PushEventMap];
+  map: Partial<PushEventMap>;
+};
+
+export type PushEndpoints = {
   // 'clip/history/PUSH': (args: { state: OptionsResponseDTO }) => void;
-  'servicePUSH': (data: any, service: DataServiceName) => void;
+  servicePUSH: (
+    data: DataServiceDTO,
+    service: DataServiceName
+  ) => void;
 };

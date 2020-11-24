@@ -9,7 +9,6 @@ import useRefs from '../../hooks/useRefs';
 import { isElementInView } from '../../misc/utils';
 import { LauncherProps } from './types';
 import useTimeout from '../../hooks/useTimeout';
-import useDataService from '../../hooks/useDataService';
 // import {useSpring, animated} from 'react-spring'
 
 /**
@@ -26,7 +25,6 @@ const useLauncher = (props: LauncherProps) => {
   const [highlightedIdx, setHighlightedIdx] = React.useState(0);
   const [state, setState] = useGenState(initialState);
   const service = useService({ serviceName: 'hostel' });
-  // const service = useDataService();
   const isDownPressed = useKeypress([Key.DownArrow]);
   const isUpPressed = useKeypress([Key.UpArrow]);
   const isEnterPressed = useKeypress([Key.Enter]);

@@ -32,7 +32,7 @@ const Launcher: React.FC<LauncherProps> = (props) => {
             }`}
           >
             <FileTextOutlined className={classes.listPrefix} />
-            {el}
+            {el?.summary}
           </div>
         ))}
       </div>
@@ -42,7 +42,7 @@ const Launcher: React.FC<LauncherProps> = (props) => {
   const renderDetails = () => {
     return (
       <pre className={`${classes.details}`}>
-        {options[highlightedIdx]}
+        {options[highlightedIdx]?.details}
       </pre>
     );
   };

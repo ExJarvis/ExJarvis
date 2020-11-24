@@ -1,7 +1,7 @@
 import { clipboard } from 'electron';
 import moment from 'moment';
 import { Repository } from 'typeorm';
-import { OptionsItem, CRUDEvents, DataService } from '../../types/ipc.types';
+import { OptionsItem, RestEndpoints, DataService, PushEventMap } from '../../types/ipc.types';
 import { DatabaseService } from '../db/database.service';
 import { Clipboard } from '../db/entities/clipboard.entity';
 import { webSend } from './ipc.utils';
@@ -30,7 +30,7 @@ export class ClipboardServices implements DataService {
     this.monitorClipboard();
   };
 
-  public onCallback: CRUDEvents['serviceCRUD'] = (data) => {
+  public onCallback: RestEndpoints['serviceCRUD'] = (data) => {
     switch(data.event) {
       case 'onQuery':
         return this.onQuery(data.args);
@@ -41,13 +41,13 @@ export class ClipboardServices implements DataService {
     }
   };
 
-  private onSelection = (args : { text: string }) => {
+  private onSelection = (args : { selectedOption: PushEventMap['optionsUpdated']['options'][0] }) => {
     // console.log({ args });
-    const { text } = args;
-    clipboard.writeText(text);
+    const { selectedOption } = args;
+    clipboard.writeText(selectedOption.details);
   };
 
-  private onQuery = (args:  { query: string }) => {
+  private onQuery = (args:  { query: string }): PushEventMap['optionsUpdated']['options'] => {
     // console.log({ args });
     const { query } = args;
     const rawOptions = this.history
@@ -56,7 +56,7 @@ export class ClipboardServices implements DataService {
       })
       .reverse();
     const options = lodash.uniq(rawOptions).map((el) => el?.data?.value).slice(0, 10);
-    return options;
+    return options.map( el => ({ summary: el, details: el }));
   };
 
   // public deleteClipHistory: CRUDEvents['clip/history/DELETE'] = ({ id }) => {
@@ -73,9 +73,12 @@ export class ClipboardServices implements DataService {
 
   public pushClipHistory = () => {
     webSend('servicePUSH', {
-      state: {
-        options: this.onQuery({ query: '' }),
-      },
+      events: ['optionsUpdated'],
+      map: {
+        optionsUpdated: {
+          options: this.onQuery({ query: '' }),
+        },
+      }
     }, 'clipboard');
   };
 

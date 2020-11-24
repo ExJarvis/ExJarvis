@@ -1,7 +1,8 @@
+import { PushEventMap } from './../../types/ipc.types';
 import { DictUnit } from "@activejs/core";
 
-export const myDict = new DictUnit({
+export const optionsData = new DictUnit({
   initialValue: {
-    a: 's',
+    selectedOption: undefined as PushEventMap['optionsUpdated']['options'][0] | undefined,
   }
 });

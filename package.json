@@ -101,6 +101,7 @@
     "less-loader": "7.1.0",
     "lodash": "4.17.20",
     "moment": "2.29.1",
+    "open": "^7.3.0",
     "postcss-loader": "4.0.4",
     "prop-types": "15.6.0",
     "puppeteer-core": "^5.5.0",

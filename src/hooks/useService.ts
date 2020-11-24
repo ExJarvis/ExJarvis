@@ -3,9 +3,9 @@ import { ipcRenderer } from 'electron';
 import * as lodash from 'lodash';
 import * as React from 'react';
 import { sendSync, onWebSend } from '../misc/utils';
-import { OptionsItem, DataServiceName } from '../../types/ipc.types';
+import { OptionsItem, DataServiceName, PushEventMap } from '../../types/ipc.types';
 import useUnit from './useUnit';
-import { myDict } from '../clientIpc/store';
+import { optionsData } from '../clientIpc/store';
 
 const useService = ({
   serviceName,
@@ -13,11 +13,11 @@ const useService = ({
   serviceName: DataServiceName;
 }) => {
   const initialState = {
-    options: [] as string[],
+    options: [] as PushEventMap['optionsUpdated']['options'],
   };
   const [state, setState] = useGenState(initialState);
   const { options } = state;
-  const store = useUnit(myDict);
+  const store = useUnit(optionsData);
 
   React.useEffect(() => {
     const listener = registerListener();
@@ -27,30 +27,33 @@ const useService = ({
   }, [serviceName]);
 
   const registerListener = () => {
-    const listener = onWebSend('servicePUSH', (event, ipcState, service) => {
+    const listener = onWebSend('servicePUSH', (event, data, service) => {
       if(service === serviceName) {
-        onOptionsUpdated(ipcState.state);
+        if(data.events.includes('optionsUpdated')) {
+          onOptionsUpdated(data.map['optionsUpdated']);
+        }
       }
     });
     return listener;
   };
 
-  const onOptionsUpdated = (ipcState: {
-    options: typeof initialState.options;
-  }) => {
-    setState(ipcState);
+  const onOptionsUpdated = (data?: PushEventMap['optionsUpdated']) => {
+    setState({
+      options: data?.options || [],
+    });
   };
 
-  const onSelection = (val: string) => {
-    store.setValue({ a: val });
+  const onSelection = (selectedOption: PushEventMap['optionsUpdated']['options'][0]) => {
+    store.setValue({ selectedOption });
     sendSync('serviceCRUD', {
       event: 'onSelection',
-      args: { text: val },
+      args: { selectedOption },
     }, serviceName);
   };
 
   const onQuery = (query: string) => {
-    const options = sendSync('serviceCRUD', {
+    // const options = sendSync('serviceCRUD', {
+    sendSync('serviceCRUD', {
       event: 'onQuery',
       args: { query },
     }, serviceName);
@@ -59,7 +62,7 @@ const useService = ({
     // return options;
   };
 
-  console.log({ options });
+  // console.log({ options });
   return {
     options,
     onSelection,

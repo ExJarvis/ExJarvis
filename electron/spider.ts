@@ -29,7 +29,7 @@ export class Spider {
       // timeout: -1,
       // args: [], // Chromium flags
       // devtools: true,
-      headless: false,
+      // headless: false,
     });
     this.browser.on('disconnected', this.launchBrowser);
     this.launchingBrowser = false;
