@@ -18,7 +18,7 @@ export class Spider {
   }
 
   private init = async () => {
-    // this.ensureBrowser();
+    this.launchBrowser(); // Keeps the browser ready
     // this.log();
   };
 
@@ -72,7 +72,7 @@ export class Spider {
     const selector = '//*[@id]/div/h2';
     await page.waitForXPath(selector);
     const searchValue = await page.$x(selector);
-    await page.screenshot({ path: '/Users/pulkitsingh/dev/chaakar/dist/example.png' });
+    // await page.screenshot({ path: '/Users/pulkitsingh/dev/chaakar/dist/example.png' });
     const results = searchValue.map(async (element) => {
       return await page.evaluate((el) => {
         const title = el.textContent;
