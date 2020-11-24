@@ -48,8 +48,7 @@ export class ClipboardServices implements DataService {
   };
 
   private onQuery = (args?:  { query: string }) => {
-    console.log({ args });
-    if(!args) return [];
+    if(!args) return;
     // console.log({ args });
     const { query } = args;
     const rawOptions = this.history

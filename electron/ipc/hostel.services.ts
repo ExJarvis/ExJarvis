@@ -62,6 +62,12 @@ export class HostelServices implements DataService {
   private onQuery = (args?: { query: string }) => {
     if (!args) return;
     const { query } = args;
+    optionsData.dispatch({
+      options: [{
+        summary: query ? `Searching for '${query}' ...` : 'Start typing to search',
+        details: query ? 'Sit back and relax, results are coming! :)' : `It'll be quick, promise!`,
+      }],
+    });
     if (this.queryTimeout) {
       clearTimeout(this.queryTimeout);
     }

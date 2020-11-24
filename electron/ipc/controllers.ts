@@ -13,7 +13,7 @@ export const registerControllers = async () => {
   } as { [K in DataServiceName]: DataService };
 
   onSendSync('serviceCRUD', (event, data, service) => {
-    // console.log({ data, service, s: services[service] });
+    console.log({ data, service });
     if(registeredService.value() !== service) {
       registeredService.dispatch(service);
     }
