@@ -27,7 +27,7 @@ export class Spider {
     this.browser = await puppeteer.launch({
       executablePath: require('chrome-location'),
       // devtools: true,
-      headless: false,
+      // headless: false,
     });
     this.launchingBrowser = false;
     // console.log({ browser });
@@ -65,6 +65,9 @@ export class Spider {
 
     // const page = await browser.newPage();
     const page = (await browser.pages())[0];
+
+    // https://github.com/puppeteer/puppeteer/issues/1922#issuecomment-594607547
+    await page.setUserAgent('Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36');
 
     await page.goto(`https://duckduckgo.com/?q=${query}`, { waitUntil: 'networkidle2' });
     // await page.type('#search_form_input_homepage', 'Puppeteer');
