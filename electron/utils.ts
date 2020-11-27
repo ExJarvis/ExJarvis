@@ -1,7 +1,7 @@
 import fs from 'fs';
 
 export const getOsType = () => {
-  switch(process.platform) {
+  switch (process.platform) {
     case 'win32':
       return 'windows';
     case 'darwin':
@@ -14,20 +14,20 @@ export const getOsType = () => {
 export function getAppDataPath() {
   let appDataPath: string;
   switch (process.platform) {
-    case "darwin": {
-      appDataPath = path.join(process.env.HOME, "Library", "Application Support", "Jarvis");
+    case 'darwin': {
+      appDataPath = path.join(process.env.HOME, 'Library', 'Application Support', 'Jarvis');
       break;
     }
-    case "win32": {
-      appDataPath = path.join(process.env.APPDATA, "Jarvis");
+    case 'win32': {
+      appDataPath = path.join(process.env.APPDATA, 'Jarvis');
       break;
     }
-    case "linux": {
-      appDataPath = path.join(process.env.HOME, ".Jarvis");
+    case 'linux': {
+      appDataPath = path.join(process.env.HOME, '.Jarvis');
       break;
     }
     default: {
-      console.log("Unsupported platform: " + process.platform);
+      console.log('Unsupported platform: ' + process.platform);
       process.exit(1);
     }
   }
@@ -37,7 +37,7 @@ export function getAppDataPath() {
   }
 
   return appDataPath;
-};
+}
 
 export const getChromePath = () => {
   const location = require('chrome-location');
@@ -45,22 +45,28 @@ export const getChromePath = () => {
 };
 
 export const waitForCondition = (condition: () => boolean, resolve?: () => void) => {
-  if(condition()){
-    if(resolve) {
+  if (condition()) {
+    if (resolve) {
       resolve();
     } else {
-      new Promise(resolve => resolve());
+      new Promise((resolve) => resolve());
     }
   } else {
     console.debug("I'm just waiting here ...");
-    if(resolve) {
+    if (resolve) {
       setTimeout(() => {
         waitForCondition(condition, resolve);
       }, 100);
     } else {
-      return new Promise(resolve => setTimeout(() => {
-        waitForCondition(condition, resolve);
-      }, 100));
+      return new Promise((resolve) =>
+        setTimeout(() => {
+          waitForCondition(condition, resolve);
+        }, 100)
+      );
     }
   }
+};
+
+export const isValidArray = <T>(arg: T) => {
+  return arg && Array.isArray(arg) && arg.length;
 };

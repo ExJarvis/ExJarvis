@@ -33,15 +33,23 @@ export interface DataService {
 //   returns: void,
 // };
 
-export type RestEventMap = {
+export type RestEventMap = Partial<{
   onQuery: {
     query: string;
   };
   onSelection: {
-    selectedOption: OptionItem,
+    option: OptionItem,
   };
-  onExpansion: {},
-};
+}>;
+
+export type RestResponseMap = Partial<{
+  onQuery: {
+    options?: OptionItem[],
+  };
+  onSelection: {
+    options?: OptionItem[],
+  };
+}>;
 
 export type DataServiceQueries = {
   events: [keyof RestEventMap];
@@ -61,13 +69,23 @@ export type OptionItem = {
   details: string;
 };
 
-export type PushEventMap = {
-  optionsUpdated: {
+export type PushEventMap = Partial<{
+  onOptionsUpdated: {
     options: OptionItem[],
-    extraData?: void;
-  };
-  somethingelse: {};
-};
+  },
+  onHandShake: {
+    keyword?: string;
+  },
+}>;
+
+export type PushResponseMap = Partial<{
+  onOptionsUpdated: {
+  },
+  onHandShake: {
+    status: 'SUCCEEDED' | 'FAILED',
+    message: string;
+  },
+}>;
 
 export type DataServiceDTO = {
   events: [keyof PushEventMap];

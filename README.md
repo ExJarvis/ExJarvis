@@ -16,7 +16,7 @@ Augments developer.
 ![](./.data/img/2020-11-11-22-57-15.png)
 
 ## Getting started
-1. [Download](https://exjarvis.github.io/ExJarvis/) & install.
+1. [Download](https://duke79.github.io/Jarvis/) & install.
 2. Launch.
 3. Keyboard shortcuts -
    1. `Ctrl+Shift+Space` to show

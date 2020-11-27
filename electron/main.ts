@@ -1,13 +1,14 @@
-import { app } from 'electron';
-import configureExtensions from './extensions';
-import { getDevWindow, getWindow } from './window';
-import keyBindings from './keyBindings';
-import { registerControllers } from './ipc/controllers';
-import renderer from './renderer';
-import { DEBUG, env } from './constants';
-import initGlobals, { windows } from './globals';
 import * as Sentry from '@sentry/electron';
-import { ClipboardServices } from './ipc/clipboard.services';
+import { app } from 'electron';
+import './plugin.app';
+import { DEBUG } from './constants';
+import configureExtensions from './extensions';
+import initGlobals, { windows } from './globals';
+import { registerControllers } from './ipc/controllers';
+import keyBindings from './keyBindings';
+import renderer from './renderer';
+import { getDevWindow, getWindow } from './window';
+import { runPluginApp } from './plugin.app';
 
 export const initWindow = () => {
   const mainWindow = getWindow();
@@ -56,6 +57,7 @@ const main = () => {
   initHotRelaod();
   logErrors();
   initSentry();
+  runPluginApp();
 };
 
 main();
