@@ -14,15 +14,15 @@ const http = createServer(app);
 const io = new socketIO.Server(http);
 
 io.on('connection', async (socket: Socket) => {
-  console.log('a user connected: ' + socket.handshake.address);
+  const plugin = await PluginService.getInstance();
+  plugin.onConnect(socket);
 
-  socket.on('disconnect', () => {
-    console.log('a user disconnected: ' + socket.handshake.address);
+  socket.on('disconnect', async () => {
+    await plugin.onDisconnect(socket);
   });
 
   socket.on('event', async (map: ServerEventMap) => {
     console.log({ map });
-    const plugin = await PluginService.getInstance();
     const response = {} as ClientEventMap;
 
     if (map.onRegister) {

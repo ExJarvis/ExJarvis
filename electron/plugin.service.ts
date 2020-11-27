@@ -42,4 +42,16 @@ export class PluginService {
       message: message.join('\n'),
     };
   };
+
+  public onConnect = async (
+    socket: Socket,
+  ) => {
+    console.log('a user connected: ' + socket.handshake.address);
+  };
+
+  public onDisconnect = async (
+    socket: Socket,
+  ) => {
+    console.log('a user disconnected: ' + socket.handshake.address);
+  };
 }
