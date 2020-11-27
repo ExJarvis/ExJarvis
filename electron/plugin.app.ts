@@ -21,11 +21,12 @@ io.on('connection', async (socket: Socket) => {
   });
 
   socket.on('event', async (map: ServerEventMap) => {
+    console.log({ map });
     const plugin = await PluginService.getInstance();
     const response = {} as ClientEventMap;
 
     if (map.onRegister) {
-      response.onWelcome = await plugin.onHandShake(
+      response.onWelcome = await plugin.onRegister(
         map.onRegister,
         socket.handshake.address
       );

@@ -21,19 +21,18 @@ export class PluginService {
     socket: Socket,
     params?: ClientEventMap,
   ) => {
-    return socket.emit('event', params); 
+    return params && Object.keys(params).length && socket.emit('event', params); 
   };
 
   public onOptionsUpdated = async (
     args?: ServerEventMap['onOptionsUpdated']
-  ): Promise<ClientEventMap['onOptionsUpdated']> => {
-    return {};
+  ) => {
   };
 
-  public onHandShake = async (
-    args: ServerEventMap['onHandShake'],
+  public onRegister = async (
+    args: ServerEventMap['onRegister'],
     address: string,
-  ): Promise<ClientEventMap['onHandShake']> => {
+  ): Promise<ClientEventMap['onWelcome']> => {
     const message: string[] = [];
     message.push(`Welcome ${address}`);
     args?.keyword && message.push(`Your keyword '${args.keyword}' has been registered!`);
