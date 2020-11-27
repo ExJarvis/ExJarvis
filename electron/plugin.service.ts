@@ -1,15 +1,15 @@
 import { ClientEventMap, OptionItem, ServerEventMap } from '../types/ipc.types';
 import { Socket } from 'socket.io';
 
-type PluginSocket = {
+type PluginRegistry = {
   keyword?: string;
-  socket: Socket,
+  socket: Socket;
 };
 
 export class PluginService {
   private static instance: PluginService;
-  public alivePlugins: { [id: string] : PluginSocket} = {};
-  private activeSocket: string;
+  public alivePlugins: { [id: string]: PluginRegistry } = {};
+  public activePlugin: string = '';
 
   private constructor() {
     this.init();
@@ -24,21 +24,21 @@ export class PluginService {
 
   private init = async () => {};
 
-  public emitEvent = (
-    socket: Socket,
-    params?: ClientEventMap,
-  ) => {
-    return params && Object.keys(params).length && socket.emit('event', params); 
+  public emitEvent = (params?: ClientEventMap, socket?: Socket) => {
+    if (params && Object.keys(params).length) {
+      (socket || this.alivePlugins[this.activePlugin].socket)?.emit('event', params);
+    }
   };
 
-  public onOptionsUpdated = async (
-    args?: ServerEventMap['onOptionsUpdated']
-  ) => {
+  public setActiveSocket = (id: string) => {
+    this.activePlugin = id;
   };
+
+  public onOptionsUpdated = async (args?: ServerEventMap['onOptionsUpdated']) => {};
 
   public onRegister = async (
     args: ServerEventMap['onRegister'],
-    socket: Socket,
+    socket: Socket
   ): Promise<ClientEventMap['onWelcome']> => {
     this.alivePlugins[socket.id] = {
       ...this.alivePlugins[socket.id],
@@ -55,18 +55,17 @@ export class PluginService {
     };
   };
 
-  public onConnect = async (
-    socket: Socket,
-  ) => {
+  public onConnect = async (socket: Socket) => {
     this.alivePlugins[socket.id] = {
       socket,
     };
+    if (!this.activePlugin) {
+      this.setActiveSocket(socket.id);
+    }
     console.log('a user connected: ' + socket.handshake.address);
   };
 
-  public onDisconnect = async (
-    socket: Socket,
-  ) => {
+  public onDisconnect = async (socket: Socket) => {
     delete this.alivePlugins[socket.id];
     console.log('a user disconnected: ' + socket.handshake.address);
   };

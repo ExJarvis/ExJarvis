@@ -27,22 +27,17 @@ io.on('connection', async (socket: Socket) => {
     const response = {} as ClientEventMap;
 
     if (map.onRegister) {
-      response.onWelcome = await plugin.onRegister(
-        map.onRegister,
-        socket,
-      );
+      response.onWelcome = await plugin.onRegister(map.onRegister, socket);
     }
 
     if (map.onOptionsUpdated) {
       const options = map.onOptionsUpdated?.options;
       if (options && Array.isArray(options)) {
-        await plugin.onOptionsUpdated(
-          map.onOptionsUpdated
-        );
+        await plugin.onOptionsUpdated(map.onOptionsUpdated);
       }
     }
 
-    plugin.emitEvent(socket, response);
+    plugin.emitEvent(response, socket);
   });
 });
 
