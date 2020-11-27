@@ -1,5 +1,5 @@
-import { PushResponseMap, OptionItem, PushEventMap } from '../types/ipc.types';
-import { Socket } from 'net';
+import { ClientEventMap, OptionItem, ServerEventMap } from '../types/ipc.types';
+import { Socket } from 'socket.io';
 
 export class PluginService {
   private static instance: PluginService;
@@ -17,18 +17,25 @@ export class PluginService {
 
   private init = async () => {};
 
+  public emitEvent = (
+    socket: Socket,
+    params?: ClientEventMap,
+  ) => {
+    return socket.emit('event', params); 
+  };
+
   public onOptionsUpdated = async (
-    args?: PushEventMap['onOptionsUpdated']
-  ): Promise<PushResponseMap['onOptionsUpdated']> => {
+    args?: ServerEventMap['onOptionsUpdated']
+  ): Promise<ClientEventMap['onOptionsUpdated']> => {
     return {};
   };
 
   public onHandShake = async (
-    args: PushEventMap['onHandShake'],
-    connection: Socket
-  ): Promise<PushResponseMap['onHandShake']> => {
+    args: ServerEventMap['onHandShake'],
+    address: string,
+  ): Promise<ClientEventMap['onHandShake']> => {
     const message: string[] = [];
-    message.push(`Welcome ${connection?.remoteAddress}:${args?.port}`);
+    message.push(`Welcome ${address}`);
     args?.keyword && message.push(`Your keyword '${args.keyword}' has been registered!`);
     console.log({ message });
     return {

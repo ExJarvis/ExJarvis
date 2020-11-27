@@ -1,7 +1,7 @@
 import { clipboard } from 'electron';
 import moment from 'moment';
 import { Repository } from 'typeorm';
-import { OptionsItem, RestEndpoints, DataService, PushEventMap, OptionItem } from '../../types/ipc.types';
+import { OptionsItem, RestEndpoints, DataService, ServerEventMap, OptionItem } from '../../types/ipc.types';
 import { DatabaseService } from '../db/database.service';
 import { Clipboard } from '../db/entities/clipboard.entity';
 import { webSend } from './ipc.utils';

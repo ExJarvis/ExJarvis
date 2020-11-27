@@ -1,9 +1,9 @@
-import { PushEventMap, DataServiceName } from './../../types/ipc.types';
+import { ServerEventMap, DataServiceName } from './../../types/ipc.types';
 import { DictUnit, StringUnit } from "@activejs/core";
 
 export const optionsData = new DictUnit({
   initialValue: {
-    options: [] as PushEventMap['optionsUpdated']['options'],
+    options: [] as ServerEventMap['optionsUpdated']['options'],
   }
 });
 

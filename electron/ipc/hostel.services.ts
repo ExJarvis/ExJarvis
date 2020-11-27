@@ -1,7 +1,7 @@
 import open from 'open';
 import { RestEndpoints, OptionItem } from '../../types/ipc.types';
 import { Spider } from '../spider';
-import { DataService, DataServiceDTO, PushEventMap } from './../../types/ipc.types';
+import { DataService, DataServiceDTO, ServerEventMap } from './../../types/ipc.types';
 import { webSend } from './ipc.utils';
 import { optionsData } from '../../src/clientIpc/store';
 

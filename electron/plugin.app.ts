@@ -1,50 +1,55 @@
+import bodyParser from 'body-parser';
 import express from 'express';
-import { AddressInfo } from 'net';
-import { PushEventMap, OptionItem, PushResponseMap } from '../types/ipc.types';
 import getPort from 'get-port';
+import { AddressInfo } from 'net';
+import { ServerEventMap, ClientEventMap } from '../types/ipc.types';
 import { PluginService } from './plugin.service';
-import { isValidArray } from './utils';
+import { createServer } from 'http';
+import socketIO, { Socket } from 'socket.io';
 
 export const app = express();
-
-import bodyParser from 'body-parser';
-const jsonParser = bodyParser.json()
-// const urlencodedParser = bodyParser.urlencoded({ extended: false })
-
+const jsonParser = bodyParser.json();
 app.use(jsonParser);
+const http = createServer(app);
+const io = new socketIO.Server(http);
 
-app.post('/event', async (req, res) => {
-  const events = req.body as PushEventMap;
-  const response = {} as PushResponseMap & { error: any };
+io.on('connection', async (socket: Socket) => {
+  console.log('a user connected: ' + socket.handshake.address);
 
-  if (!events || !Object.keys(events).length) {
-    response.error = `Bad event ${JSON.stringify(events)} received from the app!`;
-  }
+  socket.on('disconnect', () => {
+    console.log('a user disconnected: ' + socket.handshake.address);
+  });
 
-  if (events.onOptionsUpdated) {
-    const options = events.onOptionsUpdated?.options;
-    if (options && Array.isArray(options)) {
-      response.onOptionsUpdated = await PluginService.getInstance().onOptionsUpdated(
-        events.onOptionsUpdated
+  socket.on('event', async (map: ServerEventMap) => {
+    const plugin = await PluginService.getInstance();
+    const response = {} as ClientEventMap;
+
+    if (map.onRegister) {
+      response.onWelcome = await plugin.onHandShake(
+        map.onRegister,
+        socket.handshake.address
       );
     }
-  }
 
-  if (events.onHandShake) {
-    response.onHandShake = await PluginService.getInstance().onHandShake(
-      events.onHandShake,
-      req.connection
-    );
-  }
+    if (map.onOptionsUpdated) {
+      const options = map.onOptionsUpdated?.options;
+      if (options && Array.isArray(options)) {
+        await plugin.onOptionsUpdated(
+          map.onOptionsUpdated
+        );
+      }
+    }
 
-  res.send(response);
+    plugin.emitEvent(socket, response);
+  });
 });
 
 export const runPluginApp = async () => {
   const preferredPort = await getPort({
     port: [7979, 3232, 6666],
   });
-  const listener = app.listen(preferredPort, () => {
+
+  const listener = http.listen(preferredPort, () => {
     return console.log(`server is listening on ${port}`);
   });
 

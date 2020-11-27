@@ -69,28 +69,32 @@ export type OptionItem = {
   details: string;
 };
 
-export type PushEventMap = Partial<{
+export type ServerEventMap = Partial<{
   onOptionsUpdated: {
     options: OptionItem[],
   },
-  onHandShake: {
+  onRegister: {
     port: number,
     keyword?: string;
   },
 }>;
 
-export type PushResponseMap = Partial<{
-  onOptionsUpdated: {
-  },
-  onHandShake: {
+export type ClientEventMap = Partial<{
+  onQuery: {
+    query: string;
+  };
+  onSelection: {
+    option: OptionItem,
+  };
+  onWelcome: {
     status: 'SUCCEEDED' | 'FAILED',
     message: string;
   },
 }>;
 
 export type DataServiceDTO = {
-  events: [keyof PushEventMap];
-  map: Partial<PushEventMap>;
+  events: [keyof ServerEventMap];
+  map: Partial<ServerEventMap>;
 };
 
 export type PushEndpoints = {

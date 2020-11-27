@@ -3,7 +3,7 @@ import { ipcRenderer } from 'electron';
 import * as lodash from 'lodash';
 import * as React from 'react';
 import { sendSync, onWebSend } from '../misc/utils';
-import { OptionsItem, DataServiceName, PushEventMap, OptionItem } from '../../types/ipc.types';
+import { OptionsItem, DataServiceName, ServerEventMap, OptionItem } from '../../types/ipc.types';
 import useUnit from './useUnit';
 import { optionsData } from '../clientIpc/store';
 
@@ -13,7 +13,7 @@ const useService = ({
   serviceName: DataServiceName;
 }) => {
   const initialState = {
-    options: [] as PushEventMap['optionsUpdated']['options'],
+    options: [] as ServerEventMap['optionsUpdated']['options'],
   };
   const [state, setState] = useGenState(initialState);
   const { options } = state;
@@ -37,7 +37,7 @@ const useService = ({
     return listener;
   };
 
-  const onOptionsUpdated = (data?: PushEventMap['optionsUpdated']) => {
+  const onOptionsUpdated = (data?: ServerEventMap['optionsUpdated']) => {
     setState({
       options: data?.options || [],
     });
