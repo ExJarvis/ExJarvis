@@ -19,16 +19,17 @@ io.on('connection', async (socket: Socket) => {
 
   socket.on('disconnect', async () => {
     await plugin.onDisconnect(socket);
+    // console.log({ plugins: plugin.alivePlugins });
   });
 
   socket.on('event', async (map: ServerEventMap) => {
-    console.log({ map });
+    console.log({ event: map, plugins: plugin.alivePlugins });
     const response = {} as ClientEventMap;
 
     if (map.onRegister) {
       response.onWelcome = await plugin.onRegister(
         map.onRegister,
-        socket.handshake.address
+        socket,
       );
     }
 

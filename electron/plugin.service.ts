@@ -1,8 +1,15 @@
 import { ClientEventMap, OptionItem, ServerEventMap } from '../types/ipc.types';
 import { Socket } from 'socket.io';
 
+type PluginSocket = {
+  keyword?: string;
+  socket: Socket,
+};
+
 export class PluginService {
   private static instance: PluginService;
+  public alivePlugins: { [id: string] : PluginSocket} = {};
+  private activeSocket: string;
 
   private constructor() {
     this.init();
@@ -31,12 +38,17 @@ export class PluginService {
 
   public onRegister = async (
     args: ServerEventMap['onRegister'],
-    address: string,
+    socket: Socket,
   ): Promise<ClientEventMap['onWelcome']> => {
+    this.alivePlugins[socket.id] = {
+      ...this.alivePlugins[socket.id],
+      keyword: args?.keyword,
+    };
+
     const message: string[] = [];
-    message.push(`Welcome ${address}`);
+    message.push(`Welcome ${socket.handshake.address}`);
     args?.keyword && message.push(`Your keyword '${args.keyword}' has been registered!`);
-    console.log({ message });
+    // console.log({ message });
     return {
       status: 'SUCCEEDED',
       message: message.join('\n'),
@@ -46,12 +58,16 @@ export class PluginService {
   public onConnect = async (
     socket: Socket,
   ) => {
+    this.alivePlugins[socket.id] = {
+      socket,
+    };
     console.log('a user connected: ' + socket.handshake.address);
   };
 
   public onDisconnect = async (
     socket: Socket,
   ) => {
+    delete this.alivePlugins[socket.id];
     console.log('a user disconnected: ' + socket.handshake.address);
   };
 }
