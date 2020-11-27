@@ -27,9 +27,13 @@ export class PluginService {
     args: PushEventMap['onHandShake'],
     connection: Socket
   ): Promise<PushResponseMap['onHandShake']> => {
+    const message: string[] = [];
+    message.push(`Welcome ${connection?.remoteAddress}:${args?.port}`);
+    args?.keyword && message.push(`Your keyword '${args.keyword}' has been registered!`);
+    console.log({ message });
     return {
       status: 'SUCCEEDED',
-      message: `Welcome ${connection?.remoteAddress}:${connection?.remotePort}`,
+      message: message.join('\n'),
     };
   };
 }

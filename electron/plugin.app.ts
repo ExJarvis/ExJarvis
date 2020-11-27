@@ -7,39 +7,34 @@ import { isValidArray } from './utils';
 
 export const app = express();
 
-app.get('/event', async (req, res) => {
-  const events = req.query as PushEventMap;
+import bodyParser from 'body-parser';
+const jsonParser = bodyParser.json()
+// const urlencodedParser = bodyParser.urlencoded({ extended: false })
+
+app.use(jsonParser);
+
+app.post('/event', async (req, res) => {
+  const events = req.body as PushEventMap;
   const response = {} as PushResponseMap & { error: any };
-
-  // const details = [
-  //   req.connection.remoteAddress,
-  //   req.connection.remotePort,
-  //   req.connection.localAddress,
-  //   req.connection.localPort,
-  // ];
-
-  // res.write(`You are ${JSON.stringify({
-  //   details,
-  //   events,
-  // })}`);
 
   if (!events || !Object.keys(events).length) {
     response.error = `Bad event ${JSON.stringify(events)} received from the app!`;
   }
 
-  if (Object.keys(events).includes('onOptionsUpdated')) {
+  if (events.onOptionsUpdated) {
     const options = events.onOptionsUpdated?.options;
     if (options && Array.isArray(options)) {
-      response.onOptionsUpdated = await PluginService.getInstance().onOptionsUpdated({
-        options,
-      });
+      response.onOptionsUpdated = await PluginService.getInstance().onOptionsUpdated(
+        events.onOptionsUpdated
+      );
     }
   }
 
-  if (Object.keys(events).includes('onHandShake')) {
-    response.onHandShake = await PluginService.getInstance().onHandShake({
-      keyword: events.onHandShake?.keyword,
-    }, req.connection);
+  if (events.onHandShake) {
+    response.onHandShake = await PluginService.getInstance().onHandShake(
+      events.onHandShake,
+      req.connection
+    );
   }
 
   res.send(response);
