@@ -13,7 +13,7 @@ const useService = ({
   serviceName: DataServiceName;
 }) => {
   const initialState = {
-    options: [] as ServerEventMap['optionsUpdated']['options'],
+    options: [] as Exclude<ServerEventMap['onOptionsUpdated'], undefined>['options'],
   };
   const [state, setState] = useGenState(initialState);
   const { options } = state;
@@ -29,27 +29,27 @@ const useService = ({
   const registerListener = () => {
     const listener = onWebSend('servicePUSH', (event, data, service) => {
       if(service === serviceName) {
-        if(data.events.includes('optionsUpdated')) {
-          onOptionsUpdated(data.map['optionsUpdated']);
+        if(data.events.includes('onOptionsUpdated')) {
+          onOptionsUpdated(data.map['onOptionsUpdated']);
         }
       }
     });
     return listener;
   };
 
-  const onOptionsUpdated = (data?: ServerEventMap['optionsUpdated']) => {
+  const onOptionsUpdated = (data?: ServerEventMap['onOptionsUpdated']) => {
     setState({
       options: data?.options || [],
     });
   };
 
-  const onSelection = async (selectedOption: OptionItem) => {
-    store.setValue({ options: [selectedOption] });
+  const onSelection = async (option: OptionItem) => {
+    store.setValue({ options: [option] });
     sendSync('serviceCRUD', {
       events: ['onSelection'],
       map: {
         onSelection: {
-          selectedOption,
+          option,
         }
       }
     }, serviceName);

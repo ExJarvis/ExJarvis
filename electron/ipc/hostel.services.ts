@@ -1,9 +1,8 @@
-import open from 'open';
-import { RestEndpoints, OptionItem } from '../../types/ipc.types';
-import { Spider } from '../spider';
-import { DataService, DataServiceDTO, ServerEventMap } from './../../types/ipc.types';
-import { webSend } from './ipc.utils';
 import { optionsData } from '../../src/clientIpc/store';
+import { OptionItem, RestEndpoints } from '../../types/ipc.types';
+import { Spider } from '../spider';
+import { DataService, DataServiceDTO } from './../../types/ipc.types';
+import { webSend } from './ipc.utils';
 
 export class HostelServices implements DataService {
   private static instance: HostelServices;
@@ -34,12 +33,12 @@ export class HostelServices implements DataService {
     }
   };
 
-  private onSelection = async (args?: { selectedOption: OptionItem }) => {
+  private onSelection = async (args?: { option: OptionItem }) => {
     if (!args) return;
     // open(args.selectedOption.details);
-    const { selectedOption } = args;
+    const { option } = args;
     // console.log({ selectedOption });
-    const page = await this.spider?.getReadablePage(selectedOption.details);
+    const page = await this.spider?.getReadablePage(option.details);
     // console.log(page?.content);
     // console.log(optionsData.get('options'));
     // optionsData.set('options', [{
@@ -47,11 +46,11 @@ export class HostelServices implements DataService {
     //   details: page.content,
     // }]);
     const newOptions =
-      optionsData?.get('options')?.map((el) => {
+      optionsData?.get('options')?.map((el: OptionItem) => {
         // console.log(el.details === selectedOption.details);
         return {
           summary: el.summary,
-          details: el.details === selectedOption.details && page ? page : el.details,
+          details: el.details === option.details && page ? page : el.details,
         };
       }) || [];
     // console.log({ newOptions });

@@ -40,11 +40,11 @@ export class ClipboardServices implements DataService {
     }
   };
 
-  private onSelection = (args? : { selectedOption: OptionItem }) => {
+  private onSelection = (args? : { option: OptionItem }) => {
     if(!args) return;
     // console.log({ args });
-    const { selectedOption } = args;
-    clipboard.writeText(selectedOption.details);
+    const { option } = args;
+    clipboard.writeText(option.details);
   };
 
   private onQuery = (args?:  { query: string }) => {

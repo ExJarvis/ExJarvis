@@ -28,9 +28,9 @@ export class CommonServices {
       if (!options) return;
       this.servicePUSH(
         {
-          events: ['optionsUpdated'],
+          events: ['onOptionsUpdated'],
           map: {
-            optionsUpdated: {
+            onOptionsUpdated: {
               options,
             },
           },
