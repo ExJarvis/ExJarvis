@@ -1,0 +1,53 @@
+import bodyParser from 'body-parser';
+import express from 'express';
+import getPort from 'get-port';
+import { AddressInfo } from 'net';
+import { MainService } from './main.service';
+import { createServer } from 'http';
+import socketIO, { Socket } from 'socket.io';
+
+export const app = express();
+const jsonParser = bodyParser.json();
+app.use(jsonParser);
+const http = createServer(app);
+const io = new socketIO.Server(http);
+
+io.on('connection', async (socket: Socket) => {
+  const plugin = await MainService.getInstance();
+  plugin.onConnect(socket);
+
+  socket.on('disconnect', async () => {
+    await plugin.onDisconnect(socket);
+    // console.log({ plugins: plugin.alivePlugins });
+  });
+
+  socket.on('event', async (map: ServerEventMap) => {
+    console.log({ event: map, plugins: plugin.alivePlugins });
+    const response = {} as ClientEventMap;
+
+    if (map.onRegister) {
+      response.onWelcome = await plugin.onRegister(map.onRegister, socket);
+    }
+
+    if (map.onOptionsUpdated) {
+      const options = map.onOptionsUpdated?.options;
+      if (options && Array.isArray(options)) {
+        await plugin.onOptionsUpdated(map.onOptionsUpdated);
+      }
+    }
+
+    plugin.emitEvent(response, socket);
+  });
+});
+
+export const runRendererApp = async () => {
+  const preferredPort = await getPort({
+    port: [7979, 3232, 6666],
+  });
+
+  const listener = http.listen(preferredPort, () => {
+    return console.log(`server is listening on ${port}`);
+  });
+
+  const port = (listener.address() as AddressInfo)?.port;
+};
