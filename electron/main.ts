@@ -4,11 +4,13 @@ import './plugin.app';
 import { DEBUG } from './constants';
 import configureExtensions from './extensions';
 import initGlobals, { windows } from './globals';
-import { registerControllers } from './ipc/controllers';
+import { registerControllers } from './services/controllers';
 import keyBindings from './keyBindings';
 import renderer from './renderer';
 import { getDevWindow, getWindow } from './window';
-import { runPluginApp } from './plugin.app';
+import { RendererService } from './services/renderer.service';
+import { AppService } from './services/app.service';
+import { PluginService } from './services/plugin.service';
 
 export const initWindow = () => {
   const mainWindow = getWindow();
@@ -50,6 +52,12 @@ const initSentry = () => {
   Sentry.init({ dsn: 'https://c8f88d7866e442d3927ccd924b7b9ecf@o306873.ingest.sentry.io/1766096' });
 };
 
+const initServices = async () => {
+  AppService.getInstance();
+  RendererService.getInstance();
+  PluginService.getInstance();
+};
+
 const main = () => {
   initGlobals();
   app.on('ready', initWindow).whenReady().then(configureExtensions);
@@ -57,7 +65,7 @@ const main = () => {
   initHotRelaod();
   logErrors();
   initSentry();
-  runPluginApp();
+  initServices();
 };
 
 main();

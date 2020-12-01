@@ -69,6 +69,28 @@ export type OptionItem = {
   details: string;
 };
 
+export type RendererEventMap = Partial<{
+  onOptionsUpdated: {
+    options: OptionItem[],
+  },
+  onWelcome: {
+    status: 'SUCCEEDED' | 'FAILED',
+    message: string;
+  },
+}>;
+
+export type MainEventMap = Partial<{
+  onQuery: {
+    query: string;
+  };
+  onSelection: {
+    option: OptionItem,
+  };
+  onRegister: {
+    keyword?: string;
+  };
+}>;
+
 export type ServerEventMap = Partial<{
   onOptionsUpdated: {
     options: OptionItem[],

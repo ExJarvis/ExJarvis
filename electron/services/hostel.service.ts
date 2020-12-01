@@ -1,11 +1,11 @@
 import { optionsData } from '../../src/clientIpc/store';
 import { OptionItem, RestEndpoints } from '../../types/ipc.types';
 import { Spider } from '../spider';
-import { DataService, DataServiceDTO } from './../../types/ipc.types';
+import { DataService, DataServiceDTO } from '../../types/ipc.types';
 import { webSend } from './ipc.utils';
 
-export class HostelServices implements DataService {
-  private static instance: HostelServices;
+export class HostelService implements DataService {
+  private static instance: HostelService;
   private queryTimeout: any;
   private spider?: ReturnType<typeof Spider.getInstance>;
 
@@ -13,11 +13,11 @@ export class HostelServices implements DataService {
     this.init();
   }
 
-  public static getInstance(): HostelServices {
-    if (!HostelServices.instance) {
-      HostelServices.instance = new HostelServices();
+  public static getInstance(): HostelService {
+    if (!HostelService.instance) {
+      HostelService.instance = new HostelService();
     }
-    return HostelServices.instance;
+    return HostelService.instance;
   }
 
   private init = async () => {

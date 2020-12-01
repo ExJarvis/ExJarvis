@@ -8,8 +8,8 @@ import { webSend } from './ipc.utils';
 import * as lodash from 'lodash';
 import { optionsData } from '../../src/clientIpc/store';
 
-export class ClipboardServices implements DataService {
-  private static instance: ClipboardServices;
+export class ClipboardService implements DataService {
+  private static instance: ClipboardService;
   private current: string = '';
   private history: OptionsItem[] = [];
   private clipRepo: Repository<OptionsItem> | null = null;
@@ -18,11 +18,11 @@ export class ClipboardServices implements DataService {
     this.init();
   }
 
-  public static getInstance(): ClipboardServices {
-    if (!ClipboardServices.instance) {
-      ClipboardServices.instance = new ClipboardServices();
+  public static getInstance(): ClipboardService {
+    if (!ClipboardService.instance) {
+      ClipboardService.instance = new ClipboardService();
     }
-    return ClipboardServices.instance;
+    return ClipboardService.instance;
   }
 
   private init = async () => {

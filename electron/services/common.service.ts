@@ -1,20 +1,20 @@
-import { DataServiceName } from './../../types/ipc.types';
+import { DataServiceName } from '../../types/ipc.types';
 import { optionsData, registeredService } from '../../src/clientIpc/store';
 import { webSend } from './ipc.utils';
 import { DataServiceDTO, DataService } from '../../types/ipc.types';
 
-export class CommonServices {
-  private static instance: CommonServices;
+export class CommonService {
+  private static instance: CommonService;
 
   private constructor() {
     this.init();
   }
 
-  public static getInstance(): CommonServices {
-    if (!CommonServices.instance) {
-      CommonServices.instance = new CommonServices();
+  public static getInstance(): CommonService {
+    if (!CommonService.instance) {
+      CommonService.instance = new CommonService();
     }
-    return CommonServices.instance;
+    return CommonService.instance;
   }
 
   private init = async () => {
