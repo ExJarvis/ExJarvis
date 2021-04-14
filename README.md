@@ -13,6 +13,8 @@
 
 Augments developer.
 
+***[Universal Command Palette](https://github.com/shipsy/universal-command-palette) succeeds ExJarvis.***
+
 ![](./.data/img/2020-11-11-22-57-15.png)
 
 ## Getting started
